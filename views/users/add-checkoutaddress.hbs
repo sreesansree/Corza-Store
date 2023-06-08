@@ -1,0 +1,100 @@
+  {{>userheader}}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Address Form</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<style>
+		body {
+			
+            max-height: fit-content;
+		}
+		.form-group label {
+			font-weight: bold;
+			color: #666;
+		}
+        
+
+         .login-form  {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+		.form-control {
+			border-radius: 0;
+			border: none;
+			box-shadow: none;
+			border-bottom: 1px solid #CCC;
+		}
+		.form-control:focus {
+			box-shadow: none;
+			border-color: #5D9CEC;
+		}
+		.btn-primary {
+			background-color: #5D9CEC;
+			border-color: #5D9CEC;
+		}
+		.btn-primary:hover,
+		.btn-primary:focus {
+			background-color: #4178BE;
+			border-color: #4178BE;
+		}
+	</style>
+</head>
+<body>
+	<div class="container" style="margin-top: 130px; margin-bottom: 130px; " >
+		<div class="row justify-content-center">
+			<div class="col-lg-6 ">
+				<div class="card login-form ">
+					<div class="card-header bg-white border-0">
+						<h3 class="text-center mb-0">Address Form</h3>
+					</div>
+					<div class="card-body ">
+						<form action="/add-checkoutaddress" method="post">
+							<div class="form-group">
+								<label for="name">Name:</label>
+								<input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+							</div>
+                            <div class="form-group">
+								<label for="mobile">Mobile:</label>
+								<input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter mobile" required>
+							</div>
+							<div class="form-group">
+								<label for="address">Address line1:</label>
+								<input type="text" class="form-control" id="address1" name="address1" placeholder="Enter address" required>
+							</div>
+                            <div class="form-group">
+								<label for="address">Address line2:</label>
+								<input type="text" class="form-control" id="address2" name="address2" placeholder="Enter address" required>
+							</div>
+							<div class="form-group">
+								<label for="city">City:</label>
+								<input type="text" class="form-control" id="city" name="city" placeholder="Enter city" required>
+							</div>
+							<div class="form-group">
+								<label for="state">State:</label>
+								<input type="text" class="form-control" id="state" name="state" placeholder="Enter state" required>
+							</div>
+							<div class="form-group">
+								<label for="pin">Pin:</label>
+								<input type="text" class="form-control" id="pin" name="pin" placeholder="Enter pin code" required>
+							</div>
+							
+							<button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+{{>userfooter}}

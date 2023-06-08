@@ -1,0 +1,156 @@
+{{>adminheader}}
+{{!-- <div class="container mt-3 text-center table-responsive">
+  <h2>Products</h2>
+  <table class="table table-striped table-primary ">
+    <thead>
+      <tr>
+
+
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">image</th>
+        <th scope="col">category</th>
+        <th scope="col">Stock</th>
+        <th scope="col">Blocked</th>
+
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    {{#each Product}}
+    <tbody>
+      <tr>
+
+        <td>{{this.name}}</td>
+        <td>{{this.description}}</td>
+        <td>{{this.price}}</td>
+        <td><img style="width: 30px;" src="/images/{{this.image.[0]}}" alt="Hi"></td>
+        <td>{{this.category.name}}</td>
+        <td>{{this.quantity}}</td>
+        <td>{{this.is_blocked}}</td>
+        <td>
+          <a class="btn btn-success px-4 py-2 m-1" href="/product/edit/{{this._id}}">Edit </a>
+          {{#if this.is_blocked}}
+          <a class="btn btn-success px-3 py-2 m-1" href="/product/block/{{this._id}}">Unblock </a>
+          {{else}}
+          <a class="btn btn-danger px-3 py-2 m-1" href="/product/block/{{this._id}}">Block </a>
+          {{/if}}
+        </td>
+
+      </tr>
+
+    </tbody>
+    {{/each}}
+  </table>
+  <a class='btn btn-success ml-auto' href="addproduct" type="submit">Add Product</a>
+</div>
+--}}
+
+
+<div class="content">
+  <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+      <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+    </a>
+    <a href="#" class="sidebar-toggler flex-shrink-0">
+      <i class="fa fa-bars"></i>
+    </a>
+    {{!-- <form class="d-none d-md-flex ms-4">
+      <input class="form-control border-0" type="search" placeholder="Search">
+    </form> --}}
+    <div class="navbar-nav align-items-center ms-auto">
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+          <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+          <span class="d-none d-lg-inline-flex">Sree San</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+          {{!-- <a href="#" class="dropdown-item">My Profile</a> --}}
+          {{!-- <a href="#" class="dropdown-item">Settings</a> --}}
+          <a href="/admin/logout" class="dropdown-item">Log Out</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="container-fluid pt-4 px-4">
+
+    <div class="bg-light text-center rounded p-4">
+
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0  text-primary shadow p-3 mb-5 bg-body rounded ">Products</h6>
+        {{!-- <a href="">Show All</a> --}}
+      </div>
+      <div class="table-responsive">
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+          <thead>
+            <tr class="text-dark text-center">
+              <th scope="col">Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Image</th>
+              <th scope="col">Category</th>
+              <th scope="col">Brand</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Blocked</th>
+              <th scope="col">Action</th>
+
+            </tr>
+          </thead>
+          {{#each Product}}
+          <tbody>
+            <tr>
+              <td>{{this.name}}</td>
+              <td>{{this.description}}</td>
+              <td><img style="width: 80px;" src="/images/{{this.image.[0]}}" alt="Hi"></td>
+              <td>{{this.category.name}}</td>
+              <td>{{this.brand}}</td>
+              <td>{{this.price}}</td>
+              <td>{{this.quantity}}</td>
+              <td>{{this.is_blocked}}</td>
+              <td>
+                <a class="btn btn-outline-primary btn-sm px-4 py-2 m-1"
+                  href="/admin/updateProduct/{{this._id}}">Edit</a>
+
+                {{#if this.is_blocked}}
+                <a class="btn btn-outline-success btn-sm px-3 py-2 m-1"
+                  href="/admin/unblockproduct?id={{this._id}}">Unblock </a>
+                {{else}}
+                <a class="btn btn-outline-danger btn-sm px-3 py-2 m-1" href="/admin/blockproduct?id={{this._id}}">Block
+                </a>
+                {{/if}}
+
+              </td>
+            </tr>
+          </tbody>
+          {{/each}}
+        </table>
+
+      </div>
+      <a class='btn btn-success ml-auto mt-5' href="addproduct" type="submit">Add Product</a>
+    </div>
+  </div>
+
+
+
+  <!-- JavaScript Libraries -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="lib/chart/chart.min.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/waypoints/waypoints.min.js"></script>
+  <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="lib/tempusdominus/js/moment.min.js"></script>
+  <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+  <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+  <!-- Template Javascript -->
+  <script src="/admin/js/main.js"></script>
+
+
+
+
+
+  {{>adminfooter}}

@@ -1,0 +1,161 @@
+{{>adminheader}}
+
+{{!-- <div class="container mt-3">
+  <h2>Categories</h2>
+  <table class="table table-striped table-primary">
+    <thead>
+      <tr class="text-dark">
+        <th scope="col"><input class="form-check-input" type="checkbox"></th>
+        <th scope="col">Name</th>
+        <th scope="col">Image</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    {{#each categories}}
+    <tbody>
+      <tr>
+        <td>{{this.name}}</td>
+        <td><img style="width: 50px;" src="{{this.image}}" alt="hi"></td>
+        <td>
+          <a class="btn btn-success" href="/admin/category/edit/{{this._id}}">Edit </a>
+          <a class="btn btn-danger" href="/admin/delete/{{this._id}}"
+            onclick="return confirm('Are you sure you want to delete this item?');">Delete </a>
+        </td>
+      </tr>
+    </tbody>
+    {{/each}}
+  </table>
+  <div>
+    <a class="btn btn-success" href="/admin/category/addcategory">Add Category </a>
+  </div>
+</div>
+--}}
+
+<div class="content">
+  <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+      <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+    </a>
+    <a href="#" class="sidebar-toggler flex-shrink-0">
+      <i class="fa fa-bars"></i>
+    </a>
+    {{!-- <form class="d-none d-md-flex ms-4">
+      <input class="form-control border-0" type="search" placeholder="Search">
+    </form> --}}
+    <div class="navbar-nav align-items-center ms-auto">
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+          <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+          <span class="d-none d-lg-inline-flex">Sree San</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+          {{!-- <a href="#" class="dropdown-item">My Profile</a> --}}
+          {{!-- <a href="#" class="dropdown-item">Settings</a> --}}
+          <a href="/admin/logout" class="dropdown-item">Log Out</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="container-fluid pt-4 px-4">
+    <div>
+      <a class="btn btn-success pb-2 m-2" href="/admin/addcategory">Add Category </a>
+    </div>
+    <div class="bg-light text-center rounded p-4">
+
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Categories</h6>
+        {{!-- <a href="">Show All</a> --}}
+      </div>
+      <div class="table-responsive">
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+          <thead>
+            <tr class="text-dark text-center">
+              <th scope="col">Name</th>
+              <th scope="col">Image</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          {{#each categoryData}}
+          <tbody>
+            <tr>
+              <td>{{this.name}}</td>
+              <td><img style="width: 50px;" class="" src="/images/{{this.image}}" alt="hi"></td>
+              <td>
+                <a class="btn btn-success " href="/admin/editCategory?id={{this._id}}">Edit </a>
+                <a id="delete" class="btn btn-danger" onclick="showConfirm('{{this._id}}')">Delete</a>
+
+              </td>
+            </tr>
+          </tbody>
+          {{/each}}
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+
+  <script>
+    function showConfirm(data) {
+      const id = data;
+      console.log(data)
+      const Swal = window.Swal;
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you really want to delete this item?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Delete the item
+
+
+          fetch("/admin/delete", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              id: id
+            })
+          })
+            .then(response => {
+              return response.json();
+            })
+            .then(data => {
+              console.log(data)
+              Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              )
+            })
+            .catch(error => {
+              console.log(error);
+            });
+
+        }
+        location.reload()
+
+      })
+    }
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="lib/chart/chart.min.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/waypoints/waypoints.min.js"></script>
+  <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="lib/tempusdominus/js/moment.min.js"></script>
+  <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+  <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+  <script src="/admin/js/main.js"></script>
+  {{>adminfooter}}

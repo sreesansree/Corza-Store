@@ -1,0 +1,94 @@
+{{>userheader}}
+
+
+
+ <div class="container">
+<div class="card border-success mb-3 text-center" style="max-width: 30rem;align-items:center;margin: 0 auto;margin-top:50px" >
+  <div class="card-header">Payment</div>
+  <div class="card-body text-success">
+
+
+    <div>
+      <h3>Hello {{userData.name}}</h3>
+
+      <h5 id="total">Your Bill Amount is:Rs.{{order.orderBill}}</h5>
+      </div>
+      <button  class="btn-success"id="rzp-button1" style="padding: 5px;">PAY NOW</button>
+
+
+
+  </div>
+  </div>
+  </div>
+
+
+
+
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+
+
+
+<script>
+
+const billAmount = document.getElementById("total").innerHTML;
+const cartTotal = billAmount.split("Rs.")[1];
+console.log(cartTotal)
+const submitButton = document.getElementById('rzp-button1');
+
+// Create Order
+let orderId
+fetch('/payments/create-order', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    amount: cartTotal ,
+    currency: 'INR',
+  }),
+})
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    console.log(data,'from order');
+    orderId = data.orderId;
+  });
+
+const options = {
+  key: 'rzp_test_Crtfv9xGM7cd2j',
+  amount:cartTotal *100,
+  currency: 'INR',
+  name: 'FA STORE',
+  description: 'Test Transaction',
+  order_id:orderId,
+  handler: function (response){
+        alert(response.razorpay_payment_id);
+        if(response.razorpay_payment_id)
+        window.location.href='/order-success'
+        else
+        window.location.href='/payments'
+        },
+
+  notes: {
+    address: 'Razorpay Corporate Office',
+  },
+  theme: {
+    color: '#3399cc',
+  },
+
+};
+
+var rzp1 = new Razorpay(options);
+
+submitButton.addEventListener('click', function (e) {
+  rzp1.open();
+  e.preventDefault();
+});
+</script>
+
+  {{>userfooter}}

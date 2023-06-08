@@ -1,0 +1,227 @@
+{{>adminheader}}
+
+<style>
+  label {
+    font-weight: 600;
+  }
+
+  .btn-primary {
+    width: 100%;
+    margin-top: 1em;
+  }
+
+  .error-message {
+    color: red;
+    margin-top: 5px;
+    text-align: center;
+  }
+</style>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="/css/adminCss/addproduct.css" type="text/css">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+
+<div class="content">
+  <!-- Navbar Start -->
+  <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+      <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+    </a>
+    <a href="#" class="sidebar-toggler flex-shrink-0">
+      <i class="fa fa-bars"></i>
+    </a>
+    {{!-- <form class="d-none d-md-flex ms-4">
+      <input class="form-control border-0" type="search" placeholder="Search">
+    </form> --}}
+    <div class="navbar-nav align-items-center ms-auto">
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+          <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+          <span class="d-none d-lg-inline-flex">Sree San</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+          {{!-- <a href="#" class="dropdown-item">My Profile</a> --}}
+          {{!-- <a href="#" class="dropdown-item">Settings</a> --}}
+          <a href="/admin/logout" class="dropdown-item">Log Out</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row ">
+      <div class="col-lg-3 col-md-3 login-box"></div>
+      <div class="col-lg-6 col-md-8 login-box">
+
+        <h2><span class="px-2">ADD PRODUCT</span></h2>
+        {{#if message}}
+        <div class="alert alert-success mt-3">
+          {{message}}
+        </div>
+        {{/if}}
+           {{#if message1}}
+        <div class="alert alert-danger mt-3">
+          {{message1}}
+        </div>
+        {{/if}}
+
+        <form action="" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="name">Product Name</label>
+            <input type="text" id="name" name="name" class="form-control">
+            {{#if errors.name}}
+            <div class="error-message">{{errors.name}}</div>
+            {{/if}}
+          </div>
+
+          <div class="form-group">
+            <label for="description">Product Description</label>
+            <div class="form-group">
+              <input placeholder="description" id="description" name="description" class="form-control" rows="3"
+                value="{{Product.description}}"></input>
+            </div> {{!-- <input type="text" id="name" maxlength="4  0" name="description"> --}}
+            {{#if errors.description}}
+            <div class="error-message">{{errors.description}}</div>
+            {{/if}}
+          </div>
+
+          <div class="form-group">
+            <label for="name">image</label>
+            <input type="file" id="name" name="image" class="form-control" multiple>
+            {{#if errors.images}}
+            <div class="error-message">{{errors.images}}</div>
+            {{/if}}
+          </div>
+
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category"  name="category" class="form-control">
+              {{#each categorydata}}
+              <option value={{this._id}}>{{this.name}}</option>
+              {{/each}}
+            </select>
+             {{#if errors.categorydata}}
+            <div class="error-message">{{errors.categorydata}}</div>
+            {{/if}}
+          </div>
+
+          <div class="form-group">
+            <label for="brand">Brand</label>
+            <input type="text" id="quantity" name="brand" class="form-control">
+           {{#if errors.brand}}
+            <div class="error-message">{{errors.brand}}</div>
+            {{/if}}
+          </div>
+
+          <div class="form-group">
+            <label for="price">Price</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">₹</span>
+              </div>
+              <input type="number" id="price" name="price" min="0" step="0.01" class="form-control">
+
+            </div>
+            {{#if errors.price}}
+            <div class="error-message">{{errors.price}}</div>
+            {{/if}}
+          </div>
+
+          <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" min="1" class="form-control">
+            {{#if errors.quantity}}
+            <div class="error-message">{{errors.quantity}}</div>
+            {{/if}}
+          </div>
+          {{!-- <div class="form-group">
+            <label for="offer">Offer</label>
+            <input type="number" id="offer" name="offer" class="form-control">
+          </div> --}}
+
+
+          <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
+     
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+
+<!-- Template Javascript -->
+<script src="/admin/js/main.js"></script>
+
+
+
+
+<script>
+
+
+
+
+  function previewImage(event) {
+    const preview = document.querySelector('.image-preview');
+    preview.innerHTML = '';
+    const file = event.target.files[0];  //s
+    const reader = new FileReader();
+    reader.onload = function (event) {
+
+
+      const img = new Image();
+      img.src = event.target.result;
+      img.style.width = '100%';
+      img.style.height = '100%';
+      preview.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  }
+
+</script>
+
+
+
+
+<script>
+
+
+  const uploadForm = document.getElementById('uploadForm');
+  const submitButton = document.getElementById('submit');
+  const imageInput = document.getElementById('image');
+
+  submitButton.addEventListener('click', function (event) {
+    if (!validateImage()) {
+      event.preventDefault();
+    }
+  });
+
+  function validateImage() {
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+    if (!allowedExtensions.exec(imageInput.value)) {
+      alert('Invalid file type.');
+      imageInput.value = '';
+      return false;
+    }
+    return
+</script>
+
+
+{{>adminfooter}}

@@ -1,0 +1,148 @@
+{{>userheader}}
+
+ <style>
+        body {
+            color: #69707a;
+        }
+
+        .img-account-profile {
+            height: 10rem;
+        }
+
+        .rounded-circle {
+            border-radius: 50% !important;
+        }
+
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        }
+
+        .card .card-header {
+            font-weight: 500;
+        }
+
+        .card-header:first-child {
+            border-radius: 0.35rem 0.35rem 0 0;
+        }
+
+        .card-header {
+            padding: 1rem 1.35rem;
+            margin-bottom: 0;
+            background-color: rgba(33, 40, 50, 0.03);
+            border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+        }
+
+        .form-control,
+        .dataTable-input {
+            display: block;
+            width: 100%;
+            padding: 0.875rem 1.125rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #69707a;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #c5ccd6;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0.35rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .nav-borders .nav-link.active {
+            color: #0061f2;
+            border-bottom-color: #0061f2;
+        }
+
+        .nav-borders .nav-link {
+            color: #69707a;
+            border-bottom-width: 0.125rem;
+            border-bottom-style: solid;
+            border-bottom-color: transparent;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+    </style>
+
+    <div class="container-xl px-4" style="margin-top: 100px; margin-bottom: 100px;">
+        <!-- Account page navigation-->
+        <nav class="nav nav-borders">
+            <a class="nav-link active ms-0" href="/profile">My Profile</a>
+            <a class="nav-link" href="/adresses">Manage Address</a>
+            <a class="nav-link" href="/wishlist">Wishlist</a>
+            <a class="nav-link" href="/my_orders">My Orders</a>
+        </nav>
+        <hr class="mt-0 mb-4">
+        <div class="row">
+            <div class="col-xl-4">
+                <!-- Profile picture card-->
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">Profile Picture</div>
+                    <div class="card-body text-center">
+                        <!-- Profile picture image-->
+                        <img class="img-account-profile rounded-circle mb-2"
+                            src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                        <!-- Profile picture help block-->
+                        <div class="small font-italic text-muted mb-4"></div>
+                        <!-- Profile picture upload button-->
+                        <div>
+
+                            <button class="btn btn-primary" type="button">Upload new image</button>
+
+                        </div>
+
+                        <h3 class="mt-4 mb-4">Hello, {{userdata.name}}</h3>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xl-8">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Address</div>
+                    <div class="card-body">
+                        <form action="/editaddress/{{address    ._id}}" method="post">
+                    <div class="row mt-2">
+                        <div class="col-md-6"><input type="text" name="name" class="form-control" value="{{address.name}}" placeholder="name"></div>
+                        <div class="col-md-6"><input type="number" class="form-control" name="mobile" value="{{address.mobile}}" placeholder="mobile" value=""></div> 
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><input type="number" name="pin" value="{{address.pin}}" class="form-control" placeholder="pincode"  ></div>
+                        <div class="col-md-6"><input type="text" name="address1" value="{{address.adressLine1}}" class="form-control" placeholder="Address line1"  ></div>
+                       
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><input type="text" name="address" class="form-controll"  placeholder="address"></div>
+                       
+                        <div class="col-md-6"><input type="hidden" name="id" class="form-control" value="{{address.mobile}}" placeholder="Phone number"></div>
+                    
+                    </div>
+                     <div class="row mt-3">
+                        <div class="col-md-6"><input type="text" name="city" value="{{address.city}}" class="form-control" placeholder="city"  ></div>
+                        <div class="col-md-6"><input type="text" name="state" value="{{address.state}}" class="form-control" placeholder="state"  ></div>
+                       
+                    </div>
+                    
+
+                  <p style="color: red;">{{message}}</p>
+                    
+                    <div class="mt-5 text-right"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+{{>userfooter}}

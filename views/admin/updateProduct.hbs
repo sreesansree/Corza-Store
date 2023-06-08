@@ -1,0 +1,152 @@
+{{>adminheader}}
+
+
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+        {{!-- <form class="d-none d-md-flex ms-4">
+            <input class="form-control border-0" type="search" placeholder="Search">
+        </form> --}}
+        <div class="navbar-nav align-items-center ms-auto">
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <span class="d-none d-lg-inline-flex">Sree San</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                    {{!-- <a href="#" class="dropdown-item">My Profile</a> --}}
+                    {{!-- <a href="#" class="dropdown-item">Settings</a> --}}
+                    <a href="/admin/logout" class="dropdown-item">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        <div class="row ">
+            <div class="col-lg-3 col-md-3 login-box"></div>
+            <div class="col-lg-6 col-md-8 login-box">
+
+                <h2><span class="px-2">EDIT PRODUCT</span></h2>
+
+                <form action="/admin/updateProduct/{{Product._id}}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name">Product Name</label>
+                        <input type="text" id="name" name="name" value="{{Product.name}}" class="form-control" required>
+                        {{#if errors.name}}
+                        <div class="error-message">{{errors.name}}</div>
+                        {{/if}}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Product Description</label>
+                        <input placeholder="description" id="description" name="description" class="form-control"
+                            rows="3" value="{{Product.description}}"></input>
+
+                        {{#if errors.description}}
+                        <div class="error-message">{{errors.description}}</div>
+                        {{/if}}
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category" class="form-control">
+                            {{#each categorydata}}
+                            <option value={{this.id}}>{{this.name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="brand">Brand</label>
+                        <input type="text" id="brand" name="brand" value="{{Product.brand}}" class="form-control"
+                            required>
+                        {{#if errors.brand}}
+                        <div class="error-message">{{errors.brand}}</div>
+                        {{/if}}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <input type="number" id="price" value="{{Product.price}}" name="price" min="0" step="0.01"
+                                class="form-control" required>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" name="quantity" min="1" value="{{Product.quantity}}"
+                            class="form-control" required>
+                    </div>
+                    {{!-- <div class="form-group">
+                        <label for="offer">Offer</label>
+                        <input type="number" id="offer" value="{{Product.offer}}" name="offer" class="form-control"
+                            required>
+                    </div> --}}
+
+                    <div class="form-group">
+                        <p style="color: red;">{{error}}</p>
+                        <label for="image">Product Image</label>
+
+                        <input type="file" id="image" name="image" class="form-control-file" accept="image/*" multiple>
+
+                        <div>
+                            <div class="d-flex py-3 " id="imagePreviewContainer"></div>
+                        </div>
+                        <div>
+                            {{#each images}}
+                            <img id="imgurl" class="imgurl" src="/images/{{this}}" alt="" width="50px" height="50px">
+                            <input id="hidden-input" class="hidden-input" type="file" style="display: none;"
+                                accept="image/*">
+                            <input class="form-check-input" type="checkbox" name="selectimg" id="form-check-input"
+                                style="display: none;" value="{{@index}}">
+                            {{/each}}
+
+                            <p id="err" style="color: rgb(5, 173, 5);"></p>
+                        </div>
+                    </div>
+                    <input id="productid" type="hidden" name="id" value="{{Product._id}}">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg">Confirm</button>&nbsp;&nbsp;
+                        <a href="/admin/product">Go to dashboard</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/updateProduct.js"></script>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="/admin/js/main.js"></script>
+
+
+
+
+{{>adminfooter}}

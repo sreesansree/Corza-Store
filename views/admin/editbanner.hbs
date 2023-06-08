@@ -1,0 +1,89 @@
+{{>adminheader}}
+
+
+ <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 5px;
+      box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+    }
+
+    div {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    input, select {
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3e8e41;
+    }
+  </style>
+
+<div class="container">
+
+<h1>EDIT BANNER</h1>
+
+<form action="" method="POST" enctype="multipart/form-data">
+  <div>
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" value="{{banner.title}}" >
+  </div>
+  <div>
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description"  value="{{banner.description}}" >
+  </div>
+  <div>
+    <label for="image">Image:</label>
+    <input type="file" id="image" name="image" value="{{banner.image}}" >
+  </div>
+  <div>
+    <label for="linkUrl">Link:</label>
+    <input type="text" id="linkUrl" name="linkUrl" min="0" value="{{banner.linkUrl}}">
+  </div>
+
+  <div>
+    <label for="status">Status:</label>
+    <select id="status" name="status">
+      <option value="active">Active</option>
+      <option value="expired">Expired</option>
+    </select>
+  </div>
+  <button type="submit">UPDATE</button>
+</form>
+</div>
+{{>adminfooter}}

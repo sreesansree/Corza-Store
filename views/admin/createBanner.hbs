@@ -1,0 +1,147 @@
+{{>adminheader}}
+
+
+<style>
+  body {
+    background-color: #f2f2f2;
+    font-family: Arial, sans-serif;
+  }
+
+  h1 {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
+  }
+
+  div {
+    margin-bottom: 1rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  input,
+  select {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  button {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #3e8e41;
+  }
+</style>
+
+<div class="container">
+
+  <h1>Create a Banner</h1>
+
+  <form action="/admin/create-banner" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()"
+    name="bannerForm">
+    <div>
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title">
+      <span id="title-error" class="error text-danger"></span>
+    </div>
+    <div>
+      <label for="description">Description:</label>
+      <input type="text" id="description" name="description">
+      <span id="description-error" class="error text-danger"></span>
+    </div>
+    <div>
+      <label for="image">Image:</label>
+      <input type="file" id="image" name="image">
+      <span id="image-error" class="error text-danger"></span>
+    </div>
+    <div>
+      <label for="linkUrl">Link:</label>
+      <input type="text" id="linkUrl" name="linkUrl">
+      <span id="linkUrl-error" class="error text-danger"></span>
+    </div>
+    <label for="status">Status:</label>
+    <select id="status" name="status">
+      <option value="active">Active</option>
+      <option value="expired">Expired</option>
+    </select>
+<div class="pt-3">
+  <button type="submit">Create Banner</button>
+</div>
+
+</div>
+
+
+</form>
+
+
+</div>
+<script>
+  function validateForm() {
+    var title = document.forms["bannerForm"]["title"].value.trim();
+    var description = document.forms["bannerForm"]["description"].value.trim();
+    var image = document.forms["bannerForm"]["image"].value;
+    var linkUrl = document.forms["bannerForm"]["linkUrl"].value.trim();
+
+    var titleError = document.getElementById("title-error");
+    var descriptionError = document.getElementById("description-error");
+    var imageError = document.getElementById("image-error");
+    var linkUrlError = document.getElementById("linkUrl-error");
+
+    var isValid = true;
+
+    if (title == "") {
+      titleError.innerHTML = "Title must be filled out";
+      isValid = false;
+    } else {
+      titleError.innerHTML = "";
+    }
+
+    if (description == "") {
+      descriptionError.innerHTML = "Description must be filled out";
+      isValid = false;
+    } else {
+      descriptionError.innerHTML = "";
+    }
+
+    if (image == "") {
+      imageError.innerHTML = "Image must be selected";
+      isValid = false;
+    } else {
+      imageError.innerHTML = "";
+    }
+
+    if (linkUrl == "") {
+      linkUrlError.innerHTML = "Link must be filled out";
+      isValid = false;
+    } else {
+      linkUrlError.innerHTML = "";
+    }
+
+    return isValid;
+  }
+
+</script>
+
+{{>adminfooter}}

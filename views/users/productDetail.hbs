@@ -1,0 +1,596 @@
+{{>userheader}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Corza Store</title>
+
+
+
+<style>
+    /* zoom */
+    .zoom-image-container {
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+    }
+
+    .zoom-image {
+
+        position: relative;
+
+    }
+
+    .zoom-image img {
+
+        cursor: zoom-in;
+
+
+        /* box-shadow: 0 18px 5px -15px rgba( 0, 0, 0, .5 ); */
+
+    }
+
+    .hover-image {
+
+        position: absolute;
+        width: 400px;
+        height: 400px;
+
+        border-radius: 15%;
+
+        transform: translate(-0%,-10%);
+        z-index: 50;
+
+        pointer-events: none;
+
+        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+
+    }
+
+    .stockout1 {
+        width: 7rem;
+        height: 1.65rem;
+        background-color: rgb(0, 0, 0);
+        font-size: large;
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 10;
+
+    }
+</style>
+
+
+
+</head>
+
+<body>
+	<div class="container mt-5">
+		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+			<a href="/home" class="stext-109 cl8 hov-cl1 trans-04">
+				Home
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+
+			<a href="/product" class="stext-109 cl8 hov-cl1 trans-04">
+				Products
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+
+			<span class="stext-109 cl4">
+				{{proData.name}}
+			</span>
+		</div>
+	</div>
+
+
+	<!-- Product Detail -->
+	<section class="sec-product-detail bg0 p-t-65 p-b-60">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-lg-7 p-b-30">
+					<div class="p-l-25 p-r-30 p-lr-0-lg">
+						<div class="wrap-slick3 flex-sb flex-w">
+							<div class="wrap-slick3-dots"></div>
+							<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+
+							<div class="slick3 gallery-lb">
+								<div class="item-slick3" data-thumb="/images/{{proData.image.[0]}}">
+									<div class="wrap-pic-w pos-relative zoom-image">
+										<img src="/images/{{proData.image.[0]}}" alt="IMG-PRODUCT">
+
+										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+											href="/images/{{proData.image.[0]}}">
+											<i class="fa fa-expand"></i>
+										</a>
+									</div>
+
+								</div>
+
+								<div class="item-slick3" data-thumb="/images/{{proData.image.[1]}}">
+									<div class="wrap-pic-w pos-relative zoom-image ">
+										<img src="/images/{{proData.image.[1]}}" alt="IMG-PRODUCT" >
+
+										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+											href="/images/{{proData.image.[1]}}">
+											<i class="fa fa-expand"></i>
+										</a>
+									</div>
+								</div>
+
+								<div class="item-slick3" data-thumb="/images/{{proData.image.[2]}}">
+									<div class="wrap-pic-w pos-relative zoom-image " id="">
+										<img src="/images/{{proData.image.[2]}}" alt="IMG-PRODUCT" >
+
+										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+											href="/images/{{proData.image.[2]}}">
+											<i class="fa fa-expand"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-lg-5 p-b-30">
+					<div class="p-r-50 p-t-5 p-lr-0-lg">
+						<h4 class="mtext-105 cl2 js-name-detail p-b-14">
+							{{proData.name}}
+						</h4>
+						<input name="product_name" value="{{proData.name}}" type="hidden">
+						<span class="mtext-106 cl2">
+							₹ {{proData.price}}
+						</span>
+
+						<p class="stext-102 cl3 p-t-23">
+							{{proData.description}}
+						</p>
+
+						{{#if proData.quantity}}
+						<div class="bg-dark text-white p-15 rounded" style="width: fit-content;">
+							<p class="my-4 mx-2">in stock</p>
+						</div>
+						{{else}}
+						<div class="bg-dark text-white p-15 rounded" style="width: fit-content;">
+							<p class="my-4 mx-2">Out of stock</p>
+						</div>
+						{{/if}}
+
+						<!--  -->
+						{{!-- <div class="p-t-33">
+							<div class="flex-w flex-r-m p-b-10">
+								<div class="size-203 flex-c-m respon6">
+									Size
+								</div>
+
+								<div class="size-204 respon6-next">
+									<div class="rs1-select2 bor8 bg0">
+										<select class="js-select2" name="time">
+											<option>Choose an option</option>
+											<option>Size S</option>
+											<option>Size M</option>
+											<option>Size L</option>
+											<option>Size XL</option>
+										</select>
+										<div class="dropDownSelect2"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="flex-w flex-r-m p-b-10">
+								<div class="size-203 flex-c-m respon6">
+									Color
+								</div>
+
+								<div class="size-204 respon6-next">
+									<div class="rs1-select2 bor8 bg0">
+										<select class="js-select2" name="time">
+											<option>Choose an option</option>
+											<option>Red</option>
+											<option>Blue</option>
+											<option>White</option>
+											<option>Grey</option>
+										</select>
+										<div class="dropDownSelect2"></div>
+									</div>
+								</div>
+							</div>
+ --}}
+
+
+							<div class="flex-w flex-r-m p-b-10">
+								<div class="size-204 flex-w flex-m respon6-next">
+									{{!-- <div class="wrap-num-product flex-w m-r-20 m-tb-10">
+										<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+											<i class="fs-16 zmdi zmdi-minus"></i>
+										</div>
+
+										<input id="count" class="mtext-104 cl3 txt-center num-product" type="number"
+											name="count" value="1">
+
+
+										<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+											<i class="fs-16 zmdi zmdi-plus"></i>
+										</div>
+									</div> --}}
+									{{!-- add to cart --}}
+									{{!-- <a href="/add_to_cart?id={{proData._id}}" id="add_to_cart_btn"
+										class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
+										Add to cart
+									</a> --}}
+
+									{{#if proData.quantity}}
+									{{#if proData.isOnCart}}
+
+									<a href="/cart?id={{userData._id}}"
+										class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 "
+										style="text-decoration: none;">Go to cart</a>
+
+									{{else}}
+
+
+									<span id="cart_btn">
+
+										<button onclick="addToCartBtn('{{proData._id}}')" id="add_to_cart_btn"
+											class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
+											Add to cart
+										</button>
+									</span>
+
+									{{/if}}
+
+									{{else}}
+
+									<div onclick="outofStock()">
+										<button disabled id="add_to_cart_btn"
+											class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
+											Add to cart
+										</button>
+									</div>
+
+									{{/if}}
+									{{!-- <button id="add_to_cart_btn"
+										class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
+										Add to cart
+									</button> --}}
+
+
+
+									{{!-- <div>
+										<button onclick="('{{proData._id}}')" id="add_to_cart_btn"
+											class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
+											Add to cart
+										</button>
+									</div> --}}
+
+
+								</div>
+								<input type="text" id="count1">
+							</div>
+						</div>
+
+						<!--  -->
+						{{!--<div class="flex-w flex-m p-l-100 p-t-40 respon7">
+							<div class="flex-m bor9 p-r-10 m-r-11">
+								<a href="#"
+									class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
+									data-tooltip="Add to Wishlist">
+									<i class="zmdi zmdi-favorite"></i>
+								</a>
+							</div>
+
+							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+								data-tooltip="Facebook">
+								<i class="fa fa-facebook"></i>
+							</a>
+
+							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+								data-tooltip="Twitter">
+								<i class="fa fa-twitter"></i>
+							</a>
+
+							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+								data-tooltip="Google Plus">
+								<i class="fa fa-google-plus"></i>
+							</a>
+						</div>--}}
+					</div>
+				</div>
+			</div>
+
+			{{!--<div class="bor10 m-t-50 p-t-43 p-b-40">
+				<!-- Tab01 -->
+				<div class="tab01">
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item p-b-10">
+							<a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a>
+						</li>
+
+						<li class="nav-item p-b-10">
+							<a class="nav-link" data-toggle="tab" href="#information" role="tab">Additional
+								information</a>
+						</li>
+
+						<li class="nav-item p-b-10">
+							<a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews (1)</a>
+						</li>
+					</ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content p-t-43">
+						<!-- - -->
+						<div class="tab-pane fade show active" id="description" role="tabpanel">
+							<div class="how-pos2 p-lr-15-md">
+								<p class="stext-102 cl6">
+									Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla
+									sit amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit
+									lectus interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim,
+									cursus et elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum
+									in, faucibus eu velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor
+									sit amet orci nec iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec
+									laoreet consequat, purus nunc porta lacus, vel efficitur tellus augue in ipsum. Cras
+									in arcu sed metus rutrum iaculis. Nulla non tempor erat. Duis in egestas nunc.
+								</p>
+							</div>
+						</div>
+
+						<!-- - -->
+						<div class="tab-pane fade" id="information" role="tabpanel">
+							<div class="row">
+								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
+									<ul class="p-lr-28 p-lr-15-sm">
+										<li class="flex-w flex-t p-b-7">
+											<span class="stext-102 cl3 size-205">
+												Weight
+											</span>
+
+											<span class="stext-102 cl6 size-206">
+												0.79 kg
+											</span>
+										</li>
+
+										<li class="flex-w flex-t p-b-7">
+											<span class="stext-102 cl3 size-205">
+												Dimensions
+											</span>
+
+											<span class="stext-102 cl6 size-206">
+												110 x 33 x 100 cm
+											</span>
+										</li>
+
+										<li class="flex-w flex-t p-b-7">
+											<span class="stext-102 cl3 size-205">
+												Materials
+											</span>
+
+											<span class="stext-102 cl6 size-206">
+												60% cotton
+											</span>
+										</li>
+
+										<li class="flex-w flex-t p-b-7">
+											<span class="stext-102 cl3 size-205">
+												Color
+											</span>
+
+											<span class="stext-102 cl6 size-206">
+												Black, Blue, Grey, Green, Red, White
+											</span>
+										</li>
+
+										<li class="flex-w flex-t p-b-7">
+											<span class="stext-102 cl3 size-205">
+												Size
+											</span>
+
+											<span class="stext-102 cl6 size-206">
+												XL, L, M, S
+											</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<!-- - -->
+						<div class="tab-pane fade" id="reviews" role="tabpanel">
+							<div class="row">
+								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
+									<div class="p-b-30 m-lr-15-sm">
+										<!-- Review -->
+										<div class="flex-w flex-t p-b-68">
+											<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+												<img src="images/avatar-01.jpg" alt="AVATAR">
+											</div>
+
+											<div class="size-207">
+												<div class="flex-w flex-sb-m p-b-17">
+													<span class="mtext-107 cl2 p-r-20">
+														Ariana Grande
+													</span>
+
+													<span class="fs-18 cl11">
+														<i class="zmdi zmdi-star"></i>
+														<i class="zmdi zmdi-star"></i>
+														<i class="zmdi zmdi-star"></i>
+														<i class="zmdi zmdi-star"></i>
+														<i class="zmdi zmdi-star-half"></i>
+													</span>
+												</div>
+
+												<p class="stext-102 cl6">
+													Quod autem in homine praestantissimum atque optimum est, id
+													deseruit. Apud ceteros autem philosophos
+												</p>
+											</div>
+										</div>
+
+										<!-- Add review -->
+										<form class="w-full">
+											<h5 class="mtext-108 cl2 p-b-7">
+												Add a review
+											</h5>
+
+											<p class="stext-102 cl6">
+												Your email address will not be published. Required fields are marked *
+											</p>
+
+											<div class="flex-w flex-m p-t-50 p-b-23">
+												<span class="stext-102 cl3 m-r-16">
+													Your Rating
+												</span>
+
+												<span class="wrap-rating fs-18 cl11 pointer">
+													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+													<input class="dis-none" type="number" name="rating">
+												</span>
+											</div>
+
+											<div class="row p-b-25">
+												<div class="col-12 p-b-5">
+													<label class="stext-102 cl3" for="review">Your review</label>
+													<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"
+														id="review" name="review"></textarea>
+												</div>
+
+												<div class="col-sm-6 p-b-5">
+													<label class="stext-102 cl3" for="name">Name</label>
+													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name"
+														type="text" name="name">
+												</div>
+
+												<div class="col-sm-6 p-b-5">
+													<label class="stext-102 cl3" for="email">Email</label>
+													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email"
+														type="text" name="email">
+												</div>
+											</div>
+
+											<button
+												class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
+												Submit
+											</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>--}}
+
+		<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
+			<span class="stext-107 cl6 p-lr-25">
+				SKU: JAK-01
+			</span>
+
+			<span class="stext-107 cl6 p-lr-25">
+				Categories: Jacket, Men
+			</span>
+		</div>
+	</section>
+
+	{{>userfooter}}
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.all.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    jQuery(document).ready(function ($) {
+        $('.zoom-image img').click(function (event) {
+            const ix = $(this).offset().left;
+            const iy = $(this).offset().top;
+            console.log(ix + '-' + iy);
+            const mx = event.pageX;
+            const my = event.pageY;
+            console.log(mx + '-' + my);
+        })
+        $('.zoom-image img').hover(function () {
+            const img = $(this).attr('src');
+            $(this).after("<div class='hover-image' style='background-image: url(" + img + "); background-size: 500px;'></div>");
+            $(this).mousemove(function (event) {
+                // Mouse Position
+                const mx = event.pageX;
+                const my = event.pageY;
+                // Image Position
+                const ix = $(this).offset().left;
+                const iy = $(this).offset().top;
+                // Mouse Position Relavtive to Image
+                const x = mx - (ix);
+                const y = my - (iy);
+                // Image Height and Width
+                const w = $(this).width();
+                const h = $(this).height();
+                // Mouse Position Relative to Image, in %
+                const xp = (-x / w) * -100;
+                const yp = (-y / h) * -100;
+                $(this).parent().find('.hover-image').attr('style',
+                    "background-image: url(" + img + "); background-size: 1800px; background-repeat: no-repeat; background-position: " + xp + "% " + yp + "%; top: " + y + "px; left: " + x + "px;");
+            });
+        }, function () {
+            $(this).parent().find('.hover-image').remove();
+        });
+    });
+
+</script>
+
+
+
+	<script>
+
+
+		const addToCartBtn = async (proId) => {
+
+			const productid = document.getElementById('add_to_cart_btn').value
+			const productName = document.getElementsByName('product_name')[0].value
+
+			console.log(productName)
+
+			const response = await fetch(`/add_to_cart?id=${proId}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': "application/json",
+				},
+			})
+
+			let data = await response.json()
+			console.log(data, 'from add to cart btn....')
+
+			document.getElementById('cart_btn').innerHTML =
+				`<a href="/cart?id={{userData._id}}" class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 " style="text-decoration: none;">Go to cart</a>`
+
+
+			if (data) {
+				swal("Awww 🥳!", `${productName} added to Cart! `, "success");
+			}
+
+		}
+
+
+
+		const outofStock = () => {
+			alertify.set('notifier', 'position', 'bottom-center');
+			alertify.success(`Item Out of stock`)
+		}
+
+	</script>

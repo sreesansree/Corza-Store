@@ -1,0 +1,244 @@
+{{>userheader}}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    body {
+      color: #69707a;
+    }
+
+    .img-account-profile {
+      height: 10rem;
+    }
+
+    .rounded-circle {
+      border-radius: 50% !important;
+    }
+
+    .card {
+      box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+    .card .card-header {
+      font-weight: 500;
+    }
+
+    .card-header:first-child {
+      border-radius: 0.35rem 0.35rem 0 0;
+    }
+
+    .card-header {
+      padding: 1rem 1.35rem;
+      margin-bottom: 0;
+      background-color: rgba(33, 40, 50, 0.03);
+      border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+    }
+
+    .form-control,
+    .dataTable-input {
+      display: block;
+      width: 100%;
+      padding: 0.875rem 1.125rem;
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1;
+      color: #69707a;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #c5ccd6;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border-radius: 0.35rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .nav-borders .nav-link.active {
+      color: #0061f2;
+      border-bottom-color: #0061f2;
+    }
+
+    .nav-borders .nav-link {
+      color: #69707a;
+      border-bottom-width: 0.125rem;
+      border-bottom-style: solid;
+      border-bottom-color: transparent;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-xl px-4" style="margin-top: 100px; margin-bottom: 100px;">
+    <!-- Account page navigation-->
+    <nav class="nav nav-borders">
+      <a class="nav-link " href="/profile">About me</a>
+      <a class="nav-link" href="/adresses">Manage Address</a>
+      <a class="nav-link" href="/wishlist">Wishlist</a>
+      <a class="nav-link active ms-0" href="/my_orders">My Orders</a>
+    </nav>
+    <hr class="mt-0 mb-4">
+    <div class="row">
+
+      <div class="col-xl-12">
+
+        <!-- Account details card-->
+
+
+        <div class="card mb-4">
+          <div>
+            <div class="card-header d-flex">Orders
+              <div class="ml-auto">
+                {{!-- --}}
+                {{!-- onclick="deliveredOrders()" --}}
+                <a onclick="orderFilter('Delivered')" type="button" class="btn btn-outline-success"><span class="spinner-grow spinner-grow-sm"></span>Delivered</a>
+                <a onclick="orderFilter('Cancelled')" type="button" class="btn btn-outline-secondary">Canceled</a>
+              </div>
+            </div>
+
+          </div>
+          <div class="card-body" >
+        
+            <table class="table table-hover" id="my-table2">
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Order id</th>
+                  <th scope="col">Payment method</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Status</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody id="order_table" >
+
+    
+                {{#each myOrders}}
+
+                <tr >
+                  <td scope="row">{{this.date}}</td>
+                  <td>{{this.orderId}}</td>
+                  <td>{{this.paymentMethod}}</td>
+                  <td>₹{{this.total}}</td>
+                  <td><span id="order_status">{{this.status}}</span></td>
+                  <td>
+                    <input type="hidden" name="order_id" value="{{this._id}}">
+                    <a href="/order_details?id={{this._id}}" type="button" class="btn btn-primary">View details</a>
+                  </td>
+                </tr>
+
+                {{/each}}
+               
+          </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>
+
+<script src="handlebars.min.js"></script>
+<script>
+
+  $(document).ready(function () {
+    $('#my-table2').DataTable({
+
+    });
+  });
+
+  let orderId = document.getElementsByName('order_id')[0].value
+  console.log(orderId)
+
+  const status = () => {
+
+    swal({
+      title: "Are you sure cancel?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+      changeStatus
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          changeStatus(orderId)
+        } else {
+          swal("Your order not canceled!");
+        }
+      })
+  }
+
+
+
+  const changeStatus = async (id) => {
+    console.log('change status....19222222222')
+    const response = await fetch(`/cancel_order?id=${id}`, {
+      headers: { 'Content-Type': "application/json" }
+    })
+
+    const data = await response.json()
+    console.log(data)
+    if (data) {
+      const cancelBtn = document.getElementById('cancel_btn')
+      cancelBtn.innerHTML = ''
+      const orderStatus = document.getElementById('order_status')
+      orderStatus.innerText = 'cancelled'
+      swal(" Your order has been canceled!", {
+        icon: "success",
+      })
+    }
+  }
+
+  const orderFilter = async (ordertype) => {
+    const response = await fetch(`/filter_orders?orderType=${ordertype}` , {
+      headers: { 'Content-Type': "application/json" }
+    })
+
+    const data = await response.json()
+
+    if (data) {
+      console.log(data)
+
+      document.getElementById('order_table').innerHTML = ''
+      data.forEach((elment)=>{
+        document.getElementById('order_table').innerHTML += 
+
+        `<tr >
+                  <td scope="row">${elment.date}</td>
+                  <td>${elment.orderId}</td>
+                  <td>${elment.paymentMethod}</td>
+                  <td>${elment.total}</td>
+                  <td><span id="order_status">${elment.status}</span></td>
+                  <td>
+                    <input type="hidden" name="order_id" value="${elment._id}">
+                    <a href="/order_details?id=${elment._id}" type="button" class="btn btn-warning">View details</a>
+                  </td>
+                </tr>`
+      })
+      
+    }
+  }
+
+
+
+</script>
+
+{{>userfooter}}

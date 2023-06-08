@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>SignUp Form</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script
+		type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<!-- Custom Theme files -->
+	<link rel="stylesheet" href="/css/userCss/signup.css">
+	<!-- //Custom Theme files -->
+	<!-- web font -->
+	<link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
+	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+	<!-- //web font -->
+	
+</head>
+
+<body>
+	<!-- main -->
+	<div class="main-w3layouts wrapper">
+		<h1>Register Here</h1>
+		<div class="main-agileinfo">
+			<div class="agileits-top">
+				{{!-- <form action="/register" method="post"> --}}
+				<form  id="form" action="" method="post">
+					<input class="text" type="text" id="name" name="name" placeholder="Username" required="">
+					<div><span style="color: rgb(206, 41, 41);" id="nameError" class="error"></span></div>
+					<input class="text email" type="email" id="email" name="email" placeholder="Email Address" required="">
+					<div><span style="color: rgb(240, 49, 49);" id="emailError" class="error"></span></div>
+					<input class="text pt-5" type="text" id="mobile" name="mobile" placeholder="Mobile Number" required="">
+					<div><span style="color: rgb(246, 46, 46);" id="phoneError" class="error"></span></div>
+					<br>
+					<input class="text" type="password" id="password" name="password" placeholder="Create Password"
+						required="">
+						<div><span style="color: rgb(238, 60, 60);" id="passwordError" class="error"></span></div>
+					<input class="text w3lpass" type="password" id="password1" name="password1"
+						placeholder="Confirm Password" required="">
+						<div><span style="color: rgb(246, 70, 70);" id="confirmPasswordError" class="error"></span></div>
+					{{!-- <div class="wthree-text">
+						<label class="anim">
+							<input type="checkbox" class="checkbox" required="">
+							<span>I Agree To The Terms & Conditions</span>
+						</label>
+						<div class="clear"> </div>
+					</div> --}}
+					{{!-- <form action="/otpverification"> --}}
+					<div>
+        <p style="color: red;">{{message1}}</p>
+      </div>
+      <div>
+        <p style="color: green;">{{message2}}</p>
+      </div>
+					<input id="registerButton" type="submit" value="SIGNUP">
+					{{!-- </form> --}}
+				</form>
+				<p>Don't have an Account? <a href="/login"> Login Now!</a></p>
+			</div>
+		</div>
+
+		<!-- //copyright -->
+		<ul class="colorlib-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<!-- //main -->
+
+</body>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+<script>
+
+  const form = document.getElementById('form');
+  const nameInput = form.elements.name;
+  const emailInput = form.elements.email;
+  const phoneInput = form.elements.mobile;
+  const passwordInput = form.elements.password;
+  const confirmPasswordInput = form.elements.password1;
+
+  const nameError = document.getElementById('nameError');
+  const emailError = document.getElementById('emailError');
+  const phoneError = document.getElementById('phoneError');
+  const passwordError = document.getElementById('passwordError');
+  const confirmPasswordError = document.getElementById('confirmPasswordError');
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    // Validate name
+    if (nameInput.value.trim() === '') {
+      nameError.textContent = 'Please enter a name.';
+      return;
+    }
+    nameError.textContent = '';
+
+
+    // Validate phone number
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phoneInput.value)) {
+      phoneError.textContent = 'Please enter a 10-digit phone number.';
+      return;
+    }
+    phoneError.textContent = '';
+
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailInput.value)) {
+      emailError.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    emailError.textContent = '';
+
+
+
+    // Validate password
+    {{!-- const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+    const trimmedPassword = passwordInput.value.trim();
+    if (!passwordRegex.test(trimmedPassword)) {
+      passwordError.textContent = 'Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, and one number.';
+      return;
+    }
+    passwordError.textContent = ''; --}}
+
+
+    // Validate confirm password
+    if (passwordInput.value !== confirmPasswordInput.value) {
+      confirmPasswordError.textContent = 'Passwords  not match...!';
+      return;
+    }
+    confirmPasswordError.textContent = '';
+
+    // All validation passed
+    form.submit();
+  });
+   // document.getElementById('registerButton').addEventListener('click', () => {
+      // Simulating successful registration
+     // Swal({
+       // title: "Registration Successful",
+       // text: "You have been successfully registered.",
+       // icon: "success",
+       // button: "OK",
+     // })
+    // });
+
+</script>
+
+</html>

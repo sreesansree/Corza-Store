@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corza Store</title>
+
+    <style>
+        body {
+            color: #69707a;
+        }
+        .img-account-profile {
+            height: 10rem;
+        }
+        .rounded-circle {
+            border-radius: 50% !important;
+        }
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        }
+        .card .card-header {
+            font-weight: 500;
+        }
+        .card-header:first-child {
+            border-radius: 0.35rem 0.35rem 0 0;
+        }
+        .card-header {
+            padding: 1rem 1.35rem;
+            margin-bottom: 0;
+            background-color: rgba(33, 40, 50, 0.03);
+            border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+        }
+        .form-control,
+        .dataTable-input {
+            display: block;
+            width: 100%;
+            padding: 0.875rem 1.125rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #69707a;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #c5ccd6;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0.35rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        .nav-borders .nav-link.active {
+            color: #0061f2;
+            border-bottom-color: #0061f2;
+        }
+        .nav-borders .nav-link {
+            color: #69707a;
+            border-bottom-width: 0.125rem;
+            border-bottom-style: solid;
+            border-bottom-color: transparent;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+{{>userheader}}
+<body>
+
+  
+    <div class="container-xl px-4" style="margin-top: 100px; margin-bottom: 100px;">
+        <!-- Account page navigation-->
+        <nav class="nav nav-borders">
+            <a class="nav-link " href="/profile">My Profile</a>
+            <a class="nav-link" href="/adresses">Manage Address</a>
+            <a class="nav-link" href="/wishlist">Wishlist</a>
+            <a class="nav-link active ms-0" href="/my_orders">My Orders</a>
+        </nav>
+        <hr class="mt-0 mb-4">
+        <div class="row">
+
+            <div class="col-xl-8">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Order details</div>
+                    <div class="card-body">
+                        <div class=" mb-3 ml-auto" style="width: fit-content;">
+                            <button class="btn btn-secondary ml-1" > Invoice</button>
+                         </div>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                {{#each orderedProDet}}
+
+                                <tr>
+                                    <td scope="row">{{this.name}}</td>
+                                    <td>₹ {{this.price}}</td>
+                                    <td>{{this.quantity}}</td>
+                                    <td><img style="width: 50px; height: auto;" src="/images/{{this.image}}"
+                                            alt="product image"></td>
+                                    <td>
+                                        {{!-- <a href="my_orders/details?id={{this._id}}" type="button"
+                                            class="btn btn-warning">View details</a> --}}
+                                    </td>
+                                </tr>
+                                {{/each}}
+
+                            </tbody>
+                        </table>
+
+                        <div class="d-flex justify-content-between border mt-5 p-5" style="color: #000;">
+                            <div class="mt-3 ">
+                                <p class="mb-2">Total amount : ₹<strong>{{myOrderDetails.total}}</strong></p>
+
+                                <input type="hidden" name="total" value="{{myOrderDetails.total}}">
+                                <input type="hidden" name="pay-method" value="{{myOrderDetails.paymentMethod}}">
+
+                                <p class="mb-2">Payment method: {{myOrderDetails.paymentMethod}}</p>
+                                <p  class="mb-2">Order status : <span id="order_status">{{myOrderDetails.status}}</span></p>
+                                {{!-- {{#if myOrderDetails.coupon}}
+                                <p class="mb-2" style="color: green;">Coupon used: {{myOrderDetails.coupon}}</p>
+                                <p class="mb-2">Amount after discount :
+                                    ₹<strong>{{myOrderDetails.amountAfterDscnt}}</strong></p>
+
+                                 <input type="hidden" id="coupon" value="{{ myOrderDetails.coupon}}">
+                                 <input type="hidden" name="amoutn_after_discount" value="{{myOrderDetails.amountAfterDscnt}}">
+
+
+                                <p class="mb-2">Discount amount : ₹<strong>{{myOrderDetails.discountAmt}}</strong></p>
+                                {{else}}
+                                <p class="mb-2" style="color: green;">No coupon applied</p>
+                                {{/if}} --}}
+
+                            </div>
+                            <div class="">
+                                <h5 class="border-bottom mb-3">Delivery address</h5>
+                                <p>{{address.name}}</p>
+                                <p>Mobile: {{address.mobile}}</p>
+                                <p>{{adress.adressLine1}}</p>
+                                <p>{{address.addressLine2}}</p>
+                                <p>{{address.city}}, {{address.state}},</p>
+                                <p>Pin: {{address.pin}}</p>
+
+                            </div>
+                         
+                        </div>
+                        {{!-- <p>Delivery address : {{myOrderDetails.address}}</p> --}}
+                        <div class="mt-3 mb-2">
+                        <a href="/my_orders" class="btn btn-primary">Back to my orders</a>
+
+                    {{#ifeq myOrderDetails.status 'pending'}}
+                    <span id="cancel_btn">
+                      <button onclick="status()" type="button" class="ml-2 btn btn-danger">
+                        Cancel order
+                      </button>
+                    </span>
+                    {{/ifeq}}
+
+                    {{#ifeq myOrderDetails.status 'Delivered'}}
+                    <span id="return_btn">
+                      <button onclick="status2()" type="button" class="ml-2 btn btn-danger">
+                        Return
+                      </button>
+                    </span>
+                    {{/ifeq}}
+
+                    {{#ifeq myOrderDetails.status 'Shipped'}}
+                    <span id="cancel_btn">
+                      <button onclick="status()" type="button" class="ml-2 btn btn-danger">
+                        Cancel order
+                      </button>
+                    </span>
+                    {{/ifeq}}
+
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+
+<script>
+
+
+  const orderId = document.getElementsByName('order_id')[0].value
+  console.log(orderId)
+
+  const status = () => {
+
+    swal({
+      title: `Are you sure cancel?`,
+      text: "",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+      changeStatus
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          changeStatus(orderId, 'cancel', 'Cancelled')
+        } else {
+          swal("Your order not canceled!");
+        }
+      })
+  }
+
+
+
+   const status2 = () => {
+    swal({
+      title: `Are you sure return?`,
+      text: "",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+      changeStatus
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          changeStatus(orderId, 'return', 'Returned')
+        } else {
+          swal("Your order not returned!");
+        }
+      })
+  }
+
+
+
+
+  const changeStatus = async (id, status, status2) => {
+
+    const total     = Number( document.getElementsByName('total')[0].value )
+    const payMethod = document.getElementsByName('pay-method')[0].value
+
+    const response = await fetch(`/${status}_order?id=${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': "application/json" },
+
+      body: JSON.stringify({
+        payMethod: payMethod,
+      })
+    })
+
+    const data = await response.json()
+    console.log(data)
+
+    if (data) {
+       document.getElementById('cancel_btn').innerHTML = ''
+       document.getElementById('order_status').innerText = `${status2}`
+      swal(`Your order has been ${status2}!`, {
+        icon: "success",
+      })
+    }
+  }
+
+
+
+
+
+
+
+</script>
+
+{{>userfooter}}

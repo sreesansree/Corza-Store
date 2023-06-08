@@ -1,0 +1,599 @@
+{{>userheader}}
+
+{{!-- 
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  .b-example-divider {
+    height: 3rem;
+    background-color: rgba(0, 0, 0, .1);
+    border: solid rgba(0, 0, 0, .15);
+    border-width: 1px 0;
+    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+  }
+
+  .b-example-vr {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 100vh;
+  }
+
+  .bi {
+    vertical-align: -.125em;
+    fill: currentColor;
+  }
+
+  .nav-scroller {
+    position: relative;
+    z-index: 2;
+    height: 2.75rem;
+    overflow-y: hidden;
+  }
+
+  .nav-scroller .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  h2 {
+    font-family: 'Roboto', sans-serif;
+  }
+</style>
+</style>
+
+<link href="checkout.css" rel="stylesheet">
+</head>
+
+<body class="bg-none">
+
+  <div class="container m-5">
+    <main>
+      <div class="py-1 text-center">
+
+        <h2>CHECKOUT</h2>
+
+      </div>
+      <div class="row g-5">
+        <div class="col-md-5 col-lg-4 order-md-last">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+
+            <span class="text-primary">Your cart</span>
+            <span class="badge bg-primary rounded-pill">{{userData.cart.length}}</span>
+          </h4>
+          <ul class="list-group border-3 mb-3">
+            {{#each cart}}
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h5 class="mx-2">{{this.product.name}}</h5>
+
+                <span style="margin-left: 260px;">{{this.quantity}}x{{this.product.price}}=Rs.{{calculateItemPrice
+                  this}}</span>
+                <hr>
+              </div>
+            </li>
+            {{/each}}
+
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Total (INR)</span>
+
+              <strong id="cartTotal" class="cartTotal">₹ {{subTotal}}</strong>
+
+            </li>
+          </ul>
+
+          <div class="input-group">
+            <input type="text" id="coupon-text" class="form-control" placeholder="Promo code">
+            <button id="coupon" class="btn btn-secondary">Redeem</button>
+            <p style="margin-top:10px;color:rgb(5, 248, 74)">Apply Bonus11, discount of 10% on orders above ₹ 499 </p>
+          </div>
+          <div id="coupon-error"></div>
+          <table class="table">
+            <ul>
+              <li>
+                <tr>
+                  <td class="text-right"><strong>Subtotal:</strong></td>
+                  <td class="text-right"><span id="cartTotal" class="cartTotal"><strong>₹ {{subTotal}}</strong></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-right"><strong>Discount:</strong></td>
+                  <td class="text-right">
+                    <p id="discount"><strong>0</strong></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-right"><strong>Grand Total:</strong></td>
+                  <td class="text-right">
+                    <p id="grandTotal"><strong>₹ {{subTotal}}</strong></p>
+                  </td>
+                </tr>
+              </li>
+
+            </ul>
+
+          </table>
+        </div>
+        <div class="col-md-7 col-lg-8 border border- border-secondary shadow-lg rounded-3  ">
+          <p class="m-3">Billing address</p>
+          <a href="/add-checkoutaddress">+Add new address</address></a>
+          <div class="d-flex gap-5">
+            {{#each addressData}}
+            <div class="address">
+              <input type="radio" id="{{_id}}" name="address" value="{{_id}}" checked>
+              <label for="{{_id}}">
+                {{name}}<br>
+                {{mobile}} <br>
+                {{adressLine1}}<br>
+                {{adressLine2}}<br>
+                {{city}}<br>
+                {{pin}}
+                <br>
+              </label>
+            </div>
+            {{/each}}
+          </div>
+
+          <hr>
+          <h6 class="mb-3">Payment</h6>
+
+          <div class="my-3">
+            <div class="form-check">
+              <input id="cashondelivery" value="cashondelivery" name="payment_option" type="radio"
+                class="form-check-input" checked>
+              <label class="form-check-label" for="credit">Cash on delivery</label>
+
+            </div>
+
+            <div class="form-check">
+              <input id="razorpay" name="payment_option" type="radio" value="razorpay" class="form-check-input">
+              <label class="form-check-label" for="razor">Razor Pay</label><br>
+            </div>
+          </div>
+          <button id="order-button" class="btn btn-info m-3" type="submit">PROCEED TO ORDER</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+ --}}
+
+  
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    body {
+      color: #69707a;
+    }
+
+    .img-account-profile {
+      height: 10rem;
+    }
+
+    .rounded-circle {
+      border-radius: 50% !important;
+    }
+
+    .card {
+      box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+    .card .card-header {
+      font-weight: 500;
+    }
+
+    .card-header:first-child {
+      border-radius: 0.35rem 0.35rem 0 0;
+    }
+
+    .card-header {
+      padding: 1rem 1.35rem;
+      margin-bottom: 0;
+      background-color: rgba(33, 40, 50, 0.03);
+      border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+    }
+
+    .form-control,
+    .dataTable-input {
+      display: block;
+      width: 100%;
+      padding: 0.875rem 1.125rem;
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1;
+      color: #69707a;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #c5ccd6;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border-radius: 0.35rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .nav-borders .nav-link.active {
+      color: #0061f2;
+      border-bottom-color: #0061f2;
+    }
+
+    .nav-borders .nav-link {
+      color: #69707a;
+      border-bottom-width: 0.125rem;
+      border-bottom-style: solid;
+      border-bottom-color: transparent;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-xl px-4" style="margin-top: 100px; margin-bottom: 100px;">
+    <!-- Account page navigation-->
+    {{!-- <nav class="nav nav-borders">
+      <a class="nav-link active ms-0" href="/profile">My Profile</a>
+      <a class="nav-link" href="/adresses">Manage Address</a>
+      <a class="nav-link" href="/wishlist">Wishlist</a>
+      <a class="nav-link" href="/my_orders">My Orders</a>
+    </nav> --}}
+    <hr class="mt-0 mb-4">
+    <div class="row">
+
+
+
+      <div class="col-xl-8">
+        <!-- Account details card-->
+        <div class="card mb-4">
+          <div class="card-header">Billing address</div>
+          <div class="card-body mb-3">
+
+            {{!-- <div class="dropdown mt-3 mb-4 border p-3">
+              <button class=" dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Choose an address
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {{#each addressData}}
+                <p class="dropdown-item">{{this.adressLine1}}</p>
+                <input type="hidden" name="addressId" value="{{this._id}}">
+                {{/each}}
+
+              </div>
+            </div> --}}
+
+
+            <select id="selectedAddress" class="form-select form-select-lg mb-3 p-3"
+              aria-label=".form-select-lg example">
+              {{!-- <option selected>Select an address</option> --}}
+              {{#each addressData}}
+              <option value="{{this._id}}">{{this.adressLine1}}</option>
+              {{/each}}
+            </select>
+
+
+            {{!-- <div style="text-decoration: none; ">
+              <a style="text-decoration: none; font-size: medium; " class="mb-4" href="#">Add new address +</a>
+            </div> --}}
+
+            {{!-- modal --}}
+
+
+
+<a href="/add-checkoutaddress">Add new Address +</a>
+            <!-- Button trigger modal -->
+            {{!-- <div class="card-body border pb-3 pt-2">
+              <button type="button" class="mt-2 text-primary" data-toggle="modal" data-target="#exampleModal">
+                Add new Address +
+              </button>
+            </div> --}}
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-10" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Address Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+
+
+
+
+                  {{!-- modal form --}}
+
+
+                  <div class="modal-body">
+                    <div class="container">
+                      <div class="row justify-content-center">
+                        <div class=" ">
+                          <div class="card login-form ">
+                            <div class="card-header bg-white border-0">
+                              <h3 class="text-center mb-0"></h3>
+                            </div>
+                            <div class="card-body ">
+                              <form action="/add-checkoutaddress" method="post">
+                                <div class="form-group">
+                                  <label for="name">Name:</label>
+                                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
+                                    required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="mobile">Mobile:</label>
+                                  <input type="tel" class="form-control" id="mobile" name="mobile"
+                                    placeholder="Enter mobile" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="address">Address line1:</label>
+                                  <input type="text" class="form-control" id="address1" name="address1"
+                                    placeholder="Enter address" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="address">Address line2:</label>
+                                  <input type="text" class="form-control" id="address2" name="address2"
+                                    placeholder="Enter address">
+                                </div>
+                                <div class="form-group">
+                                  <label for="city">City:</label>
+                                  <input type="text" class="form-control" id="city" name="city" placeholder="Enter city"
+                                    required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="state">State:</label>
+                                  <input type="text" class="form-control" id="state" name="state"
+                                    placeholder="Enter state" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="pin">Pin:</label>
+                                  <input type="text" class="form-control" id="pin" name="pin"
+                                    placeholder="Enter pin code" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    {{!-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header">Payment Details</div>
+          <div class="card-body">
+            <h6 class="mb-3">Choose a payment method</h6>
+            <div class="form-check mt-4">
+              <input class="form-check-input" type="radio" name="payment_option" value="cash-on-delivery"
+                id="cash-on-delivery">
+              <label class="form-check-label" for="flexRadioDefault1">
+                Cash On Delivery
+              </label>
+            </div>
+            <div class="form-check mt-3 mb-3">
+              <input class="form-check-input" type="radio" name="payment_option" value="razorpay" id="razorpay">
+              <label class="form-check-label" for="flexRadioDefault2">
+                Razor Pay
+              </label>
+            </div>
+            {{!-- <div class="form-check mt-3 mb-3">
+              <input class="form-check-input" type="radio" name="payment_option" value="wallet" id="wallet">
+              <label class="form-check-label" for="flexRadioDefault2">
+                Wallet
+              </label>
+            </div> --}}
+            {{!-- <div class="bg-dark text-white p-15 rounded ml-3" style="width: fit-content;">
+
+              <p class="my-2 mx-2" style="font-size: smaller;">Available Balance : <strong>$<span
+                    id="update_wallet">{{userData.wallet}}</span> </strong></p>
+
+              <input type="hidden" value="{{userData.wallet}}" name="wallet">
+            </div> --}}
+
+          </div>
+        </div>
+        <span id="order_button">
+          <button onclick="placeOrder()" class="btn btn-primary btn-lg"> Place Order</button>
+        </span>
+      </div>
+      <div class="col-xl-4">
+        <!-- Profile picture card-->
+        <div class="card mb-4 mb-xl-0">
+          {{!-- <div class="card-header">Your cart</div> --}}
+
+          <h4 class="d-flex justify-content-between align-items-center mb-3 card-header">
+            <span class=" text-muted">Your cart</span>
+            <span class="badge badge-secondary badge-pill"></span>
+          </h4>
+          <ul class="list-group mb-3">
+            {{#each cart}}
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">{{this.product.name}} x {{this.quantity }}</h6>
+                {{!-- <small class="text-muted">{{this.quantity}} * ${{this.product.price }} </small> --}}
+              </div>
+              <span class="text-muted">₹ {{this.product.price }}</span>
+            </li>
+            {{/each}}
+            {{!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Second product</h6>
+                <small class="text-muted">Brief description</small>
+              </div>
+              <span class="text-muted">$8</span>
+            </li> --}}
+            {{!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Third item</h6>
+                <small class="text-muted">Brief description</small>
+              </div>
+              <span class="text-muted">$5</span>
+            </li> --}}
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="text-success">
+                <h6 class="my-0">Coupon code</h6>
+                <span id="copoun_code">
+                  <small></small>
+                </span>
+              </div>
+              <span id="discount_amt">
+                <span class="text-success"></span>
+              </span>
+
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Total (INR)</span>
+              <span id="new_sub_total">
+                <span id="total">₹ {{subTotal}}</span>
+              </span>
+              <input type="hidden" name="subTotal" value="{{subTotal}}" id="subTotal">
+            </li>
+          </ul>
+
+          <div class="card p-2">
+            <div class="input-group">
+              <input type="text" id="copon" class="form-control" placeholder="Promo code" name="coupon" required>
+              <div class="input-group-append">
+                <button  type="button" class="btn btn-success ml-2 mt-1">Redeem</button>
+              </div>
+            </div>
+            {{!-- <div class="text-center m-2" style="color: red;" id="couponMsg"> </div>
+            <p class="text-center m-2" style="color: green;" id="sCoponMsg"> </p> --}}
+
+            <div class="border" style="padding: 10px; border-radius:5px;">
+              <details >
+              <summary>Available coupons</summary>
+              {{!-- {{#if availableCoupons}} --}}
+              {{!-- {{#each availableCoupons}}
+                <div class="d-flex justify-content-between" >
+                    <h6 class="my-2">{{this.code}}</h6>
+                    <p>Get {{this.discount}}% discount</p>
+                </div>
+              {{/each}} --}}
+              {{!-- {{else}} --}}
+              <h6 class="mb-3">No coupon available</h6>
+              {{!-- {{/if}} --}}
+            </details>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>
+
+
+  <script>
+
+   
+  /*
+   const cashOnDelivery = document.getElementById('cash-on-delivery');
+    const razorpay = document.getElementById('razorpay');
+  
+    cashOnDelivery.addEventListener('change', handleCheckboxChange);
+    razorpay.addEventListener('change', handleCheckboxChange); */
+
+  const paymentOption = document.querySelectorAll('input[name="payment_option"]');
+
+  let paymentMethod = null;
+
+  paymentOption.forEach((checkbox) => {
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        paymentMethod = checkbox.value
+        console.log("User selected " + checkbox.value);
+        console.log(paymentMethod, 'payment method..........')
+      } else {
+        console.log("User unchecked " + checkbox.value);
+      }
+    });
+  });
+
+
+
+
+
+  const placeOrder = () => {
+    if (paymentMethod === 'cash-on-delivery') {
+      Cod()
+    } else {
+      console.log('Invalid payment method.')
+    }
+  }
+
+
+  const Cod = async () => {
+    const selectAddress = document.querySelector('#selectedAddress').value
+    const subTotal = Number(document.getElementsByName('subTotal')[0].value)
+
+    const datas = await fetch('/place_order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': "application/json",
+      },
+      body: JSON.stringify({
+        selectedAddress: selectAddress,
+        selectedPayment: paymentMethod,
+        amount: subTotal
+      })
+    })
+    const placeOrderData = await datas.json()
+    console.log(placeOrderData+'cheking here......now')
+    if (placeOrderData) {
+      console.log(' hiiii am from place oreder data')
+      window.location.href = '/order_sucess'
+    }
+  }
+
+
+  </script>
+
+  {{>userfooter}}
