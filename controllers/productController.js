@@ -85,7 +85,7 @@ const loadUpdateProduct = async (req, res) => {
     try {
         const id = req.params.id;
 
-        const productdata = await Product.findById(id)
+        const productdata = await Product.findById(id).populate('category')
         const categorydata = await category.find()
         const images = productdata.image
         const imagefile = images.map((item) => {

@@ -45,7 +45,6 @@
                         <div class="error-message">{{errors.name}}</div>
                         {{/if}}
                     </div>
-
                     <div class="form-group">
                         <label for="description">Product Description</label>
                         <input placeholder="description" id="description" name="description" class="form-control"
@@ -57,10 +56,11 @@
                     </div>
                     <div class="form-group">
                         <label for="category">Category</label>
-                        <select id="category" name="category" class="form-control">
+                        <select id="category" name="category"  class="form-control categorySelect">
+                           <option class="categoryName" selected value="{{Product.category._id}}">{{Product.category.name}}</option>
                             {{#each categorydata}}
-                            <option value={{this.id}}>{{this.name}}</option>
-                            {{/each}}
+                            <option value="{{this.id}}">{{this.name}}</option>
+                            {{/each}}   
                         </select>
                     </div>
 
@@ -130,6 +130,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    const category = document.querySelector('.categoryName')
+    const categorySelect = document.querySelector('.categorySelect')
+
+    categorySelect.addEventListener('click', () => {
+        category.classList.add('d-none')
+    })
+</script>
 <script src="/js/updateProduct.js"></script>
 
 <!-- JavaScript Libraries -->
