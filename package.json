@@ -28,6 +28,7 @@
     "nocache": "^3.0.4",
     "nodemailer": "^6.9.2",
     "nodemon": "^2.0.22",
+    "razorpay": "^2.8.6",
     "sweet-alert": "^2.0.5",
     "sweetalert2": "^11.7.8"
   }

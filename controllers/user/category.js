@@ -28,6 +28,7 @@ const loadWomCat = async (req, res) => {
     try {
         const id = req.query.id
         console.log(id, 299);
+        const userData = req.session.userdata;
         const womenData = await Product.find({ category: id, is_blocked: false })
         console.log('women dataaa', womenData)
         if (req.session.userdata) {

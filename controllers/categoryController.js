@@ -25,18 +25,19 @@ const insertCategory = async (req, res) => {
             res.render('addCategory', { message: 'please fill the field' })
 
         } else {
-            const firstlettercap = (str) => {
-                return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
-            }
-            const name = firstlettercap(req.body.name)
-            const categorydata = await Category.findOne({ name: name })
+            // const firstlettercap = (str) => {
+            //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+            // }
+
+            const name = req.body.name
+            const nameLo = name.toLowerCase()
+
+            const categorydata = await Category.findOne({ name: nameLo })
             if (categorydata) {
                 res.render('addCategory', { message1: 'Category already exist' })
             } else {
-                if (name == '') {
-
-                    res.render('addCategory', { message: 'failed' })
-
+                if (name.trim() == '') {
+                    res.render('addCategory', { message1: 'Please Enter a valid Name' })
                 } else {
                     const category = new Category({
                         name: name,
@@ -99,18 +100,16 @@ const updatecategory = async (req, res) => {
     try {
         const id = req.query.id;
        
-        const firstlettercap = (str) => {
-            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
-        }
-        const name = firstlettercap(req.body.name)
+        // const firstlettercap = (str) => {
+        //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+        // }
 
-        const existingCategory =await Category.findOne({name:name})
-
+        const name =req.body.name
+        const nameLo =name.toLowerCase()
+        const existingCategory =await Category.findOne({name:nameLo})
         if (existingCategory) {
             return res.render("editcategory", { message: "Category exists" });
         }
-
-
         const updateCategoy = await Category.findByIdAndUpdate(
             id,
             { name, image: req.file.filename },
@@ -119,8 +118,8 @@ const updatecategory = async (req, res) => {
         if (!updateCategoy) {
             return res.status(404).render("editcategory", { message: "Caegory not found" })
         }
-
         res.redirect("/admin/category");
+
     } catch(error){
         console.log(error.message)
     }

@@ -1,16 +1,16 @@
-const mongoose = require('mongoose');
-const User = require("../../model/userModel");
-const Category = require('../../model/categoryModel');
-const Product = require('../../model/productModel');
+const mongoose   = require('mongoose');
+const User       = require("../../model/userModel");
+const Category   = require('../../model/categoryModel');
+const Product    = require('../../model/productModel');
 const nodeMailer = require("nodemailer");
-const session = require('express-session');
-const argon2 = require('argon2');
-
+const session    = require('express-session');
+const argon2     = require('argon2');
 // const bcrypt = require('bcrypt')
 // const userRoute = require("../../routes/userRoute");
 require('dotenv').config()
 
 let userRegData
+
 
 
 const loadRegister = async (req, res) => {
@@ -265,6 +265,7 @@ const loadforgototp = async (req, res) => {
         console.log(error.message)
     }
 }
+
 let email1
 const verifyemail = async (req, res) => {
     email1 = req.body.email
@@ -277,8 +278,6 @@ const verifyemail = async (req, res) => {
         } else {
             res.redirect('/forgotpassword')
         }
-
-
     } catch (error) {
         console.log(error.message);
     }

@@ -1,6 +1,6 @@
 {{>userheader}}
 
-{{!-- 
+{{!--
 <style>
   .bd-placeholder-img {
     font-size: 1.125rem;
@@ -176,424 +176,442 @@
       </div>
     </main>
   </div>
-  
- --}}
 
-  
-<!DOCTYPE html>
-<html lang="en">
+  --}}
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
 
-  <style>
-    body {
-      color: #69707a;
-    }
+  <!DOCTYPE html>
+  <html lang="en">
 
-    .img-account-profile {
-      height: 10rem;
-    }
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-    .rounded-circle {
-      border-radius: 50% !important;
-    }
+    <style>
+      body {
+        color: #69707a;
+      }
 
-    .card {
-      box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
-    }
+      .img-account-profile {
+        height: 10rem;
+      }
 
-    .card .card-header {
-      font-weight: 500;
-    }
+      .rounded-circle {
+        border-radius: 50% !important;
+      }
 
-    .card-header:first-child {
-      border-radius: 0.35rem 0.35rem 0 0;
-    }
+      .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+      }
 
-    .card-header {
-      padding: 1rem 1.35rem;
-      margin-bottom: 0;
-      background-color: rgba(33, 40, 50, 0.03);
-      border-bottom: 1px solid rgba(33, 40, 50, 0.125);
-    }
+      .card .card-header {
+        font-weight: 500;
+      }
 
-    .form-control,
-    .dataTable-input {
-      display: block;
-      width: 100%;
-      padding: 0.875rem 1.125rem;
-      font-size: 0.875rem;
-      font-weight: 400;
-      line-height: 1;
-      color: #69707a;
-      background-color: #fff;
-      background-clip: padding-box;
-      border: 1px solid #c5ccd6;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      border-radius: 0.35rem;
-      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    }
+      .card-header:first-child {
+        border-radius: 0.35rem 0.35rem 0 0;
+      }
 
-    .nav-borders .nav-link.active {
-      color: #0061f2;
-      border-bottom-color: #0061f2;
-    }
+      .card-header {
+        padding: 1rem 1.35rem;
+        margin-bottom: 0;
+        background-color: rgba(33, 40, 50, 0.03);
+        border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+      }
 
-    .nav-borders .nav-link {
-      color: #69707a;
-      border-bottom-width: 0.125rem;
-      border-bottom-style: solid;
-      border-bottom-color: transparent;
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      padding-left: 0;
-      padding-right: 0;
-      margin-left: 1rem;
-      margin-right: 1rem;
-    }
-  </style>
-</head>
+      .form-control,
+      .dataTable-input {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1.125rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1;
+        color: #69707a;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #c5ccd6;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.35rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      }
 
-<body>
-  <div class="container-xl px-4" style="margin-top: 100px; margin-bottom: 100px;">
-    <!-- Account page navigation-->
-    {{!-- <nav class="nav nav-borders">
-      <a class="nav-link active ms-0" href="/profile">My Profile</a>
-      <a class="nav-link" href="/adresses">Manage Address</a>
-      <a class="nav-link" href="/wishlist">Wishlist</a>
-      <a class="nav-link" href="/my_orders">My Orders</a>
-    </nav> --}}
-    <hr class="mt-0 mb-4">
-    <div class="row">
+      .nav-borders .nav-link.active {
+        color: #0061f2;
+        border-bottom-color: #0061f2;
+      }
+
+      .nav-borders .nav-link {
+        color: #69707a;
+        border-bottom-width: 0.125rem;
+        border-bottom-style: solid;
+        border-bottom-color: transparent;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container-xl px-4" style="margin-top: 100px; margin-bottom: 100px;">
+     
+      <hr class="mt-0 mb-4">
+      <div class="row">
 
 
 
-      <div class="col-xl-8">
-        <!-- Account details card-->
-        <div class="card mb-4">
-          <div class="card-header">Billing address</div>
-          <div class="card-body mb-3">
+        <div class="col-xl-8">
+          <!-- Account details card-->
+          <div class="card mb-4">
+            <div class="card-header">Billing address</div>
+            <div class="card-body mb-3">
 
-            {{!-- <div class="dropdown mt-3 mb-4 border p-3">
-              <button class=" dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                Choose an address
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              {{!-- <div class="dropdown mt-3 mb-4 border p-3">
+                <button class=" dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  Choose an address
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  {{#each addressData}}
+                  <p class="dropdown-item">{{this.adressLine1}}</p>
+                  <input type="hidden" name="addressId" value="{{this._id}}">
+                  {{/each}}
+
+                </div>
+              </div> --}}
+
+
+              <select id="selectedAddress" class="form-select form-select-lg mb-3 p-3"
+                aria-label=".form-select-lg example">
+                {{!-- <option selected>Select an address</option> --}}
                 {{#each addressData}}
-                <p class="dropdown-item">{{this.adressLine1}}</p>
-                <input type="hidden" name="addressId" value="{{this._id}}">
+                <option value="{{this._id}}">{{this.adressLine1}}</option>
                 {{/each}}
-
-              </div>
-            </div> --}}
+              </select>
 
 
-            <select id="selectedAddress" class="form-select form-select-lg mb-3 p-3"
-              aria-label=".form-select-lg example">
-              {{!-- <option selected>Select an address</option> --}}
-              {{#each addressData}}
-              <option value="{{this._id}}">{{this.adressLine1}}</option>
-              {{/each}}
-            </select>
+              {{!-- <div style="text-decoration: none; ">
+                <a style="text-decoration: none; font-size: medium; " class="mb-4" href="#">Add new address +</a>
+              </div> --}}
 
-
-            {{!-- <div style="text-decoration: none; ">
-              <a style="text-decoration: none; font-size: medium; " class="mb-4" href="#">Add new address +</a>
-            </div> --}}
-
-            {{!-- modal --}}
+              {{!-- modal --}}
 
 
 
-<a href="/add-checkoutaddress">Add new Address +</a>
-            <!-- Button trigger modal -->
-            {{!-- <div class="card-body border pb-3 pt-2">
-              <button type="button" class="mt-2 text-primary" data-toggle="modal" data-target="#exampleModal">
-                Add new Address +
-              </button>
-            </div> --}}
+              <a href="/add-checkoutaddress">Add new Address +</a>
+              <!-- Button trigger modal -->
+              {{!-- <div class="card-body border pb-3 pt-2">
+                <button type="button" class="mt-2 text-primary" data-toggle="modal" data-target="#exampleModal">
+                  Add new Address +
+                </button>
+              </div> --}}
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-10" role="dialog" aria-labelledby="exampleModalLabel"
-              aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Address Form</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-10" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Address Form</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
 
 
 
 
-                  {{!-- modal form --}}
+                    {{!-- modal form --}}
 
 
-                  <div class="modal-body">
-                    <div class="container">
-                      <div class="row justify-content-center">
-                        <div class=" ">
-                          <div class="card login-form ">
-                            <div class="card-header bg-white border-0">
-                              <h3 class="text-center mb-0"></h3>
-                            </div>
-                            <div class="card-body ">
-                              <form action="/add-checkoutaddress" method="post">
-                                <div class="form-group">
-                                  <label for="name">Name:</label>
-                                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
-                                    required>
-                                </div>
-                                <div class="form-group">
-                                  <label for="mobile">Mobile:</label>
-                                  <input type="tel" class="form-control" id="mobile" name="mobile"
-                                    placeholder="Enter mobile" required>
-                                </div>
-                                <div class="form-group">
-                                  <label for="address">Address line1:</label>
-                                  <input type="text" class="form-control" id="address1" name="address1"
-                                    placeholder="Enter address" required>
-                                </div>
-                                <div class="form-group">
-                                  <label for="address">Address line2:</label>
-                                  <input type="text" class="form-control" id="address2" name="address2"
-                                    placeholder="Enter address">
-                                </div>
-                                <div class="form-group">
-                                  <label for="city">City:</label>
-                                  <input type="text" class="form-control" id="city" name="city" placeholder="Enter city"
-                                    required>
-                                </div>
-                                <div class="form-group">
-                                  <label for="state">State:</label>
-                                  <input type="text" class="form-control" id="state" name="state"
-                                    placeholder="Enter state" required>
-                                </div>
-                                <div class="form-group">
-                                  <label for="pin">Pin:</label>
-                                  <input type="text" class="form-control" id="pin" name="pin"
-                                    placeholder="Enter pin code" required>
-                                </div>
+                    <div class="modal-body">
+                      <div class="container">
+                        <div class="row justify-content-center">
+                          <div class=" ">
+                            <div class="card login-form ">
+                              <div class="card-header bg-white border-0">
+                                <h3 class="text-center mb-0"></h3>
+                              </div>
+                              <div class="card-body ">
+                                <form action="/add-checkoutaddress" method="post">
+                                  <div class="form-group">
+                                    <label for="name">Name:</label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                      placeholder="Enter name" required>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="mobile">Mobile:</label>
+                                    <input type="tel" class="form-control" id="mobile" name="mobile"
+                                      placeholder="Enter mobile" required>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="address">Address line1:</label>
+                                    <input type="text" class="form-control" id="address1" name="address1"
+                                      placeholder="Enter address" required>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="address">Address line2:</label>
+                                    <input type="text" class="form-control" id="address2" name="address2"
+                                      placeholder="Enter address">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="city">City:</label>
+                                    <input type="text" class="form-control" id="city" name="city"
+                                      placeholder="Enter city" required>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="state">State:</label>
+                                    <input type="text" class="form-control" id="state" name="state"
+                                      placeholder="Enter state" required>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="pin">Pin:</label>
+                                    <input type="text" class="form-control" id="pin" name="pin"
+                                      placeholder="Enter pin code" required>
+                                  </div>
 
-                                <button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
-                              </form>
+                                  <button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
+                                </form>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    {{!-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      {{!-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
+
           </div>
 
+          <div class="card mb-4">
+            <div class="card-header">Payment Details</div>
+            <div class="card-body">
+              <h6 class="mb-3">Choose a payment method</h6>
+              <div class="form-check mt-4">
+                <input class="form-check-input" type="radio" name="payment_option" value="cash-on-delivery"
+                  id="cash-on-delivery">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Cash On Delivery
+                </label>
+              </div>
+              <div class="form-check mt-3 mb-3">
+                <input class="form-check-input" type="radio" name="payment_option" value="razorpay" id="razorpay">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Razor Pay
+                </label>
+              </div>
+              {{!-- <div class="form-check mt-3 mb-3">
+                <input class="form-check-input" type="radio" name="payment_option" value="wallet" id="wallet">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Wallet
+                </label>
+              </div> --}}
+              {{!-- <div class="bg-dark text-white p-15 rounded ml-3" style="width: fit-content;">
 
-        </div>
+                <p class="my-2 mx-2" style="font-size: smaller;">Available Balance : <strong>$<span
+                      id="update_wallet">{{userData.wallet}}</span> </strong></p>
 
-        <div class="card mb-4">
-          <div class="card-header">Payment Details</div>
-          <div class="card-body">
-            <h6 class="mb-3">Choose a payment method</h6>
-            <div class="form-check mt-4">
-              <input class="form-check-input" type="radio" name="payment_option" value="cash-on-delivery"
-                id="cash-on-delivery">
-              <label class="form-check-label" for="flexRadioDefault1">
-                Cash On Delivery
-              </label>
+                <input type="hidden" value="{{userData.wallet}}" name="wallet">
+              </div> --}}
+
             </div>
-            <div class="form-check mt-3 mb-3">
-              <input class="form-check-input" type="radio" name="payment_option" value="razorpay" id="razorpay">
-              <label class="form-check-label" for="flexRadioDefault2">
-                Razor Pay
-              </label>
-            </div>
-            {{!-- <div class="form-check mt-3 mb-3">
-              <input class="form-check-input" type="radio" name="payment_option" value="wallet" id="wallet">
-              <label class="form-check-label" for="flexRadioDefault2">
-                Wallet
-              </label>
-            </div> --}}
-            {{!-- <div class="bg-dark text-white p-15 rounded ml-3" style="width: fit-content;">
-
-              <p class="my-2 mx-2" style="font-size: smaller;">Available Balance : <strong>$<span
-                    id="update_wallet">{{userData.wallet}}</span> </strong></p>
-
-              <input type="hidden" value="{{userData.wallet}}" name="wallet">
-            </div> --}}
-
           </div>
+          <span id="order_button">
+            <button onclick="placeOrder()" class="btn btn-primary btn-lg"> Place Order</button>
+          </span>
         </div>
-        <span id="order_button">
-          <button onclick="placeOrder()" class="btn btn-primary btn-lg"> Place Order</button>
-        </span>
-      </div>
-      <div class="col-xl-4">
-        <!-- Profile picture card-->
-        <div class="card mb-4 mb-xl-0">
-          {{!-- <div class="card-header">Your cart</div> --}}
+        <div class="col-xl-4">
+          <!-- Profile picture card-->
+          <div class="card mb-4 mb-xl-0">
+            {{!-- <div class="card-header">Your cart</div> --}}
 
-          <h4 class="d-flex justify-content-between align-items-center mb-3 card-header">
-            <span class=" text-muted">Your cart</span>
-            <span class="badge badge-secondary badge-pill"></span>
-          </h4>
-          <ul class="list-group mb-3">
-            {{#each cart}}
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">{{this.product.name}} x {{this.quantity }}</h6>
-                {{!-- <small class="text-muted">{{this.quantity}} * ${{this.product.price }} </small> --}}
-              </div>
-              <span class="text-muted">₹ {{this.product.price }}</span>
-            </li>
-            {{/each}}
-            {{!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Second product</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-              <span class="text-muted">$8</span>
-            </li> --}}
-            {{!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Third item</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-              <span class="text-muted">$5</span>
-            </li> --}}
-            <li class="list-group-item d-flex justify-content-between bg-light">
-              <div class="text-success">
-                <h6 class="my-0">Coupon code</h6>
-                <span id="copoun_code">
-                  <small></small>
+            <h4 class="d-flex justify-content-between align-items-center mb-3 card-header">
+              <span class=" text-muted">Your cart</span>
+              <span class="badge badge-secondary badge-pill"></span>
+            </h4>
+            <ul class="list-group mb-3">
+              {{#each cart}}
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                  <h6 class="my-0">{{this.product.name}} x {{this.quantity }}</h6>
+                  {{!-- <small class="text-muted">{{this.quantity}} * ${{this.product.price }} </small> --}}
+                </div>
+                <span class="text-muted">₹ {{this.product.price }}</span>
+              </li>
+              {{/each}}
+              {{!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                  <h6 class="my-0">Second product</h6>
+                  <small class="text-muted">Brief description</small>
+                </div>
+                <span class="text-muted">$8</span>
+              </li> --}}
+              {{!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                  <h6 class="my-0">Third item</h6>
+                  <small class="text-muted">Brief description</small>
+                </div>
+                <span class="text-muted">$5</span>
+              </li> --}}
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="text-success">
+                  <h6 class="my-0">Coupon code</h6>
+                  <span id="copoun_code">
+                    <small></small>
+                  </span>
+                </div>
+                <span id="discount_amt">
+                  <span class="text-success"></span>
                 </span>
+
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Total (INR)</span>
+                <span id="new_sub_total">
+                  <span id="total">₹ {{subTotal}}</span>
+                </span>
+                <input type="hidden" name="subTotal" value="{{subTotal}}" id="subTotal">
+              </li>
+            </ul>
+
+            <div class="card p-2">
+              <div class="input-group">
+                <input type="text" id="copon" class="form-control" placeholder="Promo code" name="coupon" required>
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-success ml-2 mt-1">Redeem</button>
+                </div>
               </div>
-              <span id="discount_amt">
-                <span class="text-success"></span>
-              </span>
+              {{!-- <div class="text-center m-2" style="color: red;" id="couponMsg"> </div>
+              <p class="text-center m-2" style="color: green;" id="sCoponMsg"> </p> --}}
 
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>Total (INR)</span>
-              <span id="new_sub_total">
-                <span id="total">₹ {{subTotal}}</span>
-              </span>
-              <input type="hidden" name="subTotal" value="{{subTotal}}" id="subTotal">
-            </li>
-          </ul>
-
-          <div class="card p-2">
-            <div class="input-group">
-              <input type="text" id="copon" class="form-control" placeholder="Promo code" name="coupon" required>
-              <div class="input-group-append">
-                <button  type="button" class="btn btn-success ml-2 mt-1">Redeem</button>
-              </div>
-            </div>
-            {{!-- <div class="text-center m-2" style="color: red;" id="couponMsg"> </div>
-            <p class="text-center m-2" style="color: green;" id="sCoponMsg"> </p> --}}
-
-            <div class="border" style="padding: 10px; border-radius:5px;">
-              <details >
-              <summary>Available coupons</summary>
-              {{!-- {{#if availableCoupons}} --}}
-              {{!-- {{#each availableCoupons}}
-                <div class="d-flex justify-content-between" >
+              <div class="border" style="padding: 10px; border-radius:5px;">
+                <details>
+                  <summary>Available coupons</summary>
+                  {{!-- {{#if availableCoupons}} --}}
+                  {{!-- {{#each availableCoupons}}
+                  <div class="d-flex justify-content-between">
                     <h6 class="my-2">{{this.code}}</h6>
                     <p>Get {{this.discount}}% discount</p>
-                </div>
-              {{/each}} --}}
-              {{!-- {{else}} --}}
-              <h6 class="mb-3">No coupon available</h6>
-              {{!-- {{/if}} --}}
-            </details>
+                  </div>
+                  {{/each}} --}}
+                  {{!-- {{else}} --}}
+                  <h6 class="mb-3">No coupon available</h6>
+                  {{!-- {{/if}} --}}
+                </details>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  </div>
-</body>
+    </div>
+  </body>
 
-</html>
+  </html>
 
 
   <script>
 
-   
-  /*
-   const cashOnDelivery = document.getElementById('cash-on-delivery');
-    const razorpay = document.getElementById('razorpay');
-  
-    cashOnDelivery.addEventListener('change', handleCheckboxChange);
-    razorpay.addEventListener('change', handleCheckboxChange); */
 
-  const paymentOption = document.querySelectorAll('input[name="payment_option"]');
+    /*
+     const cashOnDelivery = document.getElementById('cash-on-delivery');
+      const razorpay = document.getElementById('razorpay');
+    
+      cashOnDelivery.addEventListener('change', handleCheckboxChange);
+      razorpay.addEventListener('change', handleCheckboxChange); */
 
-  let paymentMethod = null;
+    const paymentOption = document.querySelectorAll('input[name="payment_option"]');
 
-  paymentOption.forEach((checkbox) => {
-    checkbox.addEventListener('change', () => {
-      if (checkbox.checked) {
-        paymentMethod = checkbox.value
-        console.log("User selected " + checkbox.value);
-        console.log(paymentMethod, 'payment method..........')
-      } else {
-        console.log("User unchecked " + checkbox.value);
-      }
+    let paymentMethod = null;
+
+    paymentOption.forEach((checkbox) => {
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+          paymentMethod = checkbox.value
+          console.log("User selected " + checkbox.value);
+          console.log(paymentMethod, 'payment method..........')
+        } else {
+          console.log("User unchecked " + checkbox.value);
+        }
+      });
     });
-  });
 
 
 
 
 
-  const placeOrder = () => {
-    if (paymentMethod === 'cash-on-delivery') {
-      Cod()
-    } else {
-      console.log('Invalid payment method.')
+    const placeOrder = () => {
+      if (paymentMethod === 'cash-on-delivery') {
+        Cod()
+      } else if (paymentMethod === "razorpay") {
+        online()
+      } else {
+        console.log('Invalid payment method.')
+      }
     }
-  }
 
 
-  const Cod = async () => {
-    const selectAddress = document.querySelector('#selectedAddress').value
-    const subTotal = Number(document.getElementsByName('subTotal')[0].value)
+    const Cod = async () => {
+      const selectAddress = document.querySelector('#selectedAddress').value
+      const subTotal = Number(document.getElementsByName('subTotal')[0].value)
 
-    const datas = await fetch('/place_order', {
-      method: 'POST',
-      headers: {
-        'Content-Type': "application/json",
-      },
-      body: JSON.stringify({
-        selectedAddress: selectAddress,
-        selectedPayment: paymentMethod,
-        amount: subTotal
+      const datas = await fetch('/place_order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': "application/json",
+        },
+        body: JSON.stringify({
+          selectedAddress: selectAddress,
+          selectedPayment: paymentMethod,
+          amount: subTotal
+        })
       })
-    })
-    const placeOrderData = await datas.json()
-    console.log(placeOrderData+'cheking here......now')
-    if (placeOrderData) {
-      console.log(' hiiii am from place oreder data')
-      window.location.href = '/order_sucess'
+      const placeOrderData = await datas.json()
+      console.log(placeOrderData + 'cheking here......now')
+      if (placeOrderData) {
+        console.log(' hiiii am from place oreder data')
+        window.location.href = '/order_sucess'
+      }
     }
-  }
+
+
+    const online = () => {
+      subTotal = Number(document.getElementsByName('subTotal')[0].value)
+      var options = {
+        "key": "rzp_test_UcDBe76bA1MvsD", // Enter the Key ID generated from the Dashboard
+        "amount": subTotal * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+
+        /*"name": "Acme Corp", //your business name
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",*/
+
+        "order_id": undefined, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response) {
+          Cod()
+        },
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
+    }
 
 
   </script>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   {{>userfooter}}

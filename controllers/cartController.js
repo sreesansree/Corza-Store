@@ -53,7 +53,6 @@ async function addToCart(req, res) {
     const userId = userData._id;
 
     const product = await Product.findById(proId);
-
     const existed = await User.findOne({ _id: userId, 'cart.product': proId });
 
     if (existed) {
@@ -62,7 +61,7 @@ async function addToCart(req, res) {
         { $inc: { 'cart.$.quantity': 1 } },
         { new: true }
       );
-      res.json({ message: 'Item alredy in cart' });
+        res.json({ message: 'Item alredy in cart' });
 
     } else {
       await Product.findByIdAndUpdate(proId, { isOnCart: true });

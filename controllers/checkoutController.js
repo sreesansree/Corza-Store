@@ -2,12 +2,19 @@ const User = require('../model/userModel');
 const Product = require('../model/productModel');
 const Address = require('../model/addressModel');
 const Order = require('../model/orderModel');
+const Razorpay = require('razorpay');
+
+
+
+
+
+
+
 
 const loadCheckout = async (req, res) => {
 
   const userData = req.session.userdata
   const userId = userData._id
-
 
   const addressData = await Address.find({ userId: userId })
   const userDataa = await User.findOne({ _id: userId }).populate("cart.product").lean()
@@ -58,7 +65,7 @@ const checkStock = async (req, res) => {
   // else {
   //   console.log('Rendering checkout page');
   //   res.render('user/checkout/checkout', { userData, cart, addressData, subTotal });
- 
+
   // }
 };
 
@@ -71,7 +78,7 @@ const placeOrder = async (req, res) => {
     const userId = userData._id
     const addressId = req.body.selectedAddress
     const payMethod = req.body.selectedPayment
-    console.log("payment method"+payMethod)
+    console.log("payment method" + payMethod)
 
     const userDataa = await User.findOne({ _id: userId }).populate("cart.product")
     const cartPro = userDataa.cart
@@ -99,10 +106,7 @@ const placeOrder = async (req, res) => {
     const id = Math.floor(100000 + Math.random() * 900000);
     const ordeId = result + id;
 
-
-
     /// order saving function
-
 
     let saveOrder = async () => {
 
@@ -141,7 +145,7 @@ const placeOrder = async (req, res) => {
 
     if (addressId) {
       if (payMethod === 'cash-on-delivery') {
-        console.log('hellooo from cash on delivery..................');
+        console.log('From cash on delivery',151111);
 
         saveOrder()
 
@@ -153,6 +157,29 @@ const placeOrder = async (req, res) => {
 
     }
 
+    if (payMethod === 'razorpay') {
+      console.log('created orderId request Razaorpay',req.body);
+      
+      const amount = req.body.amount; 
+      var instance = new Razorpay({
+        key_id: process.env.RazorpayId,
+        key_secret: process.env.RazorpayKeySecret
+      })
+
+      const order = await instance.orders.create({
+        amount: amount * 100,
+        currency: 'INR',
+        receipt: 'sreesankar',
+      });
+
+      saveOrder()
+
+      res.json({
+        razorPaySucess: true,
+        order,
+        amount,
+      });
+    }
 
   } catch (error) {
     console.log(error);
