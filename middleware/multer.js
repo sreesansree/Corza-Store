@@ -28,23 +28,23 @@ const store = multer({ storage: storage, fileFilter: imageFilter });
 
 
 // image crop  
-// const sharpImage = (req, res, next) => {
-//     req.files.forEach(file => {
-//         const inputBuffer = fs.readFileSync(file.path);
-//         sharp(inputBuffer)
-//             .resize({
-//                 width: 400,
-//                 height: 400,
-//                 fit: cover
-//             })
-//             .toFile(file.path, (err) => {
-//                 if (err) throw err;
-//             });
-//     });
-//     next();
-// };
+const sharpImage = (req, res, next) => {
+    req.files.forEach(file => {
+        const inputBuffer = fs.readFileSync(file.path);
+        sharp(inputBuffer)
+            .resize({
+                width: 400,
+                height: 500,
+                fit: "cover"
+            })
+            .toFile(file.path, (err) => {
+                if (err) throw err;
+            });
+    });
+    next();
+};
 
 module.exports = { 
     store, 
-    // sharpImage
+    sharpImage
  }

@@ -57,9 +57,9 @@ adminRoute.post('/delete', adminauth.isLoginAdmin, categoryController.deleteCate
 //product
 adminRoute.get('/product', adminauth.isLoginAdmin, productController.loadProduct);
 adminRoute.get('/addproduct', adminauth.isLoginAdmin, productController.loadAddProduct);
-adminRoute.post('/addproduct', adminauth.isLoginAdmin, store.store.array('image', 10), productController.addProduct);
+adminRoute.post('/addproduct', adminauth.isLoginAdmin, store.store.array('image', 10),store.sharpImage,productController.addProduct);
 adminRoute.get('/updateProduct/:id', adminauth.isLoginAdmin, productController.loadUpdateProduct);
-adminRoute.post('/updateProduct/:id', adminauth.isLoginAdmin, store.store.array('image', 10), productController.updateProduct)
+adminRoute.post('/updateProduct/:id', adminauth.isLoginAdmin, store.store.array('image', 10),store.sharpImage, productController.updateProduct)
 
 //block product
 adminRoute.get('/blockproduct',adminauth.isLoginAdmin,productController.blockProduct);
