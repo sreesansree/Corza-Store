@@ -34,7 +34,7 @@ const sharpImage = (req, res, next) => {
         sharp(inputBuffer)
             .resize({
                 width: 400,
-                height: 500,
+                height: 495,
                 fit: "cover"
             })
             .toFile(file.path, (err) => {

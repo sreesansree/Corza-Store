@@ -3,15 +3,10 @@ const express = require("express");
 const adminRoute = express();
 
 const adminController = require("../controllers/admin/adminController");
-// const userController = require('../controllers/user/userController');
 const categoryController = require('../controllers/categoryController');
 const productController = require('../controllers/productController');
-const multer = require('multer');
 const session = require('express-session');
-// const config = require('../config/config');
 const adminauth = require('../middleware/adminauth');
-const path = require('path');
-// const productModel = require("../model/productModel");
 const app = express();
 const store = require('../middleware/multer');
 
@@ -28,10 +23,6 @@ app.post('/updateproduct',store.store .array('image'), function (req, res) {
 });
 
 adminRoute.use(session({ secret: process.env.sessionsecret, resave: true, saveUninitialized: false }));
-
-
-
-
 
 
 adminRoute.get('/', adminController.adminLogin)

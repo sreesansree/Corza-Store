@@ -88,7 +88,7 @@ const insertUser = async (req, res) => {
 
         const existUser = await User.findOne({ email: email })
         // req.session.userRegData = userRegData
-        console.log(existUser);
+        console.log(existUser,911);
         if (existUser == null) {
             sendmail(name, email)
 
@@ -98,7 +98,7 @@ const insertUser = async (req, res) => {
             if (existUser.email == email) {
                 res.render('registration', { message1: "User already Exits" })
             }
-        }
+        } 
     }
     catch (error) {
         console.log(error.message);
