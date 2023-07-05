@@ -29,60 +29,59 @@
   </nav>
 
 
-    <div class="col py-3" style="text-align: center;">
+  <div class="col py-3" style="text-align: center;">
 
-            <table class="table table-hover" style="border-top: 1px solid black;">
-                <thead>
-                    <tr>
-                        {{!-- <th scope="col">No</th> --}}
-                        <th scope="col">Date</th>
-                        <th scope="col">Order id</th>
-                        <th scope="col">payment method</th>
-                        <th scope="col">Status</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each ordersData}}
+    <table class="table table-hover" style="border-top: 1px solid black;">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Date</th>
+          <th scope="col">Order id</th>
+          <th scope="col">payment method</th>
+          <th scope="col">Status</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each ordersData}}
 
-                    <tr>
-                        {{!-- <th scope="row">{{add @index 1}}</th> --}}
-                        <td>{{this.date}}</td>
-                        <td>{{this.orderId}}</td>
-                        <td>{{this.paymentMethod}}</td>
-                        <td>{{this.status}}</td>
-                         {{!-- <td>{{this._doc.status}}</td> --}}
-                        <td>
-                            {{!-- <a href="/admin/edit_category/{{this._doc.id}}" type="button"
-                                class="btn btn-warning">Delivered</a> --}}
-                            <a href="/admin/order_details?id={{this._id}}" type="button"
-                                class="btn btn-info">View details</a>
-                        </td>
-                        <td>
-                            <form action="/admin/change_status?id={{this._id}}" class="bg-info" method="post">
-                            <div class="d-flex" style="width: 84%;">
-                                <div style="width: 100%;" class="p-l-15 ">
-                                    <select name="status" class="form-select" aria-label="Default select example">
-                                        <option selected>Change order status</option>
-                                        <option value="Shipped">Shipped</option>
-                                        <option value="Delivered">Delivered</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <button type="submit" class="mx-auto btn btn-danger">submit</button>
-                                </div>
-                            </div>
-                        </form>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
+        <tr>
+          <th scope="row">{{addOne @index}}</th>
+          <td>{{this.date}}</td>
+          <td>{{this.orderId}}</td>
+          <td>{{this.paymentMethod}}</td>
+          <td>{{this.status}}</td>
+          {{!-- <td>{{this._doc.status}}</td> --}}
+          <td>
+            {{!-- <a href="/admin/edit_category/{{this._doc.id}}" type="button" class="btn btn-warning">Delivered</a>
+            --}}
+            <a href="/admin/order_details?id={{this._id}}" type="button" class="btn btn-info">View details</a>
+          </td>
+          <td>
+            <form action="/admin/change_status?id={{this._id}}" class="bg-info" method="post">
+              <div class="d-flex" style="width: 84%;">
+                <div style="width: 100%;" class="p-l-15 ">
+                  <select name="status" class="form-select" aria-label="Default select example">
+                    <option selected>Change order status</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                  </select>
+                </div>
+                <div>
+                  <button type="submit" class="mx-auto btn btn-danger">submit</button>
+                </div>
+              </div>
+            </form>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
 
-      </div>
-    </div>
   </div>
+</div>
+</div>
 
 
 
@@ -91,22 +90,20 @@
 
 
 
-  <!-- JavaScript Libraries -->
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="lib/chart/chart.min.js"></script>
-  <script src="lib/easing/easing.min.js"></script>
-  <script src="lib/waypoints/waypoints.min.js"></script>
-  <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-  <script src="lib/tempusdominus/js/moment.min.js"></script>
-  <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-  <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-  <!-- Template Javascript -->
-  <script src="/admin/js/main.js"></script>
-  <script>
-    Handlebars.registerHelper('add', function (num1, num2) {
-        return num1 + num2;
-    });
+<!-- Template Javascript -->
+<script src="/admin/js/main.js"></script>
+<script>
 
+ 
 </script>

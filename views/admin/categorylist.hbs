@@ -72,6 +72,7 @@
         <table class="table text-start align-middle table-bordered table-hover mb-0">
           <thead>
             <tr class="text-dark text-center">
+              <th scope="col">No</th>
               <th scope="col">Name</th>
               <th scope="col">Image</th>
               <th scope="col">Action</th>
@@ -80,6 +81,8 @@
           {{#each categoryData}}
           <tbody>
             <tr>
+                          <td>{{addOne @index}}</td>
+
               <td>{{this.name}}</td>
               <td><img style="width: 50px;" class="" src="/images/{{this.image}}" alt="hi"></td>
               <td>

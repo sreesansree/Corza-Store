@@ -7,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const hbs = require('hbs');
 const moment = require("moment");
+const { validateHeaderValue } = require('http');
  
 const myOrders = async (req, res) => {
     try {
@@ -26,6 +27,9 @@ const myOrders = async (req, res) => {
     }
 }
 
+hbs.registerHelper("addOne", function (value) {
+  return value + 1;
+});
 
 
 hbs.registerHelper("eq", function (a, b) {

@@ -31,6 +31,7 @@
       <table class="table">
         <thead>
           <tr>
+            <th scope="col">Sl.No</th>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col">Mobile</th>
@@ -43,6 +44,7 @@
           {{#each userData}}
           <tr>
             <ul>
+              <td>{{addOne @index}}</td>
               <td>{{this.name}}</td>
               <td>{{this.email}}</td>
               <td>{{this.mobile}}</td>

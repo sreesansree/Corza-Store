@@ -57,6 +57,20 @@ const adminHome = async (req, res) => {
     }
 }
 
+let months = []
+let odersByMonth = []
+let revnueByMonth = []
+let totalRevnue = 0
+let totalSales = 0
+hbs.registerHelper("json", function (context) {
+    return JSON.stringify(context)
+})
+
+
+
+
+
+
 //users list
 const userList = async (req, res) => {
     try {
@@ -128,50 +142,50 @@ const getOrder = async (req, res) => {
             };
         })
         console.log(ordersData, 1234);
-        res.render("orders", {ordersData,now})
+        res.render("orders", { ordersData, now })
     } catch (error) {
         console.log(error.message);
     }
 }
-const orderdetails = async (req, res) => { 
+const orderdetails = async (req, res) => {
     try {
         const userData = req.session.userdata;
         const orderId = req.query.id;
-    
+
         const myOrderDetails = await Order.findById(orderId);
         const orderedProDet = myOrderDetails.product;
         const addressId = myOrderDetails.address;
-    
+
         const address = await Address.findById(addressId);
-    
+
         res.render("order_Details", {
-          myOrderDetails,
-          orderedProDet,
-          userData,
-          address,
+            myOrderDetails,
+            orderedProDet,
+            userData,
+            address,
         });
-      } catch (error) {
+    } catch (error) {
         console.log(error.message);
-      }
+    }
 }
 
 const changeOrderStatus = async (req, res) => {
     console.log(req.body);
-  
+
     try {
-      const id = req.query.id;
-      const status = req.body.status;
-  
-      const order = await Order.findByIdAndUpdate(
-        id,
-        { $set: { status: status } },
-        { new: true }
-      );
-      res.redirect("/admin/orders");
+        const id = req.query.id;
+        const status = req.body.status;
+
+        const order = await Order.findByIdAndUpdate(
+            id,
+            { $set: { status: status } },
+            { new: true }
+        );
+        res.redirect("/admin/orders");
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
-  };
+};
 
 
 module.exports = {
