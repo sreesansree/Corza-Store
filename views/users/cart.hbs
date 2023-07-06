@@ -142,16 +142,11 @@
 									<th class="column-4">Quantity</th>
 									<th class="column-5">Total</th>
 									<th class="column-2"> </th>
-
 								</tr>
-
-
-
 								{{#each cart}}
 								<input type="hidden" value="{{this.product}}" name="cart_dataaa">
-
-
 								<tr id="row{{this.product._id}}" class="table_row">
+
 									<td class="column-1">
 										<div class="" ,>
 											<a href="/productview?id={{this.product._id}}"><img
@@ -159,6 +154,7 @@
 													src="/images/{{this.product.image.[0]}}" alt="IMG"></a>
 										</div>
 									</td>
+
 									<td class="column-2">{{this.product.name}}</td>
 									<td id="price" class="column-3" value="{{this.product.price}}">₹
 										{{this.product.price}}</td>
@@ -357,35 +353,42 @@
 
 		const totalPrice = async (id, act, stock) => {
 			const elem = document.getElementById(id)
-			if (act == 'inc')
-			elem.value ? elem.value = Number(elem.value) + 1 : '' 
-			else if (act == 'dec')
-			elem.value > 1 ? elem.value = Number(elem.value) - 1 : ''
+
+			//	if (act == 'inc')
+			//	elem.value ? elem.value = Number(elem.value) + 1 : ''
+			//else if (act == 'dec')
+			//	elem.value > 1 ? elem.value = Number(elem.value) - 1 : ''
+			const currentValue = Number(elem.value);
+			if (act == 'inc' && currentValue < stock) {
+				elem.value = currentValue + 1
+			} else if (act == 'dec' && currentValue > 1) {
+				elem.value = currentValue - 1
+			}
 
 
-		let subTotal = 0
-		let datas = []
-		let length = document.getElementsByName('productTotal').length
-		for (let i = 0; i < length; i++) {
-			document.getElementsByName('productTotal')[i].innerText = Number(document.getElementsByName('num-product')[i].value) * Number(document.getElementsByName('productprice')[i].value)
-			subTotal = subTotal + Number(document.getElementsByName('productTotal')[i].innerText)
-			datas.push({
-				id: document.getElementsByName('productId')[i].value,
-				quantity: Number(document.getElementsByName('num-product')[i].value)
+			let subTotal = 0
+			let datas = []
+			let length = document.getElementsByName('productTotal').length
+			for (let i = 0; i < length; i++) {
+				document.getElementsByName('productTotal')[i].innerText = Number(document.getElementsByName('num-product')[i].value) * Number(document.getElementsByName('productprice')[i].value)
+				subTotal = subTotal + Number(document.getElementsByName('productTotal')[i].innerText)
+				datas.push({
+					id: document.getElementsByName('productId')[i].value,
+					quantity: Number(document.getElementsByName('num-product')[i].value)
+				})
+			}
+			document.getElementById('subTotal').innerText = subTotal
+
+			let data = await fetch('/cart_updation', {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					datas
+				})
 			})
-		}
-		document.getElementById('subTotal').innerText = subTotal
-
-		let data = await fetch('/cart_updation', {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				datas
-			})
-		})
-		let Data = await data.json()
+			let Data = await data.json()
 		}
 
 
