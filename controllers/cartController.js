@@ -3,7 +3,8 @@ const Product = require('../model/productModel');
 const Category = require('../model/categoryModel');
 
 const Swal = require('sweetalert2')
-const hbs = require('hbs')
+const hbs = require('hbs');
+const { log } = require('handlebars/runtime');
 // define a helper function
 hbs.registerHelper("calculateItemPrice", function (item) {
   return item.product.price * item.quantity;
@@ -83,68 +84,70 @@ async function addToCart(req, res) {
 
 
 
-// const removeCart = async (req, res) => {
-//  try {
-//   const userData =req.session.userdata
-//   const userId   = userData._id
-//   const proId    = req.query.proId
-//   const cartId   = req.query.cartId
-
-//   await Product.findOneAndUpdate(
-//     { _id: proId },
-//     { $set: { isOnCart: false } },
-//     { new: true }
-//   );
-
-//  await User.updateOne({_id: userId}, {$pull: {cart: {_id: cartId}}})
-//   res.json('item removed')
-
-//  } catch (error) {
-//   console.log(error);
-//  }
-// }
 const removeCart = async (req, res) => {
-  try {
-    if (req.session.userdata) {
-      const userId = req.session.userdata._id;
-      const cartItemId = req.query.id;
+ try {
+  const userData =req.session.userdata
+  const userId   = userData._id
+  const proId    = req.query.proId
+  const cartId   = req.query.cartId
+// console.log(proId,"proId 9333 ");
+// console.log(cartId,"CartId 94444")
+  await Product.findOneAndUpdate(
+    { _id: proId },
+    { $set: { isOnCart: false } },
+    { new: true }
+  );
 
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: userId },
-        { $pull: { cart: { product: cartItemId } } },
-        { new: true }
-      );
+ await User.updateOne({_id: userId}, {$pull: {cart: {_id: cartId}}})
+  res.json('item removed')
 
-      req.session.userdata = updatedUser;
-      const user = await User.findOne({ _id: userId }).populate("cart.product");
-      const cart = user.cart;
-      let cartTotal = 0;
-      for (let i = 0; i < cart.length; i++) {
-        const item = cart[i];
-        const product = item.product;
-        const quantity = item.quantity;
-        const total = product.price * quantity; // Calculate the total for the current item
-        item.total = total; // Add the total to the item object
-        cartTotal += total; // Add the total to the cart total variable
-      }
+ } catch (error) {
+  console.log(error);
+ }
+}
+
+// const removeCart = async (req, res) => {
+//   try {
+//     if (req.session.userdata) {
+//       const userId = req.session.userdata._id;
+//       const cartItemId = req.query.id;
+
+//       const updatedUser = await User.findOneAndUpdate(
+//         { _id: userId },
+//         { $pull: { cart: { product: cartItemId } } },
+//         { new: true }
+//       );
+
+//       req.session.userdata = updatedUser;
+//       const user = await User.findOne({ _id: userId }).populate("cart.product");
+//       const cart = user.cart;
+//       let cartTotal = 0;
+//       for (let i = 0; i < cart.length; i++) {
+//         const item = cart[i];
+//         const product = item.product;
+//         const quantity = item.quantity;
+//         const total = product.price * quantity; // Calculate the total for the current item
+//         item.total = total; // Add the total to the item object
+//         cartTotal += total; // Add the total to the cart total variable
+//       }
 
 
-      res.render("cart", {
-        userData: req.session.userdata,
-        cartItems: cart,
-        cartTotal,
-      });
-    } else {
-      throw new Error('User not logged in');
-    }
-  } catch (error) {
+//       res.render("cart", {
+//         userData: req.session.userdata,
+//         cartItems: cart,
+//         cartTotal,
+//       });
+//     } else {
+//       throw new Error('User not logged in');
+//     }
+//   } catch (error) {
 
-    res.status(500).send('An error occurred while removing item from cart');
-  }
-};
+//     res.status(500).send('An error occurred while removing item from cart');
+//   }
+// };
 
 
-const cartUpdation = async (req, res) => {
+const updateCart = async (req, res) => {
   try {
     const userData = req.session.userdata;
     let data = await User.find(
@@ -176,6 +179,6 @@ module.exports = {
   addToCart,
   loadCart,
   removeCart,
-  cartUpdation
+  updateCart
 
 };

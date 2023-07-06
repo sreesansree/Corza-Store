@@ -63,7 +63,7 @@ userRoute.get('/women',catFilterController.loadWomCat);
 userRoute.get('/cart', auth.logedin, auth.checkBlocked, cartController.loadCart)  
 userRoute.get('/add_to_cart', auth.logedin, auth.checkBlocked, cartController.addToCart) 
 userRoute.get('/remove', auth.isLogin, auth.checkBlocked, cartController.removeCart)
-userRoute.post('/cart_updation', auth.logedin, auth.checkBlocked, cartController.cartUpdation)
+userRoute.post('/cart_updation', auth.logedin, auth.checkBlocked, cartController.updateCart)
 
 
 //profile

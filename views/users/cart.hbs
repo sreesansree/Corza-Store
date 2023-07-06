@@ -141,12 +141,15 @@
 									<th class="column-3">Price</th>
 									<th class="column-4">Quantity</th>
 									<th class="column-5">Total</th>
-									<th class="column-2"></th>
+									<th class="column-2"> </th>
 
 								</tr>
 
+
+
 								{{#each cart}}
 								<input type="hidden" value="{{this.product}}" name="cart_dataaa">
+
 
 								<tr id="row{{this.product._id}}" class="table_row">
 									<td class="column-1">
@@ -170,9 +173,11 @@
 												onclick="totalPrice('{{this.product._id}}','dec')">
 												<i class="fs-16 zmdi zmdi-minus"></i>
 											</div>
+
 											<input disabled="" id="{{this.product._id}}"
 												class="mtext-104 cl3 txt-center num-product" type="number"
 												name="num-product" value="{{this.quantity}}">
+
 											<div class="p-3 cl8 hov-btn3 trans-04 flex-c-m"
 												onclick="totalPrice('{{this.product._id}}','inc','{{this.product.quantity}}')">
 												<i class="fs-16 zmdi zmdi-plus"></i>
@@ -194,8 +199,6 @@
 										<a onclick="removeCartalert('{{this.product._id}}')"
 											class="btn btn-outline-secondary btn-sm m-0">Remove</a>
 									</td>
-
-
 
 								</tr>
 								{{/each }}
@@ -354,7 +357,7 @@
 
 		const totalPrice = async (id, act, stock) => {
 			const elem = document.getElementById(id)
-			if (act == 'inc') { { !--stock > --} }
+			if (act == 'inc')
 			elem.value ? elem.value = Number(elem.value) + 1 : '' 
 			else if (act == 'dec')
 			elem.value > 1 ? elem.value = Number(elem.value) - 1 : ''
