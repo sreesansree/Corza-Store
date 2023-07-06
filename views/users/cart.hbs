@@ -464,7 +464,7 @@
 
 			const data = await response.json()
 
-			if (data == 'ok') {
+			if (response.status == 200) {
 				window.location.href = '/checkout'
 			} else {
 				console.log(data)

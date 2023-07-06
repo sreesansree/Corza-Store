@@ -66,6 +66,8 @@ userRoute.get('/remove', auth.isLogin, auth.checkBlocked, cartController.removeC
 userRoute.post('/cart_updation', auth.logedin, auth.checkBlocked, cartController.updateCart)
 
 
+
+
 //profile
 userRoute.get('/profile', auth.isLogin, profileController.loadProfile);
 userRoute.get('/edit_details', auth.isLogin, profileController.editDetails);

@@ -13,7 +13,8 @@ const Razorpay = require('razorpay');
 
 const loadCheckout = async (req, res) => {
 
-  const userData = req.session.userdata
+  const user = req.session.userdata
+  const userData = await User.findById({ _id: user._id })
   const userId = userData._id
 
   const addressData = await Address.find({ userId: userId })
@@ -31,7 +32,8 @@ const loadCheckout = async (req, res) => {
 
 
 const checkStock = async (req, res) => {
-  const userData = req.session.userdata;
+  const user = req.session.userdata
+  const userData = await User.findById({ _id: user._id })
   const userId = userData._id;
 
   const addressData = await Address.find({ userId: userId });
@@ -56,9 +58,9 @@ const checkStock = async (req, res) => {
 
   console.log(stock, 'stockk');
 
-  if (stock.length > 0) {
+  if (stock.length >= 0) {
     console.log('Sending JSON response with stock array');
-    res.json(stock);
+    res.status(200).json(stock);
   } else {
     res.json('ok')
   }
@@ -74,7 +76,8 @@ const checkStock = async (req, res) => {
 const placeOrder = async (req, res) => {
 
   try {
-    const userData = req.session.userdata
+    const user = req.session.userdata
+    const userData = await User.findById({ _id: user._id })
     const userId = userData._id
     const addressId = req.body.selectedAddress
     const payMethod = req.body.selectedPayment
@@ -145,7 +148,7 @@ const placeOrder = async (req, res) => {
 
     if (addressId) {
       if (payMethod === 'cash-on-delivery') {
-        console.log('From cash on delivery',151111);
+        console.log('From cash on delivery', 151111);
 
         saveOrder()
 
@@ -158,9 +161,9 @@ const placeOrder = async (req, res) => {
     }
 
     if (payMethod === 'razorpay') {
-      console.log('created orderId request Razaorpay',req.body);
-      
-      const amount = req.body.amount; 
+      console.log('created orderId request Razaorpay', req.body);
+
+      const amount = req.body.amount;
       var instance = new Razorpay({
         key_id: process.env.RazorpayId,
         key_secret: process.env.RazorpayKeySecret

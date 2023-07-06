@@ -201,7 +201,8 @@ const loadHome = async (req, res) => {
     try {
         const loadProData = await Product.find()
         const loadCatData = await Category.find()
-        const userData = req.session.userdata
+        const user = req.session.userdata
+        const userData = await User.findById({_id:user._id})
         if (userData) {
             res.render('home', { userData, loadCatData, loadProData })
         } else {
@@ -228,7 +229,8 @@ const getProduct = async (req, res) => {
         // console.log(loadCatData,261);
         const proData = await Product.find({ is_blocked: false });
         console.log(proData, 263);
-        const userData = req.session.userdata
+        const user = req.session.userdata
+        const userData = await User.findById({_id:user._id})
         res.render('products', { proData, userData, loadCatData })
     } catch (error) {
         console.log(error.message);
@@ -239,8 +241,8 @@ const ProductView = async (req, res) => {
     try {
         const proId = req.query.id
         const proData = await Product.findById(proId)
-        const userData = req.session.userdata
-
+        const user = req.session.userdata
+        const userData = await User.findById({_id:user._id})
         if (req.session.userdata) {
             res.render('productDetail', { proData, userData })
         } else {

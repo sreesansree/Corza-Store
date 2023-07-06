@@ -16,11 +16,14 @@ hbs.registerHelper("calculateItemPrice", function (item) {
 
 
 
+
 const loadCart = async (req, res) => {
   try {
-    const userData = req.session.userdata
     const userId = req.query.id
     console.log(userId);
+
+    const user1 = req.session.userdata
+    const userData = await User.findById({ _id: user1._id })
 
     const user = await User.findOne({ _id: userId }).populate('cart.product').lean()
     const cart = user.cart; // Get the 'cart' array from the user document
@@ -49,7 +52,8 @@ const loadCart = async (req, res) => {
 async function addToCart(req, res) {
   try {
 
-    const userData = req.session.userdata;
+    const user = req.session.userdata
+    const userData = await User.findById({ _id: user._id })
     const proId = req.query.id;
     const userId = userData._id;
 
@@ -62,7 +66,7 @@ async function addToCart(req, res) {
         { $inc: { 'cart.$.quantity': 1 } },
         { new: true }
       );
-        res.json({ message: 'Item alredy in cart' });
+      res.json({ message: 'Item alredy in cart' });
 
     } else {
       await Product.findByIdAndUpdate(proId, { isOnCart: true });
@@ -85,26 +89,33 @@ async function addToCart(req, res) {
 
 
 const removeCart = async (req, res) => {
- try {
-  const userData =req.session.userdata
-  const userId   = userData._id
-  const proId    = req.query.proId
-  const cartId   = req.query.cartId
-// console.log(proId,"proId 9333 ");
-// console.log(cartId,"CartId 94444")
-  await Product.findOneAndUpdate(
-    { _id: proId },
-    { $set: { isOnCart: false } },
-    { new: true }
-  );
+  try {
+    const user = req.session.userdata
+    const userData = await User.findById({ _id: user._id })
+    const userId = userData._id;
+    const proId = req.query.proId;
+    const cartId = req.query.cartId;
 
- await User.updateOne({_id: userId}, {$pull: {cart: {_id: cartId}}})
-  res.json('item removed')
+    await Product.findOneAndUpdate(
+      { _id: proId, isOnCart: true }, // Ensure the product is still in the cart
+      { $set: { isOnCart: false } },
+      { new: true }
+    );
 
- } catch (error) {
-  console.log(error);
- }
-}
+    await User.updateOne(
+      { _id: userId },
+      { $pull: { cart: { product: proId } } }
+    );
+
+
+
+    res.json('item removed');
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'An error occurred while removing the item from the cart.' });
+  }
+};
+
 
 // const removeCart = async (req, res) => {
 //   try {
@@ -149,7 +160,8 @@ const removeCart = async (req, res) => {
 
 const updateCart = async (req, res) => {
   try {
-    const userData = req.session.userdata;
+    const user = req.session.userdata
+    const userData = await User.findById({ _id: user._id })
     let data = await User.find(
       { _id: userData._id },
       { _id: 0, cart: 1 }
