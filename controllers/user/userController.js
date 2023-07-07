@@ -202,7 +202,8 @@ const loadHome = async (req, res) => {
         const loadProData = await Product.find()
         const loadCatData = await Category.find()
         const user = req.session.userdata
-        const userData = await User.findById({_id:user._id})
+        const userId = user?._id
+        const userData = await User.findById({_id:userId})
         if (userData) {
             res.render('home', { userData, loadCatData, loadProData })
         } else {

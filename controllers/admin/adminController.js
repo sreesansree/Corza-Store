@@ -26,7 +26,7 @@ const verifyadmin = async (req, res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
-        console.log(req.body);
+        
 
         const adminData = await Admin.findOne({ email: email })
         console.log(adminData);
@@ -36,7 +36,7 @@ const verifyadmin = async (req, res) => {
             if (password == adminData.password) {
                 req.session.adminLogin = true;
                 req.session.admin = adminData;
-                res.render('adminhome')
+                res.redirect('/admin/adminhome')
             } else {
                 res.render('login', ({ messageErr: 'Please check your password' }))
             }
@@ -50,25 +50,11 @@ const verifyadmin = async (req, res) => {
 // to get home page
 const adminHome = async (req, res) => {
     try {
-
         res.render('adminhome');
     } catch (error) {
         console.log(error.message);
     }
 }
-
-let months = []
-let odersByMonth = []
-let revnueByMonth = []
-let totalRevnue = 0
-let totalSales = 0
-hbs.registerHelper("json", function (context) {
-    return JSON.stringify(context)
-})
-
-
-
-
 
 
 //users list
@@ -113,8 +99,7 @@ const unblockUser = async (req, res) => {
 
 const loadDashboard = async (req, res) => {
     try {
-        res.render('admin/dashboard')
-
+        res.render('dashboard')
     } catch (error) {
         console.log(error.message);
     }

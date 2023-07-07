@@ -5,6 +5,7 @@ const adminRoute = express();
 const adminController = require("../controllers/admin/adminController");
 const categoryController = require('../controllers/categoryController');
 const productController = require('../controllers/productController');
+const dashboardController = require('../controllers/admin/dashboardController');
 const session = require('express-session');
 const adminauth = require('../middleware/adminauth');
 const app = express();
@@ -28,8 +29,10 @@ adminRoute.use(session({ secret: process.env.sessionsecret, resave: true, saveUn
 adminRoute.get('/', adminController.adminLogin)
 adminRoute.post('/', adminauth.isLogoutAdmin, adminController.verifyadmin);
 
-adminRoute.get('/adminhome', adminauth.isLoginAdmin, adminController.adminHome)
-adminRoute.get('/dashboard', adminauth.isLoginAdmin, adminController.loadDashboard)
+adminRoute.get('/adminhome',adminauth.isLoginAdmin,adminController.adminHome)
+adminRoute.get('/dashboard', adminauth.isLoginAdmin, dashboardController.loadDashboard) 
+
+// adminRoute.get('/dashboard', adminauth.isLoginAdmin, adminController.loadDashboard)
 adminRoute.get('/users', adminauth.isLoginAdmin, adminController.userList)
 adminRoute.get("/logout", adminauth.isLoginAdmin, adminController.adminLogout);
 
@@ -61,6 +64,8 @@ adminRoute.get('/orders',adminauth.isLoginAdmin,adminController.getOrder);
 adminRoute.get('/order_Details',adminauth.isLoginAdmin,adminController.orderdetails)
 adminRoute.post('/change_status',adminauth.isLoginAdmin,adminController.changeOrderStatus)
 
-
+//salesDashboard
+// adminRoute.get('/get_sales',dashboardController.getSales);
+// adminRoute.get('/get_chart_data',dashboardController.getChartData);
 
 module.exports = adminRoute;
