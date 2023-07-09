@@ -106,9 +106,7 @@ const removeCart = async (req, res) => {
       { _id: userId },
       { $pull: { cart: { product: proId } } }
     );
-
-
-
+      
     res.json('item removed');
   } catch (error) {
     console.log(error);
