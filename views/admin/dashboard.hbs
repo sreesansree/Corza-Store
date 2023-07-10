@@ -28,23 +28,210 @@
         </div>
     </nav>
     <!-- Navbar End -->
-<h1># Dashboard</h1>
+    <h1># Dashboard</h1>
+
+    <div class="container-xl px-4" style="margin-top: 10px; margin-bottom: 150px;">
+
+        <div class="row">
 
 
+            <div class="col-xl-3 mb-5 mt-5">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">This Month Revenue</div>
+                    <div class="card-body ml-3 p-5">
+                        <h2>₹{{thisMonthSales}}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 mt-5">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">This Month sales</div>
+                    <div class="card-body ml-3 p-5">
+                        <h2>{{thisMonthOrder}}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 mt-5">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Total Revenue</div>
+                    <div class="card-body ml-3 p-5">
+                        <h2>₹{{totalRevnue}}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 mt-5">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Total sales</div>
+                    <div class="card-body ml-3 p-5">
+                        <h2>{{totalSales}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-6">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Monthly Sales </div>
+                    <div class="card-body ml-3 p-5">
+                        <canvas id="myChart"></canvas>
+
+                    </div>
+                </div>
+            </div>
 
 
+            <div class="col-xl-6">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Monthly Revenue</div>
+                    <div class="card-body ml-3 p-5">
+                        <canvas id="myChart1"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Used Payment Method</div>
+                    <div class="card-body ml-3 p-5">
+                        <canvas id="myChart3"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/javascripts/chart.js"></script>
+    <script>
+
+        let pieCount
+        let paymentType
+        let months
+        let ordersByMonth
+        let revenueByMonth
+
+        const getChartData = async () => {
+            const response = await fetch('/admin/getChartData', {
+                headers: { 'Content-Type': "application/json" },
+            })
+
+            const data = await response.json()
+
+            months = data.months
+            console.log(typeof months, months)
+            ordersByMonth = data.odersByMonth
+            revenueByMonth = data.revnueByMonth
+
+            //graph functions
+            salesGraph(months, ordersByMonth)
+            revenue(months, revenueByMonth)
+            revenue(months, revenueByMonth)
+
+        }
+
+        getChartData()
 
 
+        async function getpieChartData() {
+            await fetch("/admin/fetchpieChartData", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {}
+                )
+            }).then((res) => res.json()).then((res) => {
+                pieCount = res.result.map(item => item.count);
+                paymentType = res.result.map(item => item._id);
+                orderpieChart(pieCount, paymentType)
+            })
+        }
+        getpieChartData()
+
+        function salesGraph(months, ordersByMonth) {
+            const ctx = document.getElementById('myChart1');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'orders',
+                        data: ordersByMonth,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            })
+        }
 
 
+        function revenue(months, revenueByMonth) {
+            const ctx1 = document.getElementById('myChart');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: '# Revenue',
+                        data: revenueByMonth,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        function orderpieChart(pieCount, paymentType) {
+            const ctx1 = document.getElementById('myChart3');
+            new Chart(ctx1, {
+                type: 'pie',
+                data: {
+                    labels: paymentType,
+                    datasets: [{
+                        label: '# Revenue',
+                        data: pieCount,
+                        borderWidth: 1,
+                        backgroundColor: ['red', 'blue', 'green', 'yellow'],// Example color values for four payment types
+
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 
 
 </div>
 <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-
-
-
-
 
 
 <!-- JavaScript Libraries -->

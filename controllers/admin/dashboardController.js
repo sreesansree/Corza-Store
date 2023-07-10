@@ -5,6 +5,7 @@ const PDFDocument = require('pdfkit');
 const hbs = require('hbs');
 
 
+
 hbs.registerHelper("json", function (context) {
     return JSON.stringify(context)
 })
@@ -12,6 +13,7 @@ hbs.registerHelper("json", function (context) {
 
 const loadDashboard = async (req, res) => {
     try {
+
         res.render('dashboard')
     } catch (error) {
         console.log(error.message);
