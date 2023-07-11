@@ -1,0 +1,123 @@
+{{>adminheader}}
+
+
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+        {{!-- <form class="d-none d-md-flex ms-4">
+            <input class="form-control border-0" type="search" placeholder="Search">
+        </form> --}}
+        <div class="navbar-nav align-items-center ms-auto">
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <span class="d-none d-lg-inline-flex">Sree San</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                    {{!-- <a href="#" class="dropdown-item">My Profile</a> --}}
+                    {{!-- <a href="#" class="dropdown-item">Settings</a> --}}
+                    <a href="/admin/logout" class="dropdown-item">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+  
+
+{{#if dailyorders}}
+<a class="btn btn-secondary ml-3 mt-3"  href="/admin/dailysales/download">Xls</a>
+<button class="btn btn-success ml-3 mt-3" onclick="printPage()">Print</button>
+<div class="container mt-3">
+
+  <table class="table">
+  <thead>
+    <tr>
+
+      <th scope="col">Total Order</th>
+      <th scope="col"></th>
+      <th scope="col">Total Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{dailyorders.length}}</td>
+      <td></td>
+      <td>{{totalOrderBill}}</td>
+    </tr>
+
+  </tbody>
+</table>
+
+
+    <table class="table">
+        <thead class="thead-dark">
+
+            <tr>
+                <th scope="col">ORDER ID</th>
+                <th scope="col">DELIVERY NAME</th>
+
+                <th scope="col">ORDER DATE</th>
+                <th scope="col">DISCOUNT</th>
+                <th scope="col">TOTAL BILL</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {{#each dailyorders}}
+            <tr>
+
+                <td>{{this.orderId}}</td>
+                <td>{{this.address.name}}</td>
+                <td>{{this.orderDate}}</td>
+                <td>{{this.discount}}</td>
+                <td>{{this.orderBill}}</td>
+
+
+            </tr>
+                  {{/each}}
+
+
+
+        </tbody>
+
+
+    </table>
+</div>
+{{else}}
+<div class="container p-5">
+    <h2>Nothing Here</h2>
+</div>
+{{/if}}
+
+</div>
+<script>
+    function printPage() {
+  window.print();
+}
+
+</script>
+
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<script src="/admin/js/main.js"></script>
+{{>adminfooter}}

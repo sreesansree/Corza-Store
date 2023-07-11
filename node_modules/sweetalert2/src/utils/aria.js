@@ -1,4 +1,5 @@
 import { getContainer } from './dom/getters.js'
+import { toArray } from './utils.js'
 
 // From https://developer.paciellogroup.com/blog/2018/06/the-current-state-of-modal-dialog-accessibility/
 // Adding aria-hidden="true" to elements outside of the active modal dialog ensures that
@@ -6,7 +7,7 @@ import { getContainer } from './dom/getters.js'
 // reader’s list of elements (headings, form controls, landmarks, etc.) in the document.
 
 export const setAriaHidden = () => {
-  const bodyChildren = Array.from(document.body.children)
+  const bodyChildren = toArray(document.body.children)
   bodyChildren.forEach((el) => {
     if (el === getContainer() || el.contains(getContainer())) {
       return
@@ -20,7 +21,7 @@ export const setAriaHidden = () => {
 }
 
 export const unsetAriaHidden = () => {
-  const bodyChildren = Array.from(document.body.children)
+  const bodyChildren = toArray(document.body.children)
   bodyChildren.forEach((el) => {
     if (el.hasAttribute('data-previous-aria-hidden')) {
       el.setAttribute('aria-hidden', el.getAttribute('data-previous-aria-hidden'))

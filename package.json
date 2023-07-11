@@ -11,18 +11,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "argon2": "^0.30.3",
-    "bcrypt": "^5.1.0",
+    "argon2": "^0.27.1",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.20.2",
     "chart.js": "^4.3.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
-    "ejs": "^3.1.9",
+    "exceljs": "^4.3.0",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "handlebars": "^4.7.7",
     "hbs": "^4.2.0",
-    "jquery-zoom": "^1.7.21",
     "moment": "^2.29.4",
     "mongodb": "^5.4.0",
     "mongoose": "^7.1.0",
@@ -30,11 +29,11 @@
     "multer": "^1.4.5-lts.1",
     "nocache": "^3.0.4",
     "nodemailer": "^6.9.2",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.0.1",
     "pdfkit": "^0.13.0",
-    "razorpay": "^2.8.6",
+    "razorpay": "^2.9.0",
     "sharp": "^0.32.1",
     "sweet-alert": "^2.0.5",
-    "sweetalert2": "^11.7.8"
+    "sweetalert2": "^11.4.8"
   }
 }

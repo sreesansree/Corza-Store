@@ -1,5 +1,30 @@
 {{>adminheader}}
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  /* Center the header title */
+  .header {
+    text-align: center;
+  }
+
+  /* Style the header title */
+  .header h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+    padding: 20px 0;
+  }
+
+  /* Add a border to the header */
+  .header {
+    border-bottom: 1px solid #ccc;
+  }
+</style>
+
 
 <div class="content">
     <!-- Navbar Start -->
@@ -28,211 +53,192 @@
         </div>
     </nav>
     <!-- Navbar End -->
-    <h1># Dashboard</h1>
+  
 
-    <div class="container-xl px-4" style="margin-top: 10px; margin-bottom: 150px;">
-
-        <div class="row">
-
-
-            <div class="col-xl-3 mb-5 mt-5">
-                <!-- Account details card-->
-                <div class="card mb-4">
-                    <div class="card-header">This Month Revenue</div>
-                    <div class="card-body ml-3 p-5">
-                        <h2>₹{{thisMonthSales}}</h2>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 mt-5">
-                <!-- Account details card-->
-                <div class="card mb-4">
-                    <div class="card-header">This Month sales</div>
-                    <div class="card-body ml-3 p-5">
-                        <h2>{{thisMonthOrder}}</h2>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 mt-5">
-                <!-- Account details card-->
-                <div class="card mb-4">
-                    <div class="card-header">Total Revenue</div>
-                    <div class="card-body ml-3 p-5">
-                        <h2>₹{{totalRevnue}}</h2>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 mt-5">
-                <!-- Account details card-->
-                <div class="card mb-4">
-                    <div class="card-header">Total sales</div>
-                    <div class="card-body ml-3 p-5">
-                        <h2>{{totalSales}}</h2>
-                    </div>
-                </div>
-            </div>
+<div class="container">
+  <div class="header">
+    <h1>Welcome Dashboard</h1>
+  </div>
+  <div class="row row-cols-1 row-cols-md-4 g-4 mt-4">
+    <div class="col">
+      <div class="card" style="background-color: aqua;">
+        <div class="card-body" style="text-align: center;">
+          <h2 class="card-title">Toal Users</h2>
+          <h3 class="card-text">{{users}}</h3>
         </div>
-
-        <div class="row">
-            <div class="col-xl-6">
-                <!-- Account details card-->
-                <div class="card mb-4">
-                    <div class="card-header">Monthly Sales </div>
-                    <div class="card-body ml-3 p-5">
-                        <canvas id="myChart"></canvas>
-
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-xl-6">
-                <!-- Account details card-->
-                <div class="card mb-4">
-                    <div class="card-header">Monthly Revenue</div>
-                    <div class="card-body ml-3 p-5">
-                        <canvas id="myChart1"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-6">
-                <!-- Account details card-->
-                <div class="card mb-4">
-                    <div class="card-header">Used Payment Method</div>
-                    <div class="card-body ml-3 p-5">
-                        <canvas id="myChart3"></canvas>
-                    </div>
-                </div>
-            </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card" style="background-color: yellow;">
+        <div class="card-body" style="text-align: center;">
+          <h2 class="card-title">Total Products</h2>
+          <h3 class="card-text">{{products}}</h3>
         </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card  " style="background-color: green;">
+        <div class="card-body" style="text-align: center;">
+          <h2 class="card-title">Total orders</h2>
+          <h3 class="card-text">{{orders}}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card " style="background-color: brown;">
+        <div class="card-body" style="text-align: center;">
+          <h2 class="card-title">Total Revenue</h3>
+            <h3 class="card-text">{{totalRevenue}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-9 offset-2 my-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 style="text-align: center;">Sales Data</h5>
+        <hr>
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="raw d-flex">
+
+    <div class="col-3 offset-2 my-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 style="text-align: center;">Payment Data</h5>
+          <hr>
+          <canvas id="myChart2"></canvas>
+          <input id="cashondelivery" type="hidden" name="cashondelivery" value="{{cashOnDeliveryCount}}">
+          <input id="razorpay" type="hidden" name="razorpay" value="{{razorPayCount}}">
+        </div>
+      </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/javascripts/chart.js"></script>
-    <script>
+    <div class="col-3 offset-2 my-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 style="text-align: center;">Category wise Sales</h5>
+          <hr>
+          <canvas id="myChart3"></canvas>
+        </div>
+      </div>
+    </div>
 
-        let pieCount
-        let paymentType
-        let months
-        let ordersByMonth
-        let revenueByMonth
+  </div>
+  <div class="raw">
+    <div class="col-10 my-3 offset-2">
+      <div class="card">
+        <div class="card-body">
+          <h5 style="text-align: center;">Sales Report</h5>
+          <hr>
+          <div>
+            <form action="/admin/daily-report" method="post">
+              <label for="daily">Daily sales</label>
+              <input class="ml-5 mt-2" type="date" name="daily" id="daily">
+              <button class="btn btn-primary ml-auto" type="submit" style="margin-left: 10px;">View</button>
+            </form>
+          </div>
+          <div>
+            <form action="/admin/monthly-report" method="post">
+              <label for="monthly">Monthly sales</label>
+              <input class="ml-4 mt-2" type="month" name="month" id="month">
+              <button class="btn btn-primary ml-auto " type="submit" style="margin-left: 10px;">View</button>
+            </form>
+          </div>
+          <div>
+            <form action="/admin/yearly-report" method="post">
+              <label for="yearly">Yearly sales</label>
+              <input class="ml-5 mt-2" type="number" name="yearly" id="yearly" min="2010" max="2023" value="2023">
+              <button  class="btn btn-primary ml-auto" type="submit">View</button>
+            </form>
 
-        const getChartData = async () => {
-            const response = await fetch('/admin/getChartData', {
-                headers: { 'Content-Type': "application/json" },
-            })
+          </div>
 
-            const data = await response.json()
+        </div>
+      </div>
+    </div>
+  </div>
 
-            months = data.months
-            console.log(typeof months, months)
-            ordersByMonth = data.odersByMonth
-            revenueByMonth = data.revnueByMonth
-
-            //graph functions
-            salesGraph(months, ordersByMonth)
-            revenue(months, revenueByMonth)
-            revenue(months, revenueByMonth)
-
-        }
-
-        getChartData()
-
-
-        async function getpieChartData() {
-            await fetch("/admin/fetchpieChartData", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                    {}
-                )
-            }).then((res) => res.json()).then((res) => {
-                pieCount = res.result.map(item => item.count);
-                paymentType = res.result.map(item => item._id);
-                orderpieChart(pieCount, paymentType)
-            })
-        }
-        getpieChartData()
-
-        function salesGraph(months, ordersByMonth) {
-            const ctx = document.getElementById('myChart1');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: months,
-                    datasets: [{
-                        label: 'orders',
-                        data: ordersByMonth,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            })
-        }
-
-
-        function revenue(months, revenueByMonth) {
-            const ctx1 = document.getElementById('myChart');
-            new Chart(ctx1, {
-                type: 'line',
-                data: {
-                    labels: months,
-                    datasets: [{
-                        label: '# Revenue',
-                        data: revenueByMonth,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
-        function orderpieChart(pieCount, paymentType) {
-            const ctx1 = document.getElementById('myChart3');
-            new Chart(ctx1, {
-                type: 'pie',
-                data: {
-                    labels: paymentType,
-                    datasets: [{
-                        label: '# Revenue',
-                        data: pieCount,
-                        borderWidth: 1,
-                        backgroundColor: ['red', 'blue', 'green', 'yellow'],// Example color values for four payment types
-
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
-    </script>
+</div>
 
 
 </div>
 <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
+
+<script src="/js/piechart.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+<script>
+  const orderCounts = {{{ json orderCounts }}};
+const monthName = {{{json monthNames}}}
+const ordersNum = {{{json ordersnum}}}
+ 
+  const dates = orderCounts.map(order => order.month);
+  const counts = orderCounts.map(order => order.count);
+
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    // the data for our dataset
+    data: {
+      labels: monthName,
+      datasets: [{
+        label: 'Total orders',
+        data: ordersNum,
+        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+</script>
+
+<script>
+  const catOrderCounts = {{{ json categorysale}}};
+
+  console.log(catOrderCounts);
+  const catNames = catOrderCounts.map(order => order.category);
+  const catcounts = catOrderCounts.map(order => order.count);
+  const ctx3 = document.getElementById("myChart3");
+ console.log(catcounts,catNames)
+  new Chart(ctx3, {
+    type: "pie",
+
+    data: {
+      labels:
+        catNames
+,
+      datasets: [{
+        label: 'Total Count',
+        data: catcounts,
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)'
+        ],
+        hoverOffset: 4
+      }]
+    }
+  });
+
+</script>
 
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -246,5 +252,6 @@
 <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
 <script src="/admin/js/main.js"></script>
+
 
 {{>adminfooter}}

@@ -30,7 +30,6 @@ adminRoute.get('/', adminController.adminLogin)
 adminRoute.post('/', adminauth.isLogoutAdmin, adminController.verifyadmin);
 
 adminRoute.get('/adminhome',adminauth.isLoginAdmin,adminController.adminHome)
-adminRoute.get('/dashboard', adminauth.isLoginAdmin, dashboardController.loadDashboard) 
 
 // adminRoute.get('/dashboard', adminauth.isLoginAdmin, adminController.loadDashboard)
 adminRoute.get('/users', adminauth.isLoginAdmin, adminController.userList)
@@ -65,7 +64,12 @@ adminRoute.get('/order_Details',adminauth.isLoginAdmin,adminController.orderdeta
 adminRoute.post('/change_status',adminauth.isLoginAdmin,adminController.changeOrderStatus)
 
 //salesDashboard
-// adminRoute.get('/get_sales',dashboardController.getSales);
-// adminRoute.get('/get_chart_data',dashboardController.getChartData);
+adminRoute.get('/dashboard', adminauth.isLoginAdmin, dashboardController.loadDashboard); 
+adminRoute.post('/daily-report',adminauth.isLoginAdmin,dashboardController.dailySales);
+adminRoute.get('/dailysales/download',adminauth.isLoginAdmin,dashboardController.dailyDownload);
+adminRoute.post('/monthly-report',adminauth.isLoginAdmin,dashboardController.monthlysales)
+adminRoute.get('/monthlysales/download',dashboardController.monthlyDownload);
+adminRoute.post('/yearly-report',adminauth.isLoginAdmin,dashboardController.yearlysales);
+adminRoute.get('/yearlysales/download',dashboardController.yearlydownload)
 
 module.exports = adminRoute;
