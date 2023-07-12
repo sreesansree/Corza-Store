@@ -23,6 +23,45 @@
   .header {
     border-bottom: 1px solid #ccc;
   }
+
+  .sales-report {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+}
+
+.sales-report-title {
+  text-align: center;
+}
+
+.sales-report-form {
+  display: flex;
+  align-items: center;
+}
+
+.sales-report-form label {
+  margin-right: 10px;
+}
+
+.sales-report-form input,
+.sales-report-form button {
+  padding: 5px 10px;
+}
+
+.sales-report-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+}
+
+.sales-report-button:hover {
+  background-color: #0056b3;
+  cursor: pointer;
+}
+
 </style>
 
 
@@ -61,7 +100,7 @@
   </div>
   <div class="row row-cols-1 row-cols-md-4 g-4 mt-4">
     <div class="col">
-      <div class="card" style="background-color: aqua;">
+      <div class="card" style="background-color: rgb(183, 240, 240);">
         <div class="card-body" style="text-align: center;">
           <h2 class="card-title">Toal Users</h2>
           <h3 class="card-text">{{users}}</h3>
@@ -69,7 +108,7 @@
       </div>
     </div>
     <div class="col">
-      <div class="card" style="background-color: yellow;">
+      <div class="card" style="background-color: rgb(194, 194, 146);">
         <div class="card-body" style="text-align: center;">
           <h2 class="card-title">Total Products</h2>
           <h3 class="card-text">{{products}}</h3>
@@ -77,7 +116,7 @@
       </div>
     </div>
     <div class="col">
-      <div class="card  " style="background-color: green;">
+      <div class="card  " style="background-color: rgb(185, 246, 185);">
         <div class="card-body" style="text-align: center;">
           <h2 class="card-title">Total orders</h2>
           <h3 class="card-text">{{orders}}</h3>
@@ -85,7 +124,7 @@
       </div>
     </div>
     <div class="col">
-      <div class="card " style="background-color: brown;">
+      <div class="card " style="background-color: rgb(250, 200, 200);">
         <div class="card-body" style="text-align: center;">
           <h2 class="card-title">Total Revenue</h3>
             <h3 class="card-text">{{totalRevenue}}</h3>
@@ -93,6 +132,8 @@
       </div>
     </div>
   </div>
+
+
   <div class="col-9 offset-2 my-3">
     <div class="card">
       <div class="card-body">
@@ -128,7 +169,7 @@
     </div>
 
   </div>
-  <div class="raw">
+  {{!-- <div class="raw">
     <div class="col-10 my-3 offset-2">
       <div class="card">
         <div class="card-body">
@@ -138,7 +179,7 @@
             <form action="/admin/daily-report" method="post">
               <label for="daily">Daily sales</label>
               <input class="ml-5 mt-2" type="date" name="daily" id="daily">
-              <button class="btn btn-primary ml-auto" type="submit" style="margin-left: 10px;">View</button>
+              <button class="btn btn-info ml-auto" type="submit" style="margin-left: 10px;">View</button>
             </form>
           </div>
           <br>
@@ -146,7 +187,7 @@
             <form action="/admin/monthly-report" method="post">
               <label for="monthly">Monthly sales</label>
               <input class="ml-4 mt-2" type="month" name="month" id="month">
-              <button class="btn btn-primary ml-auto " type="submit" style="margin-left: 10px;">View</button>
+              <button class="btn btn-info ml-auto " type="submit" style="margin-left: 10px;">View</button>
             </form>
           </div>
           <br>
@@ -154,15 +195,42 @@
             <form action="/admin/yearly-report" method="post">
               <label for="yearly">Yearly sales</label>
               <input class="ml-5 mt-2" type="number" name="yearly" id="yearly" min="2010" max="2023" value="2023">
-              <button  class="btn btn-primary ml-auto" type="submit">View</button>
+              <button  class="btn btn-info ml-auto" type="submit">View</button>
             </form>
-
           </div>
-
         </div>
       </div>
     </div>
+  </div> --}}
+
+<div class="sales-report">
+  <h5 class="sales-report-title">Sales Report</h5>
+  <hr>
+  <div class="sales-report-form">
+    <form action="/admin/daily-report" method="post">
+      <label for="daily">Daily sales</label>
+      <input type="date" name="daily" id="daily">
+      <button class="sales-report-button" type="submit">View</button>
+    </form>
   </div>
+  <br>
+  <div class="sales-report-form">
+    <form action="/admin/monthly-report" method="post">
+      <label for="monthly">Monthly sales</label>
+      <input type="month" name="month" id="month">
+      <button class="sales-report-button" type="submit">View</button>
+    </form>
+  </div>
+  <br>
+  <div class="sales-report-form">
+    <form action="/admin/yearly-report" method="post">
+      <label for="yearly">Yearly sales</label>
+      <input type="number" name="yearly" id="yearly" min="2022" max="2024" value="2023">
+      <button class="sales-report-button" type="submit">View</button>
+    </form>
+  </div>
+</div>
+
 
 </div>
 
