@@ -112,7 +112,7 @@
           <hr>
           <canvas id="myChart2"></canvas>
           <input id="cashondelivery" type="hidden" name="cashondelivery" value="{{cashOnDeliveryCount}}">
-          <input id="razorpay" type="hidden" name="razorpay" value="{{razorPayCount}}">
+          <input id="razorpay" type="hidden" name="razorpay" value="{{razorpayCount}}">
         </div>
       </div>
     </div>
@@ -141,6 +141,7 @@
               <button class="btn btn-primary ml-auto" type="submit" style="margin-left: 10px;">View</button>
             </form>
           </div>
+          <br>
           <div>
             <form action="/admin/monthly-report" method="post">
               <label for="monthly">Monthly sales</label>
@@ -148,6 +149,7 @@
               <button class="btn btn-primary ml-auto " type="submit" style="margin-left: 10px;">View</button>
             </form>
           </div>
+          <br>
           <div>
             <form action="/admin/yearly-report" method="post">
               <label for="yearly">Yearly sales</label>
@@ -213,11 +215,11 @@ const ordersNum = {{{json ordersnum}}}
 <script>
   const catOrderCounts = {{{ json categorysale}}};
 
-  console.log(catOrderCounts);
+  console.log(catOrderCounts,21888888888888);
   const catNames = catOrderCounts.map(order => order.category);
   const catcounts = catOrderCounts.map(order => order.count);
   const ctx3 = document.getElementById("myChart3");
- console.log(catcounts,catNames)
+ console.log(catcounts,catNames,"catcountsss,catnamessss")
   new Chart(ctx3, {
     type: "pie",
 

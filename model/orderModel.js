@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-
+  
   product: [
     {
       id: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
@@ -18,8 +18,13 @@ const orderSchema = new mongoose.Schema({
     },
   ],
 
+  // address: {
+  //   type: String,
+  //   required: true,
+  // },
   address: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "adress",
     required: true,
   },
 
@@ -75,6 +80,9 @@ const orderSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now,
+  },
+  orderDate: {
+    type: Date, // Add the orderDate field of type Date
   },
 });
 
