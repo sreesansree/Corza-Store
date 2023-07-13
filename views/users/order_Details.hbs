@@ -100,7 +100,8 @@
           <div class="card-header">Order details</div>
           <div class="card-body">
             <div class=" mb-3 ml-auto" style="width: fit-content;">
-              <button class="btn btn-secondary ml-1"> Invoice</button>
+              <button onclick="getInvoice('{{myOrderDetails._id}}')" class="btn btn-secondary ml-1">Invoice</button>
+                        <input type="hidden" name="order_id" value="{{myOrderDetails._id}}">
             </div>
             <table class="table table-hover">
               <thead>
@@ -197,12 +198,14 @@
               {{/ifeq}} --}}
               {{#ifeq myOrderDetails.status 'pending'}}
               <span id="cancel_btn">
-                <button id="cancel_button" type="button" onclick="cancelOrder('{{myOrderDetails.orderId}}')"
+                <button id="cancel_button" type="button" onclick="cancelOrder('{{myOrderDetails._id}}')"
                   class="ml-2 btn btn-danger">
                   Cancel order
                 </button>
+    
               </span>
               {{/ifeq}}
+ 
 
               {{#ifeq myOrderDetails.status 'Delivered'}}
               <span id="return_btn">
