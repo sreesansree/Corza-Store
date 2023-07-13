@@ -114,38 +114,31 @@ const getotp = (req, res) => {
         console.log(error.message);
     }
 }
-
 const verifyOtp = async (req, res) => {
     try {
-        const password = await argon2.hash(userRegData.password)
-        // console.log(req.session, 105);
-        // let userRegData = req.session.userRegData
-
-        // console.log(userRegData, 107);
-        const enteredotp = req.body.otp;
-
-        console.log(enteredotp);
-        if (otp == enteredotp) {
-            const user = new User({
-                name: userRegData.name,
-                email: userRegData.email,
-                mobile: userRegData.mobile,
-                password: password,
-                is_blocked: false,
-                is_verfied: false,
-                wallet: {}
-            });
-            const userData = await user.save();
-            console.log(userData);
-            // res.redirect('/login')
-            res.render('registration', { message: "Rgistration successful" })
-        } else {
-            res.render('otpverification', { message: "invalid otp" })
-        }
+      const password = await argon2.hash(userRegData.password);
+      const enteredotp = req.body.otp;
+  
+      if (otp == enteredotp) {
+        const user = new User({
+          name: userRegData.name,
+          email: userRegData.email,
+          mobile: userRegData.mobile,
+          password: password,
+          is_blocked: false,
+          is_verfied: false,
+          wallet: {}
+        });
+        const userData = await user.save();
+        console.log(userData);
+        res.render  ('login', { successMessage: "Registration successful" });
+      } else {
+        res.render('otpverification', { message: "Invalid OTP" });
+      }
     } catch (error) {
-        console.log(error.message);
+      console.log(error.message);
     }
-}
+  };
 
 
 const verifylogin = async (req, res) => {
@@ -197,23 +190,41 @@ const verifylogin = async (req, res) => {
 
 
 
+// const loadHome = async (req, res) => {
+//     try {
+//         const loadProData = await Product.find()
+//         const loadCatData = await Category.find()
+//         const user = req.session.userdata
+//         const userId = user?._id
+//         const userData = await User.findById({_id:userId})
+//         if (userData) {
+//             res.render('home', { userData, loadCatData, loadProData })
+//         } else {
+//             res.render('home', { loadCatData, loadProData })
+//         }
+
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 const loadHome = async (req, res) => {
     try {
-        const loadProData = await Product.find()
-        const loadCatData = await Category.find()
-        const user = req.session.userdata
-        const userId = user?._id
-        const userData = await User.findById({_id:userId})
-        if (userData) {
-            res.render('home', { userData, loadCatData, loadProData })
-        } else {
-            res.render('home', { loadCatData, loadProData })
-        }
-
+      const loadProData = await Product.find();
+      const loadCatData = await Category.find();
+      const user = req.session.userdata;
+      const userId = user?._id;
+  
+      if (userId) {
+        const userData = await User.findById(userId);
+        res.render('home', { userData, loadCatData, loadProData });
+      } else {
+        res.render('home', { loadCatData, loadProData });
+      }
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-}
+  };
+  
 const logout = async (req, res) => {
     try {
         req.session.destroy();

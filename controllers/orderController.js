@@ -2,7 +2,7 @@ const User = require('../model/userModel');
 const Product = require('../model/productModel');
 const Address = require('../model/addressModel');
 const Order = require('../model/orderModel');
-
+const mongoose = require('mongoose');
 const path = require('path');
 const fs = require('fs');
 const hbs = require('hbs');
@@ -75,12 +75,9 @@ const orderDetails = async (req, res) => {
 
         const myOrderDetails = await Order.findById(orderId);
         const orderedProDet = myOrderDetails.product;
-        const addressId = myOrderDetails.address;
-        
+        const addressId = myOrderDetails.address;  
         const address = await Address.findById(addressId)
-
-        res.render('order_Details', { myOrderDetails, orderedProDet, userData, address })
-
+        res.render('order_Details', { myOrderDetails, orderedProDet, userData, address });
 
     } catch (error) {
         console.log(error.message)
@@ -97,20 +94,39 @@ const returnOrder = async(req, res) => {
         console.log(error);
     }
  }
- const cancelOrder = async(req, res) => {
-    try {
-        const id       = req.query.id
-        const userData = req.session.user
-        
-       
+ 
+const cancelOrder = async (req, res) => {
+  try {
+  
+    const userData = req.session.userdata;
+    const orderId = req.query.id;
 
-        await Order.findByIdAndUpdate(id, { $set: { status: 'Cancelled' } }, { new: true });
-
-        res.json('sucess')
-    } catch (error) {
-        console.log(error);
+    console.log('Order ID:', orderId ,"From Cancel Order");
+    if (!mongoose.Types.ObjectId.isValid(orderId)) {
+      throw new Error('Invalid order ID');
     }
- }
+
+    const updatedOrder = await Order.findByIdAndUpdate(
+      orderId,
+      { $set: { status: 'Cancelled' } },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      throw new Error('Order not found');
+    }
+
+    res.json({ success: true, updatedOrder ,orderId});
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
+  
+  
+
 
 module.exports = {
     myOrders,

@@ -1,4 +1,3 @@
-
 <div class="container">
   <div class="row content">
     <div class="col-md-6 mb-3">
@@ -14,7 +13,7 @@
           <linearGradient id="f59ba046-7ebe-407e-be3d-c62856fc1078" x1="712" y1="788.54" x2="712" y2="248.5"
             xlink:href="#b7709055-0dd4-48d6-ac10-5a758f15d1a1" />
         </defs>
-        <title>true friends</title>
+        <title>login</title>
         <g opacity="0.2">
           <path
             d="M433.55,753.92a42.59,42.59,0,0,0,2.16,6.52q20.85-8.19,42.16-15.7c-.12-.59-.24-1.21-.39-1.82a36.92,36.92,0,0,0-8.86-16.84c-5.68-6-13-8.9-20.12-7.13s-12.29,7.83-14.65,15.8A37.39,37.39,0,0,0,433.55,753.92Z"
@@ -233,9 +232,12 @@
         <circle cx="593" cy="116" r="7" fill="#00bfa6" opacity="0.1" />
       </svg>
     </div>
+    <!-- login.hbs -->
+
     <div class="col-md-6">
       <h3 class="signin-text mb-3"> Sign In</h3>
-      <form method="post" action="/login" >
+  
+      <form method="post" action="/login">
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" class="form-control">
@@ -244,28 +246,40 @@
           <label for="password">Password</label>
           <input type="password" id="password" name="password" class="form-control">
         </div>
-<div>
-        <p style="color: red;">{{message1}}</p>
-      </div>
-      <div>
-        <p style="color:red;">{{message2}}</p>
-      </div>
-      <div>
-        <p style="color: red;">{{message3}}</p>
-      </div>
+        <div>
+          <p style="color: red;">{{message1}}</p>
+        </div>
+        <div>
+          <p style="color:red;">{{message2}}</p>
+        </div>
+        <div>
+          <p style="color: red;">{{message3}}</p>
+        </div>
+
 
         <a href="/forgotpassword">Forget Password? </a> <br>
-        <button type="submit" class="btn btn-class mt-2 mb-2" >Login</button>
+        <button type="submit" class="btn btn-class mt-2 mb-2">Login</button>
         <p>Don't have an Account?. <a href="/register">Register Here</a></p>
       </form>
     </div>
   </div>
 </div>
 
-
 </section>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{{#if successMessage}}
+  <script>
+    swal({
+      title: "Success",
+      text: "{{successMessage}}",
+      icon: "success",
+      timer: 3000, // Display the popup for 3 seconds
+      buttons: false
+    });
+  </script>
+{{/if}}
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
   integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <link rel="stylesheet" href="/css/userCss/signin.css">
+
