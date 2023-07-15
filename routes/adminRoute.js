@@ -6,6 +6,8 @@ const adminController = require("../controllers/admin/adminController");
 const categoryController = require('../controllers/categoryController');
 const productController = require('../controllers/productController');
 const dashboardController = require('../controllers/admin/dashboardController');
+const couponController = require('../controllers/couponController');
+
 const session = require('express-session');
 const adminauth = require('../middleware/adminauth');
 const app = express();
@@ -54,6 +56,13 @@ adminRoute.post('/addproduct', adminauth.isLoginAdmin, store.store.array('image'
 adminRoute.get('/updateProduct/:id', adminauth.isLoginAdmin, productController.loadUpdateProduct);
 adminRoute.post('/updateProduct/:id', adminauth.isLoginAdmin, store.store.array('image', 10),store.sharpImage, productController.updateProduct)
 
+
+//coupon
+
+adminRoute.get('/coupon',adminauth.isLoginAdmin,couponController.loadCoupon);
+adminRoute.get('/addNewCoupon',adminauth.isLoginAdmin,couponController.addCoupon);
+adminRoute.post('/addNewCoupon',adminauth.isLoginAdmin,couponController.addCouponPost);
+adminRoute.get('/delete_cpn',couponController.deleteCoupon);
 //block product
 adminRoute.get('/blockproduct',adminauth.isLoginAdmin,productController.blockProduct);
 adminRoute.get('/unblockproduct',adminauth.isLoginAdmin,productController.unBlockProduct);

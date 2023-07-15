@@ -1,0 +1,145 @@
+{{>adminheader}}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Coupon Adding Form</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style type="text/css">
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            border-color: #ccc;
+            box-shadow: none;
+            font-size: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: .75rem 1.5rem;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background-color: #0069d9;
+            border-color: #0062cc;
+            box-shadow: none;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="container ">
+        <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+            <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+            {{!-- <form class="d-none d-md-flex ms-4">
+                <input class="form-control border-0" type="search" placeholder="Search">
+            </form> --}}
+            <div class="navbar-nav align-items-center ms-auto">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                            style="width: 40px; height: 40px;">
+                        <span class="d-none d-lg-inline-flex">Sree San</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                        {{!-- <a href="#" class="dropdown-item">My Profile</a> --}}
+                        {{!-- <a href="#" class="dropdown-item">Settings</a> --}}
+                        <a href="/admin/logout" class="dropdown-item">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="row ">
+            <div class="col-md-6 mx-auto mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Add Coupon</h2>
+                        <form action="/admin/addNewCoupon" method="post">
+                            <div class="form-group">
+                                <label for="coupon-code">Coupon Code</label>
+                                <input type="text" class="form-control" id="coupon-code" placeholder="Enter coupon code"
+                                    name="code" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="discount">Discount (%)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="discount" min="0" max="100"
+                                        placeholder="Enter discount amount" name="percent" required>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="expiry-date">Expiry Date</label>
+                                <input type="date" class="form-control" id="expiry-date" name="expDate" required>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary">Add Coupon</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const couponMsg = "{{couponMsg}}";
+    const couponExMsg = "{{couponExMsg}}";
+
+    if (couponMsg) {
+      Swal.fire("Success", couponMsg, "success");
+    } else if (couponExMsg) {
+      Swal.fire("Error", couponExMsg, "error");
+    }
+  });
+</script>
+
+</body>
+
+</html>

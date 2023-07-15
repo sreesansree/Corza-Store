@@ -1,10 +1,10 @@
 const User = require('../model/userModel');
 const Product = require('../model/productModel');
 const Category = require('../model/categoryModel');
-
 const Swal = require('sweetalert2')
 const hbs = require('hbs');
 const { log } = require('handlebars/runtime');
+
 // define a helper function
 hbs.registerHelper("calculateItemPrice", function (item) {
   return item.product.price * item.quantity;
