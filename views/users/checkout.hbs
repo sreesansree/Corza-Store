@@ -188,6 +188,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css" />
 
     <style>
       body {
@@ -262,7 +263,7 @@
 
   <body>
     <div class="container-xl px-4" style="margin-top: 100px; margin-bottom: 100px;">
-     
+
       <hr class="mt-0 mb-4">
       <div class="row">
 
@@ -415,26 +416,25 @@
                   Razor Pay
                 </label>
               </div>
-              {{!-- <div class="form-check mt-3 mb-3">
+              <div class="form-check mt-3 mb-3">
                 <input class="form-check-input" type="radio" name="payment_option" value="wallet" id="wallet">
                 <label class="form-check-label" for="flexRadioDefault2">
                   Wallet
                 </label>
-              </div> --}}
-              {{!-- <div class="bg-dark text-white p-15 rounded ml-3" style="width: fit-content;">
-
+              </div>
+              <div class="bg-dark text-white p-15 rounded ml-3" style="width: fit-content;">
                 <p class="my-2 mx-2" style="font-size: smaller;">Available Balance : <strong>$<span
                       id="update_wallet">{{userData.wallet}}</span> </strong></p>
-
                 <input type="hidden" value="{{userData.wallet}}" name="wallet">
-              </div> --}}
-
+              </div>
             </div>
           </div>
           <span id="order_button">
             <button onclick="placeOrder()" class="btn btn-primary btn-lg"> Place Order</button>
           </span>
         </div>
+
+
         <div class="col-xl-4">
           <!-- Profile picture card-->
           <div class="card mb-4 mb-xl-0">
@@ -451,7 +451,7 @@
                   <h6 class="my-0">{{this.product.name}} </h6>
                   {{!-- <small class="text-muted">{{this.quantity}} * ${{this.product.price }} </small> --}}
                 </div>
-                <span class="text-muted"> {{this.quantity }} x  ₹ {{this.product.price }} </span>
+                <span class="text-muted"> {{this.quantity }} x ₹ {{this.product.price }} </span>
               </li>
               {{/each}}
               {{!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -468,6 +468,7 @@
                 </div>
                 <span class="text-muted">$5</span>
               </li> --}}
+
               <li class="list-group-item d-flex justify-content-between bg-light">
                 <div class="text-success">
                   <h6 class="my-0">Coupon code</h6>
@@ -478,8 +479,8 @@
                 <span id="discount_amt">
                   <span class="text-success"></span>
                 </span>
-
               </li>
+
               <li class="list-group-item d-flex justify-content-between">
                 <span>Total (INR)</span>
                 <span id="new_sub_total">
@@ -491,32 +492,33 @@
 
             <div class="card p-2">
               <div class="input-group">
-                <input type="text" id="copon" class="form-control" placeholder="Promo code" name="coupon" required>
+                <input type="text" id="coupon" class="form-control" placeholder="Promo code" name="coupon" required>
                 <div class="input-group-append">
-                  <button type="button" class="btn btn-success ml-2 mt-1">Redeem</button>
+                  <button onclick="validateCoupon()" type="button" class="btn btn-secondary ml-2 mt-1">Redeem</button>
                 </div>
               </div>
-              {{!-- <div class="text-center m-2" style="color: red;" id="couponMsg"> </div>
-              <p class="text-center m-2" style="color: green;" id="sCoponMsg"> </p> --}}
+              <div class="text-center m-2" style="color: red;" id="couponMsg"> </div>
+              <p class="text-center m-2" style="color: green;" id="sCouponMsg"> </p>
 
-              <div class="border" style="padding: 10px; border-radius:5px;">
+              <div class="border" style="padding: 10px; border-radius: 5px;">
                 <details>
                   <summary>Available coupons</summary>
-                  {{!-- {{#if availableCoupons}} --}}
-                  {{!-- {{#each availableCoupons}}
+                  {{#if availableCoupons}}
+                  {{#each availableCoupons}}
                   <div class="d-flex justify-content-between">
                     <h6 class="my-2">{{this.code}}</h6>
                     <p>Get {{this.discount}}% discount</p>
                   </div>
-                  {{/each}} --}}
-                  {{!-- {{else}} --}}
+                  {{else}}
                   <h6 class="mb-3">No coupon available</h6>
-                  {{!-- {{/if}} --}}
+                  {{/each}}
+                  {{/if}}
                 </details>
               </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
     </div>
@@ -524,9 +526,15 @@
 
   </html>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script>
 
   <script>
-
+    let couponData
+    let couponEl
+    let newTotal
+    let subTotal
+    let updateWallet
 
     /*
      const cashOnDelivery = document.getElementById('cash-on-delivery');
@@ -552,16 +560,30 @@
     });
 
 
-
-
-
     const placeOrder = () => {
       if (paymentMethod === 'cash-on-delivery') {
         Cod()
       } else if (paymentMethod === "razorpay") {
         online()
+      } else if (paymentMethod === 'wallet') {
+        useWallet()
       } else {
         console.log('Invalid payment method.')
+      }
+    }
+
+    const useWallet = () => {
+      const wallet = document.getElementsByName('wallet')[0].value
+      const subTotal = Number(document.getElementsByName('subTotal')[0].value)
+      console.log(wallet, 'walletttttttttttt', subTotal)
+
+      if (wallet > subTotal) {
+        updateWallet = wallet - subTotal
+        console.log(updateWallet, 'my name is update wallet...........')
+        Cod()
+      } else {
+        alertify.set('notifier', 'position', 'top-center');
+        alertify.success('you dont have sufficient balance in ur wallet choose another payment method')
       }
     }
 
@@ -578,13 +600,18 @@
         body: JSON.stringify({
           selectedAddress: selectAddress,
           selectedPayment: paymentMethod,
-          amount: subTotal
+          amount: subTotal,
+          couponData: couponData,
+          couponName: couponEl,
+          updateWallet: updateWallet
         })
       })
       const placeOrderData = await datas.json()
       console.log(placeOrderData + 'cheking here......now')
       if (placeOrderData) {
         console.log(' hiiii am from place oreder data')
+        const wallet = document.getElementById('update_wallet').innerText = updateWallet
+
         window.location.href = '/order_sucess'
       }
     }
@@ -611,7 +638,56 @@
     }
 
 
+
+
+    let couponStatus
+
+
+    const setCouponStatus = (msg, id, color) => {
+      id.innerHTML = `<p style="color: ${color}">${msg}</p>`;
+      id.style.display = 'block';
+      setTimeout(() => {
+        id.style.display = 'none';
+        id.innerHTML = '';
+      }, 5000);
+    };
+
+    const validateCoupon = async () => {
+      try {
+        const couponVal = document.getElementById('coupon').value;
+        const subTotal = Number(document.getElementsByName('subTotal')[0].value);
+
+        const response = await fetch('/validate_coupon', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            couponVal,
+            subTotal
+          })
+        });
+
+        const couponData = await response.json();
+
+        if (couponData === 'invalid') {
+          setCouponStatus('Invalid coupon', document.getElementById('couponMsg'), 'red');
+        } else if (couponData === 'expired') {
+          setCouponStatus('Coupon has expired', document.getElementById('couponMsg'), 'red');
+        } else if (couponData === 'already used') {
+          setCouponStatus('Coupon already used', document.getElementById('couponMsg'), 'red');
+        } else if (couponData.success === 'success') {
+          setCouponStatus('Coupon applied successfully', document.getElementById('sCouponMsg'), 'green');
+          console.log('Discount Amount:', couponData.discountAmt);
+          console.log('New Total:', couponData.newTotal);
+          console.log('Discount:', couponData.discount);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
   </script>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   {{>userfooter}}

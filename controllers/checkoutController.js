@@ -2,6 +2,7 @@ const User = require('../model/userModel');
 const Product = require('../model/productModel');
 const Address = require('../model/addressModel');
 const Order = require('../model/orderModel');
+const Coupon = require('../model/couponModel')
 const Razorpay = require('razorpay');
 
 
@@ -26,7 +27,15 @@ const loadCheckout = async (req, res) => {
     val.total = val.product.price * val.quantity
     subTotal += val.total
   })
-  res.render('checkout', { userData, cart, addressData, subTotal })
+
+  const now = new Date();
+  const availableCoupons = await Coupon.find({
+    expiryDate: { $gte: now },
+    usedBy: { $nin: [userId] }
+  });
+  console.log(availableCoupons, 'helooooooooooo coupon aaann');
+
+  res.render('checkout', { userData, cart, addressData, subTotal, availableCoupons })
 }
 
 
@@ -56,7 +65,7 @@ const checkStock = async (req, res) => {
     }
   });
 
-  console.log(stock, 'stockk');
+  console.log(stock, 'stockkkkkkkkkkkkkk');
 
   if (stock.length >= 0) {
     console.log('Sending JSON response with stock array');
@@ -110,19 +119,36 @@ const placeOrder = async (req, res) => {
     const ordeId = result + id;
 
     /// order saving function
-
+console.log(req.session.couponData,"PlaceOrder CouponDataaaa")
     let saveOrder = async () => {
+      if (req.body.couponData) {
+        const order = new Order({
+          userId: userId,
+          product: productDet,
+          address: addressId,
+          orderId: ordeId,
+          total: subTotal,
+          paymentMethod: payMethod,
+          discountAmt: req.body.couponData.discountAmt,
+          amountAfterDscnt: req.body.couponData.newTotal,
+          coupon: req.body.couponName,
+        })
 
-      const order = new Order({
-        userId: userId,
-        product: productDet,
-        address: addressId,
-        orderId: ordeId,
-        total: subTotal,
-        paymentMethod: payMethod,
-      })
+        const ordered = await order.save()
 
-      const ordered = await order.save()
+      } else {
+        const order = new Order({
+          userId: userId,
+          product: productDet,
+          address: addressId,
+          orderId: ordeId,
+          total: subTotal,
+          paymentMethod: payMethod,
+        })
+
+        const ordered = await order.save()
+
+      }
 
       let userDetails = await User.findById(userId)
       let userCart = userDetails.cart
@@ -130,14 +156,15 @@ const placeOrder = async (req, res) => {
       userCart.forEach(async item => {
         const productId = item.product
         const qty = item.quantity
-
+        console.log(qty, "Quantity From place Order........")
         const product = await Product.findById(productId)
         const stock = product.quantity
         const updatedStock = stock - qty
+        console.log(updatedStock, "updatedQuantity From place Order........")
 
         await Product.updateOne(
           { _id: productId },
-          { $set: { stock: updatedStock, isOnCart: false } }
+          { $set: { quantity: updatedStock, isOnCart: false } }
         );
       })
       userDetails.cart = []
@@ -158,39 +185,99 @@ const placeOrder = async (req, res) => {
         })
       }
 
+      if (payMethod === 'razorpay') {
+        console.log('created orderId request Razaorpay', req.body);
+
+        const amount = req.body.amount;
+        var instance = new Razorpay({
+          key_id: process.env.RazorpayId,
+          key_secret: process.env.RazorpayKeySecret
+        })
+
+        const order = await instance.orders.create({
+          amount: amount * 100,
+          currency: 'INR',
+          receipt: 'sreesankar',
+        });
+
+        saveOrder()
+
+        res.json({
+          razorPaySucess: true,
+          order,
+          amount,
+        });
+      }
+      /// payment method wallet function
+
+
+      if (payMethod === 'wallet') {
+        console.log('he he he am from wallet.................')
+        const newWallet = req.body.updateWallet
+        const userData = req.session.userdata
+
+        console.log(newWallet, 'new wallettttttttttttttttttt');
+
+        await User.findByIdAndUpdate(userId, { $set: { wallet: newWallet } }, { new: true })
+        //    userData = updatedUser
+        //    req.session.user = userData
+        saveOrder()
+        res.json(newWallet)
+      }
     }
-
-    if (payMethod === 'razorpay') {
-      console.log('created orderId request Razaorpay', req.body);
-
-      const amount = req.body.amount;
-      var instance = new Razorpay({
-        key_id: process.env.RazorpayId,
-        key_secret: process.env.RazorpayKeySecret
-      })
-
-      const order = await instance.orders.create({
-        amount: amount * 100,
-        currency: 'INR',
-        receipt: 'sreesankar',
-      });
-
-      saveOrder()
-
-      res.json({
-        razorPaySucess: true,
-        order,
-        amount,
-      });
-    }
-
   } catch (error) {
     console.log(error);
   }
 }
 
+
+
+const validateCoupon = async (req, res) => {
+  try {
+      console.log(req.body, 'bodyyyyyyyyyyyyyyyyyyyyyy');
+      const { couponVal, subTotal } = req.body;
+      const coupon = await Coupon.findOne({ code: couponVal });
+
+      if (!coupon) {
+          res.json('invalid');
+      } else if (coupon.expiryDate < new Date()) {
+          res.json('expired');
+      } else {
+          const couponId = coupon._id;
+          const discount = coupon.discount;
+          const userId = req.session.userdata._id;
+
+          const isCpnAlredyUsed = await Coupon.findOne({ _id: couponId, usedBy: { $in: [userId] } });
+
+          if (isCpnAlredyUsed) {
+              res.json('already used');
+          } else {
+              await Coupon.updateOne({ _id: couponId }, { $push: { usedBy: userId } });
+
+              const discnt = Number(discount);
+              const discountAmt = (subTotal * discnt) / 100;
+              const newTotal = subTotal - discountAmt;
+
+              const user = User.findById(userId);
+
+              res.json({
+                  discountAmt,
+                  newTotal,
+                  discount,
+                  succes: 'succes'
+              });
+          }
+      }
+  } catch (error) {
+      console.log(error);
+  }
+};
+
+
+
 module.exports = {
   checkStock,
   loadCheckout,
-  placeOrder
+  placeOrder,
+  validateCoupon
 }
