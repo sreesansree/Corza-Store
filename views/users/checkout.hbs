@@ -670,25 +670,34 @@
         });
 
         const couponData = await response.json();
-        console.log(couponData, "CouponData12333")
+        console.log("12222233", couponData, "CouponData12333")
         if (couponData === 'invalid') {
           setCouponStatus('Invalid coupon', document.getElementById('couponMsg'), 'red');
-        } else if (couponData === 'expired') {
+          console.log("invaliddd")
+        }
+        else if (couponData === 'expired') {
           setCouponStatus('Coupon has expired', document.getElementById('couponMsg'), 'red');
-        } else if (couponData === 'already used') {
+          console.log('expireddd')
+        }
+        else if (couponData === 'already used') {
           setCouponStatus('Coupon already used', document.getElementById('couponMsg'), 'red');
-        } else if (couponData.success === 'success') {
+          console.log("usedddd")
+        }
+        else if (couponData.succes === 'succes') {
+          console.log('am from coupon sucesssss')
           setCouponStatus('Coupon applied successfully', document.getElementById('sCouponMsg'), 'green');
           console.log('Discount Amount:', couponData.discountAmt);
           console.log('New Total:', couponData.newTotal);
           console.log('Discount:', couponData.discount);
+          console.log("Coupom Code addedSuccefullyyyyyy")
 
           // Update the content of the coupon code and discount amount spans
-          document.getElementById('coupon_code').querySelector('small').textContent = couponVal;
-          document.querySelector('#discount_amt span').textContent = `-$${couponData.discountAmt}`;
+          document.getElementById('coupon_code').querySelector('small').innerHTML = couponVal;
+          document.querySelector('#discount_amt span').innerHTML = `- ₹${couponData.discountAmt}`;
 
           // Update the new subtotal
-          document.getElementById('total').textContent = `₹ ${couponData.newTotal}`;
+          document.getElementById('total').innerHTML = `₹ ${couponData.newTotal}`;
+
         }
 
 
