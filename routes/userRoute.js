@@ -8,8 +8,9 @@ const cartController = require('../controllers/cartController');
 const profileController = require('../controllers/user/profileController');
 const orderController = require('../controllers/orderController')
 const checkoutController = require('../controllers/checkoutController');
-const categoryController = require('../controllers/user/category')
+const categoryController = require('../controllers/user/category');
 const catFilterController = require('../controllers/user/category');
+const wishlistController  = require('../controllers/user/wishlistController');
 // const productController = require('../controllers/productController')
 userRoute.set('view engine', 'hbs')
 userRoute.set('views', './views/users')
@@ -107,7 +108,9 @@ userRoute.get('/category', categoryController.categoryFilter);
 
 userRoute.post('/validate_coupon', auth.isLogin, auth.checkBlocked, checkoutController.validateCoupon);
 
+//wishlist
 
+userRoute.get('/wishlist',auth.isLogin,wishlistController.loadWishlist);
 
 
 
