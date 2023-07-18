@@ -2,6 +2,8 @@
 
 
 
+
+
 <body class="animsition">
 
 	<!-- Product -->
@@ -296,8 +298,9 @@
 												alt="ICON">
 										</span>
 										{{else}}
+										
 										<span id="click{{this._id}}">
-											<img onclick="addToWishlist('{{this._id}}')" id="icon-2"
+											<img onclick="addToWishlistClient('{{this._id}}')" id="icon-2"
 												class=" dis-block trans-04 " src="images/icons/icon-heart-01.png"
 												alt="ICON">
 										</span>
@@ -318,5 +321,33 @@
 
 		{{>userfooter}}
 
+
+
 </body>
-<script src="/js/product.js"></script>
+{{!-- <script src="/javascript/products.js"></script> --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.js"></script>
+
+<script>
+	
+	const addToWishlistClient = async (id) => {
+    const proName = document.getElementById('name' + id).value;
+    document.getElementById('click' + id).innerHTML =
+        `<img class="dis-block trans-04" src="images/icons/icon-heart-02.png" alt="ICON">`;
+
+    let response = await fetch(`/add_to_wishlist?id=${id}`, {
+        headers: {
+            "Content-Type": "application/json"
+        },
+    });
+
+    let data = await response.json();
+    console.log(data);
+    if (data && data.message === 'Added') {
+        alertify.set('notifier', 'position', 'bottom-center');
+        alertify.success(`${proName} Added to wishlist`);
+    }
+};
+
+</script>

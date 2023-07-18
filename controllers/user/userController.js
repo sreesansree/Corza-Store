@@ -1,10 +1,10 @@
-const mongoose   = require('mongoose');
-const User       = require("../../model/userModel");
-const Category   = require('../../model/categoryModel');
-const Product    = require('../../model/productModel');
+const mongoose = require('mongoose');
+const User = require("../../model/userModel");
+const Category = require('../../model/categoryModel');
+const Product = require('../../model/productModel');
 const nodeMailer = require("nodemailer");
-const session    = require('express-session');
-const argon2     = require('argon2');
+const session = require('express-session');
+const argon2 = require('argon2');
 // const bcrypt = require('bcrypt')
 // const userRoute = require("../../routes/userRoute");
 require('dotenv').config()
@@ -48,7 +48,7 @@ const sendmail = (name, email) => {
         const mailoptions = {
             from: "sreesankarputhuman@gmail.com",
             to: email,
-            cc:"sreesankarputhuman@gmail.com",
+            cc: "sreesankarputhuman@gmail.com",
             subject: "Verification Mail",
             text: `Hello ${name} Your OTP ${otp}`
         }
@@ -88,7 +88,7 @@ const insertUser = async (req, res) => {
 
         const existUser = await User.findOne({ email: email })
         // req.session.userRegData = userRegData
-        console.log(existUser,911);
+        console.log(existUser, 911);
         if (existUser == null) {
             sendmail(name, email)
 
@@ -98,7 +98,7 @@ const insertUser = async (req, res) => {
             if (existUser.email == email) {
                 res.render('registration', { message1: "User already Exits" })
             }
-        } 
+        }
     }
     catch (error) {
         console.log(error.message);
@@ -116,29 +116,29 @@ const getotp = (req, res) => {
 }
 const verifyOtp = async (req, res) => {
     try {
-      const password = await argon2.hash(userRegData.password);
-      const enteredotp = req.body.otp;
-  
-      if (otp == enteredotp) {
-        const user = new User({
-          name: userRegData.name,
-          email: userRegData.email,
-          mobile: userRegData.mobile,
-          password: password,
-          is_blocked: false,
-          is_verfied: false,
-          wallet: {}
-        });
-        const userData = await user.save();
-        console.log(userData);
-        res.render  ('login', { successMessage: "Registration successful" });
-      } else {
-        res.render('otpverification', { message: "Invalid OTP" });
-      }
+        const password = await argon2.hash(userRegData.password);
+        const enteredotp = req.body.otp;
+
+        if (otp == enteredotp) {
+            const user = new User({
+                name: userRegData.name,
+                email: userRegData.email,
+                mobile: userRegData.mobile,
+                password: password,
+                is_blocked: false,
+                is_verfied: false,
+                wallet: {}
+            });
+            const userData = await user.save();
+            console.log(userData);
+            res.render('login', { successMessage: "Registration successful" });
+        } else {
+            res.render('otpverification', { message: "Invalid OTP" });
+        }
     } catch (error) {
-      console.log(error.message);
+        console.log(error.message);
     }
-  };
+};
 
 
 const verifylogin = async (req, res) => {
@@ -209,22 +209,22 @@ const verifylogin = async (req, res) => {
 // }
 const loadHome = async (req, res) => {
     try {
-      const loadProData = await Product.find();
-      const loadCatData = await Category.find();
-      const user = req.session.userdata;
-      const userId = user?._id;
-  
-      if (userId) {
-        const userData = await User.findById(userId);
-        res.render('home', { userData, loadCatData, loadProData });
-      } else {
-        res.render('home', { loadCatData, loadProData });
-      }
+        const loadProData = await Product.find();
+        const loadCatData = await Category.find();
+        const user = req.session.userdata;
+        const userId = user?._id;
+
+        if (userId) {
+            const userData = await User.findById(userId);
+            res.render('home', { userData, loadCatData, loadProData });
+        } else {
+            res.render('home', { loadCatData, loadProData });
+        }
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
-  };
-  
+};
+
 const logout = async (req, res) => {
     try {
         req.session.destroy();
@@ -240,10 +240,14 @@ const getProduct = async (req, res) => {
         const loadCatData = await Category.find()
         // console.log(loadCatData,261);
         const proData = await Product.find({ is_blocked: false });
-        console.log(proData, 263);
         const user = req.session.userdata
-        const userData = await User.findById({_id:user._id})
-        res.render('products', { proData, userData, loadCatData })
+        const userData = await User.findById({ _id: user._id })
+        if (userData) {
+            res.render('products', { proData, userData, loadCatData })
+        } else {
+            res.render('products', { proData, loadCatData })
+
+        }
     } catch (error) {
         console.log(error.message);
     }
@@ -254,7 +258,7 @@ const ProductView = async (req, res) => {
         const proId = req.query.id
         const proData = await Product.findById(proId)
         const user = req.session.userdata
-        const userData = await User.findById({_id:user._id})
+        const userData = await User.findById({ _id: user._id })
         if (req.session.userdata) {
             res.render('productDetail', { proData, userData })
         } else {
@@ -264,10 +268,10 @@ const ProductView = async (req, res) => {
         console.log(error);
     }
 }
-const loadforgotpassword=async(req,res)=>{
+const loadforgotpassword = async (req, res) => {
     try {
         res.render('forgotpassword')
-        
+
     } catch (error) {
         console.log(error.message);
     }

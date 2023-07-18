@@ -111,8 +111,8 @@ userRoute.post('/validate_coupon', auth.isLogin, auth.checkBlocked, checkoutCont
 //wishlist
 
 userRoute.get('/wishlist',auth.isLogin,wishlistController.loadWishlist);
-
-
+userRoute.get('/add_to_wishlist',auth.isLogin,wishlistController.addToWishlist)
+userRoute.get('/remove_from_wishlist',auth.isLogin,wishlistController.removeFromWishList);
 
 
 
