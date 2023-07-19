@@ -11,6 +11,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <style>
         body {
@@ -146,18 +147,20 @@
                                             <div class="block2-pic hov-img0">
                                                 <img src="/images/{{this.image.[0]}}" alt="IMG-PRODUCT">
 
-                                                <a href="/productview?id={{this._id}}"
+                                                <a href="/productDetail?id={{this._id}}"
                                                     class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
                                                     Quick View
                                                 </a>
                                             </div>
 
-                                            <div class="dis-flex" style="justify-content: space-between;">
 
+
+                                            <div class="dis-flex" style="justify-content: space-between;">
                                                 <button onclick="addToCartBtn('{{this._id}}')"
-                                                    class=" mt-2 btn btn-sm  btn-outline-secondary">Add to cart</button>
+                                                    class=" mt-2 btn btn-sm btn-outline-secondary">Add to cart</button>
                                                 <button onclick="removeFromWishlist('{{this._id}}','{{this._id}}')"
-                                                    class=" mt-2 btn btn-sm  btn-outline-secondary">Remove</button>
+                                                    class=" mt-2 btn btn-sm btn-outline-secondary">Remove</button>
+                                                <button onclick="testSweetAlert()">Test SweetAlert</button>
 
                                             </div>
 
@@ -178,26 +181,7 @@
 
 
                                                 <div class="block2-txt-child2 flex-r p-t-3">
-
-
-                                                    {{!-- <a
-                                                        class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                                        --}}
-                                                        {{!-- {{#if this.isWishlisted}}
-                                                        <span id="click{{this._id}}">
-                                                            <img onclick="removeFromWishlist('{{this._id}}')"
-                                                                id="icon-1" class=" dis-block trans-04"
-                                                                src="images/icons/icon-heart-02.png" alt="ICON">
-                                                        </span>
-                                                        {{else}}
-                                                        <span id="click{{this._id}}">
-                                                            <img onclick="addToWishlist('{{this._id}}')" id="icon-2"
-                                                                class=" dis-block trans-04 "
-                                                                src="images/icons/icon-heart-01.png" alt="ICON">
-                                                        </span>
-                                                        {{/if}} --}}
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -225,23 +209,23 @@
 
 </html>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.css">
-
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
-
-
 
 <script>
+    function testSweetAlert() {
+        Swal.fire('Hello, SweetAlert is working!');
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.4/dist/sweetalert2.all.min.js"></script>
 
-    const ProName = document.getElementsByName('product_name')[0].value;
+<script>
+    <!-- Add the SweetAlert2 script -->
 
     const addToCartBtn = async (proId) => {
         try {
             const response = await fetch(`/add_to_cart?id=${proId}`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': "application/json",
+                    'Content-Type': 'application/json',
                 },
             });
 
@@ -250,11 +234,12 @@
             if (data) {
                 // Replace the swal() function with SweetAlert2 Swal.fire()
                 Swal.fire({
-                    icon: "success",
-                    title: "🥳",
-                    text: `${ProName} added to Cart!`,
+                    icon: 'success',
+                    title: '🥳',
+                    text: ` added to Cart!`, // Use the product name from the response data
                 });
             }
+            console.log('added to carttt')
         } catch (error) {
             console.error(error);
         }
@@ -263,9 +248,9 @@
 
     const removeFromWishlist = async (id, idd) => {
         try {
-            let response = await fetch(`/remove_from_wishlist?id=${id}`, {
+            const response = await fetch(`/remove_from_wishlist?id=${id}`, {
                 headers: {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json',
                 },
             });
 
@@ -273,20 +258,13 @@
             console.log(data);
             if (data) {
                 // Replace the swal() function with SweetAlert2 Swal.fire()
-                Swal.fire({
-                    icon: "success",
-                    title: "🥳",
-                    text: `${ProName} Removed from wishlist!`,
-                });
+                swal.fire('🥳', `${data.productName} Removed from wishlist!`, 'success'); // Use the product name from the response data
                 document.getElementById('pro_cont' + idd).innerHTML = '';
             }
         } catch (error) {
             console.error(error);
         }
     };
-
-
-
 </script>
 
 {{>userfooter}}
