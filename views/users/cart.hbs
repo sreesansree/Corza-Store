@@ -431,6 +431,8 @@
 			console.log(data)
 			swal("Item Removed from cart!", "", "success")
 			document.getElementById('row' + proId).innerHTML = ''
+			 // Automatically reload the page after the item is removed
+            window.location.reload();
 		}
 
 

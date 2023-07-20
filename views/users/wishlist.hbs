@@ -158,9 +158,9 @@
                                             <div class="dis-flex" style="justify-content: space-between;">
                                                 <button onclick="addToCartBtn('{{this._id}}')"
                                                     class=" mt-2 btn btn-sm btn-outline-secondary">Add to cart</button>
-                                                <button onclick="removeFromWishlist('{{this._id}}','{{this._id}}')"
+                                                <button onclick="removeWishlist('{{this._id}}','{{this._id}}')"
                                                     class=" mt-2 btn btn-sm btn-outline-secondary">Remove</button>
-                                                <button onclick="testSweetAlert()">Test SweetAlert</button>
+                                                {{!-- <button onclick="testSweetAlert()">Test SweetAlert</button> --}}
 
                                             </div>
 
@@ -210,15 +210,15 @@
 </html>
 
 
+{{!--
 <script>
     function testSweetAlert() {
         Swal.fire('Hello, SweetAlert is working!');
     }
-</script>
+</script> --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.4/dist/sweetalert2.all.min.js"></script>
 
 <script>
-    <!-- Add the SweetAlert2 script -->
 
     const addToCartBtn = async (proId) => {
         try {
@@ -236,7 +236,7 @@
                 Swal.fire({
                     icon: 'success',
                     title: '🥳',
-                    text: ` added to Cart!`, // Use the product name from the response data
+                    text: ` Added to Cart!`, // Use the product name from the response data
                 });
             }
             console.log('added to carttt')
@@ -246,7 +246,7 @@
     };
 
 
-    const removeFromWishlist = async (id, idd) => {
+    const removeWishlist = async (id, idd) => {
         try {
             const response = await fetch(`/remove_from_wishlist?id=${id}`, {
                 headers: {
@@ -255,11 +255,14 @@
             });
 
             let data = await response.json();
-            console.log(data);
             if (data) {
                 // Replace the swal() function with SweetAlert2 Swal.fire()
-                swal.fire('🥳', `${data.productName} Removed from wishlist!`, 'success'); // Use the product name from the response data
-                document.getElementById('pro_cont' + idd).innerHTML = '';
+                Swal.fire('🥳', `${data.message}`, 'success'); // Use the product name from the response data
+
+                const removedElement = document.getElementById('pro_cont' + idd);
+                removedElement.remove(); // Remove the element from the DOM
+                 // Automatically reload the page after the item is removed
+            window.location.reload();
             }
         } catch (error) {
             console.error(error);
