@@ -348,7 +348,9 @@
 		if (data && data.message === 'Added') {
 			alertify.set('notifier', 'position', 'top-center');
 			alertify.success(`${proName} Added to wishlist`);
+			
 		}
+		{{!-- window.location.reload() --}}
 	};
 
 	// Remove from WishList
@@ -376,16 +378,18 @@
 					// For example, you can call your removeWishlist function here
 					// Replace productId with the ID of the item to be removed
 					alertify.success(`${proName} Removed from wishlist`);
+					 window.location.reload();
 				},
 				function () {
 					// User clicked "Cancel" button
 					// Optionally, you can show a cancellation message if needed
 					alertify.error("Removal cancelled");
+					 window.location.reload();
 				}
 			).set('labels', { ok: 'OK', cancel: 'Cancel' });
 
 		}
-		
+
 	}
 
 </script>

@@ -116,6 +116,7 @@ const getotp = (req, res) => {
 }
 const verifyOtp = async (req, res) => {
     try {
+        const walletValue = userRegData.wallet || 0;
         const password = await argon2.hash(userRegData.password);
         const enteredotp = req.body.otp;
 
@@ -127,7 +128,7 @@ const verifyOtp = async (req, res) => {
                 password: password,
                 is_blocked: false,
                 is_verfied: false,
-                wallet: {}
+                wallet: walletValue
             });
             const userData = await user.save();
             console.log(userData);
@@ -141,6 +142,18 @@ const verifyOtp = async (req, res) => {
 };
 
 
+//To resend otp
+
+const resendOtp =  async (req, res)=>{
+    try {
+        res.redirect('/get_otp')
+        otp = await userHelper.verifyEmail(userEmail)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 const verifylogin = async (req, res) => {
     try {
         let email = req.body.email;
@@ -152,7 +165,6 @@ const verifylogin = async (req, res) => {
         //   const categories = await Category.find();
         console.log(req.body);
         if (userData) {
-            console.log("mdlknnfslf");
             var passwordMatch = await argon2.verify(userData.password, password);
             // let passwordMatch = await securePassword(userRegData.password,password)
             console.log(password);
@@ -354,5 +366,6 @@ module.exports = {
     verifyemail,
     verifyforgototp,
     loadresetpassword,
-    resetpassword
+    resetpassword,
+    resendOtp
 }

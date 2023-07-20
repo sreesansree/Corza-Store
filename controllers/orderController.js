@@ -14,11 +14,14 @@ const myOrders = async (req, res) => {
         const userData = req.session.userdata;
         const userId = userData._id
 
-        const orders = await Order.find().sort({ data: -1 })
+        console.log(userData, "From orderDetails")
+
+        const orders = await Order.find({ userId }).sort({ data: -1 })
         const formattedOrders = orders.map(order => {
             const formattedDate = moment(order.date).format('MMMM D,YYYY');
             return { ...order.toObject(), date: formattedDate }
         })
+
         console.log("orders" + orders)
 
         res.render('my_orders', { userData, myOrders: formattedOrders || [], })
@@ -85,96 +88,35 @@ const orderDetails = async (req, res) => {
 }
 const returnOrder = async (req, res) => {
     try {
+        
         const id = req.query.id
+        await Order.findByIdAndUpdate(id, { $set: { status: 'Returned' } }, { new: true });
+        res.json('sucess');
 
-        await Orders.findByIdAndUpdate(id, { $set: { status: 'Returned' } }, { new: true });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const cancelOrder = async (req, res) => {
+    try {
+        const id = req.query.id
+        const userData = req.session.userdata
+        const userId = userData._id
+
+        const { updateWallet, payMethod } = req.body
+        console.log("cancel order from orderdetails")
+        if (payMethod === 'wallet' || payMethod === 'razorpay') {
+            await User.findByIdAndUpdate(userId, { $set: { wallet: updateWallet } }, { new: true })
+        }
+
+        await Order.findByIdAndUpdate(id, { $set: { status: 'Cancelled' } }, { new: true });
 
         res.json('sucess')
     } catch (error) {
         console.log(error);
     }
 }
-
-// const cancelOrder = async (req, res) => {
-//   try {
-//     const userData = req.session.userdata;
-//     const orderId = req.query.id;
-//     console.log('Order ID:', orderId ,"From Cancel Order");
-//     // if (!mongoose.Types.ObjectId.isValid(orderId)) {
-//     //   throw new Error('Invalid order ID');
-//     // }
-//     const updatedOrder = await Order.findByIdAndUpdate(
-//       orderId,
-//       { $set: { status: 'Cancelled' } },
-//       { new: true }
-//     );
-// console.log(updatedOrder,"updateOrderrrrrrrrrrrrr")
-//     if (!updatedOrder) {
-//       throw new Error('Order not found');
-//     }
-
-//     res.json({ success: true, updatedOrder ,orderId});
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ success: false, error: error.message });
-//   }
-// };
-
-// const cancelOrder = async (req, res) => {
-//     try {
-//         const id = req.query.id
-//         const userData = req.session.userdata
-//         const userId = userData._id
-//         const Id = req.query.id;
-//         const orderId = mongoose.Types.ObjectId(Id);
-//         console.log(id, "queryIDDD")
-//         console.log(userId, 'UserIDD')
-
-//         await Order.findByIdAndUpdate(id, { $set: { status: 'Cancelled' } }, { new: true });
-
-//         res.json('sucess')
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-
-// const cancelOrder = async (req, res) => {
-//     try {
-//         const userData = req.session.userdata;
-//         const userId = userData._id;
-
-//         // const orderId = req.query.id
-//         // console.log(orderId ,"OrderIddddd")
-//         // const id = new mongoose.Types.ObjectId(orderId);
-//         const id = new mongoose.Types.ObjectId(req.query.id.trim());
-//         console.log(id, 'queryIDDD');
-//         console.log(userId, 'UserIDD');
-
-//         await Order.findByIdAndUpdate(id, { $set: { status: 'Cancelled' } }, { new: true });
-
-//         res.json('success');
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
-const cancelOrder = async (req, res) => {
-  try {
-    const id = req.params.id;
-    console.log(id);
-    const query = { _id: ObjectId(id) };
-    const userData = req.session.userdata;
-    const userId = userData._id;
-
-    console.log(id, 'queryIDDD');
-    console.log(userId, 'UserIDD');
-
-    await Order.findByIdAndUpdate(id, { $set: { status: 'Cancelled' } }, { new: true });
-
-    res.json('success');
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 
 

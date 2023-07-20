@@ -1,14 +1,9 @@
 {{>userheader}}
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Corza Store</title>
-
+  <!-- SweetAlert CSS -->
+ 
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
   <style>
     body {
       color: #69707a;
@@ -78,9 +73,7 @@
       margin-right: 1rem;
     }
   </style>
-</head>
 
-<body>
 
 
   <div class="container-xl px-4" style="margin-top: 100px; margin-bottom: 100px;">
@@ -101,7 +94,7 @@
           <div class="card-body">
             <div class=" mb-3 ml-auto" style="width: fit-content;">
               <button onclick="getInvoice('{{myOrderDetails._id}}')" class="btn btn-secondary ml-1">Invoice</button>
-                        <input type="hidden" name="order_id" value="{{myOrderDetails._id}}">
+              <input type="hidden" name="order_id" value="{{myOrderDetails._id}}">
             </div>
             <table class="table table-hover">
               <thead>
@@ -139,6 +132,7 @@
 
                 <input type="hidden" name="total" value="{{myOrderDetails.total}}">
                 <input type="hidden" name="pay-method" value="{{myOrderDetails.paymentMethod}}">
+                <input type="hidden" name="user_wallet" value="{{walletValue}}">
 
                 <p class="mb-2">Payment method: {{myOrderDetails.paymentMethod}}</p>
                 <p class="mb-2">Order status : <span id="order_status">{{myOrderDetails.status}}</span></p>
@@ -172,58 +166,29 @@
             {{!-- <p>Delivery address : {{myOrderDetails.address}}</p> --}}
             <div class="mt-3 mb-2">
               <a href="/my_orders" class="btn btn-primary">Back to my orders</a>
-              {{!--
-              {{#ifeq myOrderDetails.status 'pending'}}
-              <span id="cancel_btn">
-                <button onclick="cancelOrder()" type="button" class="ml-2 btn btn-danger">
-                  Cancel order
-                </button>
-              </span>
-              {{/ifeq}}
+               {{#ifeq myOrderDetails.status 'pending'}}
+                    <span id="cancel_btn">
+                      <button onclick="status()" type="button" class="ml-2 btn btn-danger">
+                        Cancel order
+                      </button>
+                    </span>
+                    {{/ifeq}}
 
-              {{#ifeq myOrderDetails.status 'Delivered'}}
-              <span id="return_btn">
-                <button onclick="returnOrder()" type="button" class="ml-2 btn btn-danger">
-                  Return
-                </button>
-              </span>
-              {{/ifeq}}
+                    {{#ifeq myOrderDetails.status 'Delivered'}}
+                    <span id="return_btn">
+                      <button onclick="status2()" type="button" class="ml-2 btn btn-danger">
+                        Return
+                      </button>
+                    </span>
+                    {{/ifeq}}
 
-              {{#ifeq myOrderDetails.status 'Shipped'}}
-              <span id="cancel_btn">
-                <button onclick="cancelOrder()" type="button" class="ml-2 btn btn-danger">
-                  Cancel order
-                </button>
-              </span>
-              {{/ifeq}} --}}
-              {{#ifeq myOrderDetails.status 'pending'}}
-              <span id="cancel_btn">
-                <button id="cancel_button" type="button" onclick="cancelOrder('{{myOrderDetails._id}}')"
-                  class="ml-2 btn btn-danger">
-                  Cancel order
-                </button>
-    
-              </span>
-              {{/ifeq}}
- 
-
-              {{#ifeq myOrderDetails.status 'Delivered'}}
-              <span id="return_btn">
-                <button id="return_button" type="button" onclick="returnOrder('{{myOrderDetails.orderId}}')"
-                  class="ml-2 btn btn-danger">
-                  Return
-                </button>
-              </span>
-              {{/ifeq}}
-
-              {{#ifeq myOrderDetails.status 'Shipped'}}
-              <span id="cancel_btn">
-                <button id="cancel_button" type="button" onclick="cancelOrder('{{myOrderDetails.orderId}}')"
-                  class="ml-2 btn btn-danger">
-                  Cancel order
-                </button>
-              </span>
-              {{/ifeq}}
+                    {{#ifeq myOrderDetails.status 'Shipped'}}
+                    <span id="cancel_btn">
+                      <button onclick="status()" type="button" class="ml-2 btn btn-danger">
+                        Cancel order
+                      </button>
+                    </span>
+                    {{/ifeq}}
 
             </div>
           </div>
@@ -231,85 +196,95 @@
       </div>
     </div>
   </div>
-</body>
 
-</html>
-
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script src="sweetalert2.all.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+  
 <script>
-  const orderId = `{{myOrderDetails.orderId}}`;
+   
 
-  document.getElementById('cancel_button').addEventListener('click', cancelOrder);
-  document.getElementById('return_button').addEventListener('click', returnOrder);
+  const orderId = document.getElementsByName('order_id')[0].value
+  console.log(orderId)
 
-  async function cancelOrder() {
-    Swal.fire({
-      title: 'Are you sure you want to cancel?',
-      text: '',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, cancel it!',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await changeStatus(orderId, 'cancel', 'Cancelled');
-      } else {
-        Swal.fire('Cancelled', 'Your order was not canceled.', 'info');
-      }
-    });
+  const status = () => {
+
+    swal({
+      title: `Are you sure cancel?`,
+      text: "",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+      changeStatus
+    })
+      .then((willDelete) =>  {
+        if (willDelete) {
+          changeStatus(orderId, 'cancel', 'Cancelled')
+        } else {
+          swal("Your order not canceled!");
+        }
+      })
   }
 
-  async function returnOrder() {
-    Swal.fire({
-      title: 'Are you sure you want to return?',
-      text: '',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, return it!',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await changeStatus(orderId, 'return', 'Returned');
-      } else {
-        Swal.fire('Cancelled', 'Your order was not returned.', 'info');
-      }
-    });
+
+
+   const status2 = () => {
+
+    swal({
+      title: `Are you sure want to return?`,
+      text: "",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+      changeStatus
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          changeStatus(orderId, 'return', 'Returned')
+        } else {
+          swal("Your order not returned!");
+        }
+      })
   }
 
-  async function changeStatus(id, status, status2) {
-    const total = Number(document.getElementsByName('total')[0].value);
-    const payMethod = document.getElementsByName('pay-method')[0].value;
 
-    try {
-      const response = await fetch(`/${status}_order?id=${id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ payMethod: payMethod }),
-      });
 
-      const data = await response.json();
-      console.log(data);
 
-      if (data.success) {
-        document.getElementById('cancel_btn').innerHTML = '';
-        document.getElementById('order_status').innerText = status2;
-        Swal.fire(`Success`, `Your order has been ${status2}!`, 'success');
-      } else {
-        Swal.fire('Error', 'An error occurred. Your order was not updated.', 'error');
-      }
-    } catch (error) {
-      console.log(error);
-      Swal.fire('Error', 'An error occurred. Your order was not updated.', 'error');
+  const changeStatus = async (id, status, status2) => {
+
+    const wallet    = Number(document.getElementsByName('user_wallet')[0].value)
+    const total     = Number( document.getElementsByName('total')[0].value )
+
+    let updateWallet  = wallet + total
+    console.log(updateWallet, 'update walletttttttt', wallet, 'wallettttt', total, 'totallllllllllllllllllll')
+    
+    const payMethod = document.getElementsByName('pay-method')[0].value
+    console.log('am from change status....,', total, ',,,,', payMethod)
+
+    const response = await fetch(`/${status}_order?id=${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': "application/json" },
+
+      body: JSON.stringify({
+        updateWallet: updateWallet,
+        payMethod: payMethod,
+      })
+    })
+
+    const data = await response.json()
+    console.log(data,"Dataaaaaaa")
+
+    if (data) {
+       document.getElementById('cancel_btn').innerHTML = ''
+       document.getElementById('order_status').innerText = `${status2}`
+      swal(`Your order has been ${status2}!`, {
+        icon: "success",
+      })
     }
   }
+
 </script>
+
+
+
+
 
 
 
@@ -341,6 +316,9 @@
         console.error(error);
       });
   }
+
+
+
 </script>
 
 {{>userfooter}}

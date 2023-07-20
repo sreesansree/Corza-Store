@@ -29,16 +29,16 @@ const productschema = new mongoose.Schema({
         type:String,
         required:true
     },
-    // offer: {
-    //     type: Number,
-    //     required: true
-    // },
+    offer: {
+        type: Number,
+        required: true
+    },
 
     quantity: {
         type: Number,
         default: 0
     },
-    is_blocked: {
+    is_blocked: {       
         type: Boolean,
         default: false
     },
