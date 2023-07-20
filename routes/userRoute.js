@@ -100,7 +100,6 @@ userRoute.get('/my_orders', auth.isLogin, orderController.myOrders);
 userRoute.get('/order_details', auth.isLogin, orderController.orderDetails);
 userRoute.get('/return_order', auth.isLogin, auth.checkBlocked, orderController.returnOrder);
 userRoute.post('/cancel_order', auth.isLogin, auth.checkBlocked, orderController.cancelOrder);
-// userRoute.put("/orders/:orderId/cancel",auth.isLogin, orderController.cancellOrder);
 
 
 userRoute.get('/category_fil', categoryController.catFilter);

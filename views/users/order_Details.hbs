@@ -223,8 +223,6 @@
       })
   }
 
-
-
    const status2 = () => {
 
     swal({
@@ -244,9 +242,6 @@
       })
   }
 
-
-
-
   const changeStatus = async (id, status, status2) => {
 
     const wallet    = Number(document.getElementsByName('user_wallet')[0].value)
@@ -261,7 +256,6 @@
     const response = await fetch(`/${status}_order?id=${id}`, {
       method: 'POST',
       headers: { 'Content-Type': "application/json" },
-
       body: JSON.stringify({
         updateWallet: updateWallet,
         payMethod: payMethod,

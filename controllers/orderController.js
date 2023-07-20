@@ -88,7 +88,7 @@ const orderDetails = async (req, res) => {
 }
 const returnOrder = async (req, res) => {
     try {
-        
+
         const id = req.query.id
         await Order.findByIdAndUpdate(id, { $set: { status: 'Returned' } }, { new: true });
         res.json('sucess');
@@ -117,6 +117,7 @@ const cancelOrder = async (req, res) => {
         console.log(error);
     }
 }
+
 
 
 
