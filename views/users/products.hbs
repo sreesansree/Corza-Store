@@ -2,6 +2,7 @@
 
 
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
 
 
 <body class="animsition">
@@ -15,12 +16,10 @@
 						data-filter="*">
 						All Products
 					</a>
-					<a href="/women" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1"
-						data-filter="*">
+					<a href="/women" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
 						Women
 					</a>
-					<a href="/men" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1"
-						data-filter="*">
+					<a href="/men" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
 						Men
 					</a>
 					<a href="/products" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1"
@@ -284,7 +283,7 @@
 									<input type="hidden" id="id" value="{{this._id}}">
 
 									<span class="stext-105 cl3">
-										 ₹ {{this.price}}
+										₹ {{this.price}}
 									</span>
 								</div>
 
@@ -298,7 +297,7 @@
 												alt="ICON">
 										</span>
 										{{else}}
-										
+
 										<span id="click{{this._id}}">
 											<img onclick="addToWishlistClient('{{this._id}}')" id="icon-2"
 												class=" dis-block trans-04 " src="images/icons/icon-heart-01.png"
@@ -324,30 +323,69 @@
 
 
 </body>
-{{!-- <script src="/javascript/products.js"></script> --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
+{{!--
+<script src="/javascript/products.js"></script> --}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
 <script>
-	
+
 	const addToWishlistClient = async (id) => {
-    const proName = document.getElementById('name' + id).value;
-    document.getElementById('click' + id).innerHTML =
-        `<img class="dis-block trans-04" src="images/icons/icon-heart-02.png" alt="ICON">`;
+		const proName = document.getElementById('name' + id).value;
+		document.getElementById('click' + id).innerHTML =
+			`<img class="dis-block trans-04" src="images/icons/icon-heart-02.png" alt="ICON">`;
 
-    let response = await fetch(`/add_to_wishlist?id=${id}`, {
-        headers: {
-            "Content-Type": "application/json"
-        },
-    });
+		let response = await fetch(`/add_to_wishlist?id=${id}`, {
+			headers: {
+				"Content-Type": "application/json"
+			},
+		});
 
-    let data = await response.json();
-    console.log(data);
-    if (data && data.message === 'Added') {
-        alertify.set('notifier', 'position', 'bottom-center');
-        alertify.success(`${proName} Added to wishlist`);
-    }
-};
+		let data = await response.json();
+		console.log(data);
+		if (data && data.message === 'Added') {
+			alertify.set('notifier', 'position', 'top-center');
+			alertify.success(`${proName} Added to wishlist`);
+		}
+	};
+
+	// Remove from WishList
+	const removeFromWishlist = async (id) => {
+		const proName = document.getElementById('name' + id).value
+
+		document.getElementById('click' + id).innerHTML =
+			`<img class=" dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">`
+
+		let response = await fetch(`/remove_from_wishlist?id=${id}`, {
+			headers: {
+				"Content-Type": "application/json"
+			},
+		})
+
+		let data = await response.json()
+		console.log(data)
+		if (data) {
+			alertify.set('notifier', 'position', 'top-center');
+			alertify.confirm(
+				`${proName} will be removed from the wishlist. Are you sure?`,
+				function () {
+					// User clicked "OK" button
+					// Perform the removal logic here
+					// For example, you can call your removeWishlist function here
+					// Replace productId with the ID of the item to be removed
+					alertify.success(`${proName} Removed from wishlist`);
+				},
+				function () {
+					// User clicked "Cancel" button
+					// Optionally, you can show a cancellation message if needed
+					alertify.error("Removal cancelled");
+				}
+			).set('labels', { ok: 'OK', cancel: 'Cancel' });
+
+		}
+		
+	}
 
 </script>
