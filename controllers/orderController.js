@@ -91,61 +91,94 @@ const orderDetails = async (req, res) => {
         console.log(error.message)
     }
 }
-const returnOrder = async (req, res) => {
+
+
+let paymentMethod
+
+//CANCEL ORDER
+const orderCancel = async (req, res) => {
     try {
-        const orderId = req.params.orderId;
-        console.log(orderId, "OrderIDDDD")
-        const updatedOrder = await Order.findByIdAndUpdate(
-            orderId,
-            { status: "Returned" },
-            { new: true }
-        );
-        res.json(updatedOrder);
-    } catch (error) {
 
-        res.status(500).json({ error: "Something went wrong" });
-    }
-};
+        const userId = req.session.userdata._id;
+        const userData = await User.findById(userId)
+        const orderId = req.body.id
 
-// const cancelOrder = async (req, res) => {
-//     try {
-//         const id = req.query.id
-//         const userData = req.session.userdata
-//         const userId = userData._id
+        const orderData = await Order.findById(orderId)
+        const paymentMethod = orderData.paymentMethod
 
-//         const { updateWallet, payMethod } = req.body
-//         console.log("cancel order from orderdetails")
-//         if (payMethod === 'wallet' || payMethod === 'razorpay') {
-//             await User.findByIdAndUpdate(userId, { $set: { wallet: updateWallet } }, { new: true })
-//         }
+        const currentBalance = userData.wallet
 
-//         await Order.findByIdAndUpdate(id, { $set: { status: 'Cancelled' } }, { new: true });
+        const refundAmount = orderData.total;
 
-//         res.json('sucess')
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-const cancellOrder = async (req, res) => {
-    try {
-        const orderId = req.params.orderId;
-        const userData = req.session.userdata
-        const userId = userData._id
-        const { updateWallet, payMethod } = req.body
-        if (payMethod === 'wallet' || payMethod === 'razorpay') {
-            await User.findByIdAndUpdate(userId, { $set: { wallet: updateWallet } }, { new: true })
+        const updateTotalAmount = currentBalance + refundAmount
+        console.log(updateTotalAmount, 146666);
+
+        if (paymentMethod == "razorpay" || paymentMethod == "wallet") {
+            console.log('this is inside if')
+            const updatewalletAmount = await User.findByIdAndUpdate(
+                userData._id,
+                { $set: { wallet: updateTotalAmount } },
+                { new: true })
+            console.log("order completed");
         }
-        const updatedOrder = await Order.findByIdAndUpdate(
-            orderId,{$set:{ status: "Cancelled" }},
+        const { id } = req.body;
+        const updatedData = await Order.findByIdAndUpdate(
+            { _id: id },
+            { status: "Cancelled" },
             { new: true }
         );
-
-        res.json(updatedOrder);
+        res.json(updatedData);
     } catch (error) {
-
-        res.status(500).json({ error: "Something went wrong" });
+        console.log(error.message);
     }
 };
+
+// Return Order
+const orderReturn = async (req, res) => {
+    try {
+
+        const userId = req.session.userdata._id;
+        const userData = await User.findById(userId)
+        const orderId = req.body.id
+
+        const orderData = await Order.findById(orderId)
+        const paymentMethod = orderData.paymentMethod
+        const currentBalance = userData.wallet
+        const refundAmount = orderData.total;
+
+        const updateTotalAmount = currentBalance + refundAmount
+        console.log(updateTotalAmount, 182222);
+
+
+        const updatewalletAmount = await User.findByIdAndUpdate(
+
+            userData._id,
+            { $set: { wallet: updateTotalAmount } },
+            { new: true })
+
+        console.log("order completed");
+        const { id } = req.body;
+        const updatedData = await Order.findByIdAndUpdate(
+            id,
+            { status: 'Returned' },
+            { new: true }
+        );
+        res.json(updatedData);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
+};
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -190,9 +223,9 @@ const getInvoice = async (req, res) => {
             // Your own data
             sender: {
                 company: 'Coza Store',
-                address: 'Puthumana Wayanad',
-                zip: '670645',
-                city: 'Mananthavady',
+                address: 'Hustle Hub,Hsr Layout',
+                zip: '500502',
+                city: 'Banglore',
                 country: 'India',
             },
             // Your recipient
@@ -206,11 +239,11 @@ const getInvoice = async (req, res) => {
 
             information: {
                 // Invoice number
-                number: "2021.0001",
+                number: "2023.0001",
                 // Invoice data
                 date: date,
                 // Invoice due date
-                // duedate: "31-12-2021"
+                duedate: "31-12-2024"
             },
             // invoiceNumber: '2023001',
             // invoiceDate: date,
@@ -241,9 +274,11 @@ module.exports = {
     myOrders,
     orderSuccess,
     orderDetails,
-    returnOrder,
-    cancellOrder,
+    orderCancel,
+    orderReturn,
     getInvoice
+ 
+
 }
 
 

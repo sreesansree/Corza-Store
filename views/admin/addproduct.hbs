@@ -65,7 +65,7 @@
           {{message}}
         </div>
         {{/if}}
-           {{#if message1}}
+        {{#if message1}}
         <div class="alert alert-danger mt-3">
           {{message1}}
         </div>
@@ -101,12 +101,14 @@
 
           <div class="form-group">
             <label for="category">Category</label>
-            <select id="category"  name="category" class="form-control">
+  
+            <select id="category" name="category" class="form-control">
               {{#each categorydata}}
               <option value={{this._id}}>{{this.name}}</option>
               {{/each}}
             </select>
-             {{#if errors.categorydata}}
+            
+            {{#if errors.categorydata}}
             <div class="error-message">{{errors.categorydata}}</div>
             {{/if}}
           </div>
@@ -114,7 +116,7 @@
           <div class="form-group">
             <label for="brand">Brand</label>
             <input type="text" id="quantity" name="brand" class="form-control">
-           {{#if errors.brand}}
+            {{#if errors.brand}}
             <div class="error-message">{{errors.brand}}</div>
             {{/if}}
           </div>
@@ -142,13 +144,13 @@
           </div>
           {{!-- <div class="form-group">
             <label for="offer">Offer</label>
-            <input type="number" id="offer" name="offer" class="form-control" min="0" max="100">
+            <input type="number" id="offer" name="offer" class="form-control">
           </div> --}}
 
 
           <button type="submit" class="btn btn-primary">Add Product</button>
         </form>
-     
+
       </div>
     </div>
   </div>

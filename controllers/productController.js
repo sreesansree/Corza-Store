@@ -38,19 +38,20 @@ const addProduct = async (req, res) => {
             const image = element.filename;
             images.push(image);
         });
+        const categorydata = await category.find();
         const productdata = await Product.findOne({ description: productdescription });
-        // const offerprice = (req.body.price) - (req.body.price) * (req.body.offer) / 100;
-        // console.log(offerprice, "Offer Price")
+        // const offe rprice = (req.body.price) - (req.body.price) * (req.body.offer) / 100;
+
         const errors = {};
         if (Object.values(req.body).some(value => !value.trim() || value.trim().length === 0)) {
             errors.name = 'Please provide a product name.';
             errors.description = 'Please provide a product description.';
-            errors.images = 'Please provie image'
-            errors.categorydata = 'please choose one category'
+            errors.images = 'Please provide image'
+            errors.category = 'please choose one category'
             errors.brand = 'Please provide a brand name'
             errors.price = 'please provide price'
             errors.quantity = 'Please provide Quantity'
-            res.render('addproduct', { message: "", errors })
+            res.render('addproduct', { message: "", errors,categorydata  })
         } else {
 
             if (productdata) {
@@ -63,9 +64,9 @@ const addProduct = async (req, res) => {
                     brand: req.body.brand,
                     price: req.body.price,
                     category: req.body.category,
-                    // quantity: req.body.quantity,
+                    quantity: req.body.quantity,
                     // offer: req.body.offer,
-                    offerprice: offerprice, // Use the calculated offerprice variable here
+                    // offerprice: offerprice, // Use the calculated offerprice variable here
                     is_blocked: false,
                 });
 
@@ -117,8 +118,6 @@ const updateProduct = async (req, res) => {
         const exImage = productdata.image;
         const files = req.files;
         let updImages = [];
-        // const offerprice = (req.body.price) - (req.body.price) * (req.body.offer) / 100
-
         if (files && files.length > 0) {
             const newImages = req.files.map((file) => file.filename);
             updImages = [...exImage, ...newImages]
@@ -126,9 +125,7 @@ const updateProduct = async (req, res) => {
         } else {
             updImages = exImage;
         }
-
         const { name, price, description, category, quantity, brand } = req.body
-
         console.log(productdata, "Product is getting............")
         await Product.findByIdAndUpdate(id, {
             $set: {
@@ -139,9 +136,7 @@ const updateProduct = async (req, res) => {
                 price: price,
                 brand: brand,
                 quantity: quantity,
-                // offer: req.body.offer,
-                // offerprice: offerprice,
-                is_blocked: false
+                is_blocked:false
             }
         }, { new: true });
         res.redirect('/admin/product')

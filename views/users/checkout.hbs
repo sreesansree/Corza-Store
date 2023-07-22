@@ -423,7 +423,7 @@
                 </label>
               </div>
               <div class="bg-dark text-white p-15 rounded ml-3" style="width: fit-content;">
-                <p class="my-2 mx-2" style="font-size: smaller;">Available Balance : <strong>$<span
+                <p class="my-2 mx-2" style="font-size: smaller;">Available Balance : <strong>₹<span
                       id="update_wallet">{{userData.wallet}}</span> </strong></p>
                 <input type="hidden" value="{{userData.wallet}}" name="wallet">
               </div>
@@ -574,7 +574,7 @@
 
     const useWallet = () => {
       const wallet = document.getElementsByName('wallet')[0].value
-      const subTotal = Number(document.getElementsByName('subTotal')[0].value)
+       subTotal = Number(document.getElementsByName('subTotal')[0].value)
       console.log(wallet, 'walletttttttttttt', subTotal)
 
       if (wallet > subTotal) {
@@ -590,7 +590,7 @@
 
     const Cod = async () => {
       const selectAddress = document.querySelector('#selectedAddress').value
-      const subTotal = Number(document.getElementsByName('subTotal')[0].value)
+      subTotal = Number(document.getElementsByName('subTotal')[0].value)
 
       const datas = await fetch('/place_order', {
         method: 'POST',
@@ -609,7 +609,7 @@
       const placeOrderData = await datas.json()
       console.log(placeOrderData + 'cheking here......now')
       if (placeOrderData) {
-        console.log(' hiiii am from place oreder data')
+        console.log(' hiiii am from place order data')
         const wallet = document.getElementById('update_wallet').innerText = updateWallet
 
         window.location.href = '/order_sucess'
@@ -654,9 +654,9 @@
 
     const validateCoupon = async () => {
       try {
-        const couponVal = document.getElementById('coupon').value;
-        const subTotal = Number(document.getElementsByName('subTotal')[0].value);
-        console.log(couponVal, "couponValue", subTotal, "subtotal")
+        const couponE1 = document.getElementById('coupon').value;
+         subTotal = Number(document.getElementsByName('subTotal')[0].value);
+        console.log(couponE1, "couponValue", subTotal, "subtotal")
 
         const response = await fetch('/validate_coupon', {
           method: 'POST',
@@ -664,13 +664,14 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            couponVal,
-            subTotal
+            couponVal: couponE1,
+            subTotal: subTotal
           })
         });
 
         const couponData = await response.json();
         console.log("12222233", couponData, "CouponData12333")
+
         if (couponData === 'invalid') {
           setCouponStatus('Invalid coupon', document.getElementById('couponMsg'), 'red');
           console.log("invaliddd")
@@ -691,12 +692,14 @@
           console.log('Discount:', couponData.discount);
           console.log("Coupom Code addedSuccefullyyyyyy")
 
-          // Update the content of the coupon code and discount amount spans
-          document.getElementById('coupon_code').querySelector('small').innerHTML = couponVal;
-          document.querySelector('#discount_amt span').innerHTML = `- ₹${couponData.discountAmt}`;
 
           // Update the new subtotal
-          document.getElementById('total').innerHTML = `₹ ${couponData.newTotal}`;
+          subTotal = Number(document.getElementById('new_sub_total').innerHTML = `<strong >₹${couponData.newTotal}</strong>`)
+
+          // Update the content of the coupon code and discount amount spans
+          document.getElementById('coupon_code').querySelector('small').innerHTML = `<small>${couponEl}</small>`;
+          document.querySelector('#discount_amt').innerHTML = `<span class="text-success">-₹${couponData.discountAmt}</span>`;
+
 
         }
 

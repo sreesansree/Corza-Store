@@ -98,13 +98,10 @@ userRoute.post('/place_order', auth.isLogin, auth.checkBlocked, checkoutControll
 userRoute.get('/order_sucess', auth.isLogin, orderController.orderSuccess);
 userRoute.get('/my_orders', auth.isLogin, orderController.myOrders);
 userRoute.get('/order_details', auth.isLogin, orderController.orderDetails);
-// userRoute.post('/cancel_order', auth.isLogin, auth.checkBlocked, orderController.cancelOrder);
 
-userRoute.put('/orders/:orderId/cancel',auth.isLogin,auth.checkBlocked,orderController.cancellOrder);
-userRoute.put('/orders/:orderId/return', auth.isLogin, auth.checkBlocked, orderController.returnOrder);
-// router.put("/orders/:orderId/cancel",isLogin,isBlocked, orderController.cancellOrder);
+userRoute.post('/ordercancel',auth.isLogin,orderController.orderCancel);
+userRoute.post('/orderreturn',auth.isLogin,orderController.orderReturn);
 
-// router.put("/orders/:orderId/return",isLogin,isBlocked, orderController.returnOrder);
 
 
 userRoute.get('/category_fil', categoryController.catFilter);
@@ -120,7 +117,7 @@ userRoute.get('/remove_from_wishlist',auth.isLogin,wishlistController.removeFrom
 
 //invoice
 
-userRoute.get('get_invoice',auth.isLogin,orderController.getInvoice);
+userRoute.get('/get_invoice',auth.isLogin,orderController.getInvoice);
 
 
 
