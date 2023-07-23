@@ -114,7 +114,7 @@ userRoute.post('/validate_coupon', auth.isLogin, auth.checkBlocked, checkoutCont
 userRoute.get('/wishlist',auth.isLogin,wishlistController.loadWishlist);
 userRoute.get('/add_to_wishlist',auth.isLogin,wishlistController.addToWishlist)
 userRoute.get('/remove_from_wishlist',auth.isLogin,wishlistController.removeFromWishList);
-
+// userRoute.get('/check_product_in_wishlist',wishlistController.checkProductInWishlist)
 //invoice
 
 userRoute.get('/get_invoice',auth.isLogin,orderController.getInvoice);

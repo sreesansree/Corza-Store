@@ -13,12 +13,24 @@ const { validateHeaderValue } = require('http');
 
 const myOrders = async (req, res) => {
     try {
+
+
+
+        const PAGE_SIZE = 10; // Number of items per page
+        const page = parseInt(req.query.page, 10) || 1; // Ensure to specify radix 10
+        const totalOrders = await User.countDocuments();
+
+        const totalPages = Math.ceil(totalOrders / PAGE_SIZE);
+        const skip = (page - 1) * PAGE_SIZE;
+
+
         const userData = req.session.userdata;
         const userId = userData._id
 
         console.log(userData, "From orderDetails")
+        const orders = await Order.find({ userId }).sort({ date: -1 }).skip(skip).limit(PAGE_SIZE);
 
-        const orders = await Order.find({ userId }).sort({ data: -1 })
+
         const formattedOrders = orders.map(order => {
             const formattedDate = moment(order.date).format('MMMM D,YYYY');
             return { ...order.toObject(), date: formattedDate }
@@ -26,7 +38,13 @@ const myOrders = async (req, res) => {
 
         console.log("orders" + orders)
 
-        res.render('my_orders', { userData, myOrders: formattedOrders || [], })
+        res.render('my_orders', {
+            userData,
+            myOrders: formattedOrders || [],
+            currentPage: page,
+            totalPages: totalPages,
+            itemsPerPage: PAGE_SIZE,
+        })
     } catch (error) {
         console.log(error.message)
     }
@@ -171,18 +189,6 @@ const orderReturn = async (req, res) => {
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 const getInvoice = async (req, res) => {
     try {
         const orderId = req.query.id;
@@ -202,7 +208,7 @@ const getInvoice = async (req, res) => {
             description: product.name,
             tax: product.tax,
             price: product.price,
-          
+
         }));
 
         const date = moment(order.date).format('MMMM D, YYYY');
@@ -278,7 +284,7 @@ module.exports = {
     orderCancel,
     orderReturn,
     getInvoice
- 
+
 
 }
 

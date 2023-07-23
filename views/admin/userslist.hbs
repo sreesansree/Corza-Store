@@ -1,87 +1,100 @@
 {{>adminheader}}
 <div class="content">
- <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+  <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+      <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+    </a>
+    <a href="#" class="sidebar-toggler flex-shrink-0">
+      <i class="fa fa-bars"></i>
+    </a>
+    {{!-- <form class="d-none d-md-flex ms-4">
+      <input class="form-control border-0" type="search" placeholder="Search">
+    </form> --}}
+    <div class="navbar-nav align-items-center ms-auto">
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+          <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+          <span class="d-none d-lg-inline-flex">Sree San</span>
         </a>
-        <a href="#" class="sidebar-toggler flex-shrink-0">
-            <i class="fa fa-bars"></i>
-        </a>
-        {{!-- <form class="d-none d-md-flex ms-4">
-            <input class="form-control border-0" type="search" placeholder="Search">
-        </form> --}}
-        <div class="navbar-nav align-items-center ms-auto">
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                    <span class="d-none d-lg-inline-flex">Sree San</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                    {{!-- <a href="#" class="dropdown-item">My Profile</a> --}}
-                    {{!-- <a href="#" class="dropdown-item">Settings</a> --}}
-                    <a href="/admin/logout" class="dropdown-item">Log Out</a>
-                </div>
-            </div>
+        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+          {{!-- <a href="#" class="dropdown-item">My Profile</a> --}}
+          {{!-- <a href="#" class="dropdown-item">Settings</a> --}}
+          <a href="/admin/logout" class="dropdown-item">Log Out</a>
         </div>
-    </nav>
-<div class="col-12">
-  <div class="bg-light rounded h-100 p-4">
-    <h6 class="mb-4">User Table</h6>
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Sl.No</th>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Mobile</th>
-            <th scope="col">Block Status</th>
-            <th scope="col">Action</th>
+      </div>
+    </div>
+  </nav>
+  <div class="col-12">
+    <div class="bg-light rounded h-100 p-4">
+      <h6 class="mb-4">User Table</h6>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Sl.No</th>
+              <th scope="col">Username</th>
+              <th scope="col">Email</th>
+              <th scope="col">Mobile</th>
+              <th scope="col">Block Status</th>
+              <th scope="col">Action</th>
 
-          </tr>
-        </thead>
-        <tbody>
-          {{#each userData}}
-          <tr>
-            <ul>
-              <td>{{addOne @index}}</td>
-              <td>{{this.name}}</td>
-              <td>{{this.email}}</td>
-              <td>{{this.mobile}}</td>
-              <td>{{this.is_blocked}}</td>
-              {{#if  this.is_blocked}} 
-  
-              <td><a class="btn btn-success" href="/admin/unblockUser?id={{this._id}}">Unblock </a></td>
-              {{else}}
-          
-              <td><a class="btn btn-danger" href="/admin/blockUser?id={{this._id}}">Block </a></td>
-              {{/if}}
-            </ul>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each userData}}
+            <tr>
+              <ul>
+                <td>{{addOne @index}}</td>
+                <td>{{this.name}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.mobile}}</td>
+                <td>{{this.is_blocked}}</td>
+                {{#if this.is_blocked}}
 
-          </tr>
-          {{/each}}
+                <td><a class="btn btn-success" href="/admin/unblockUser?id={{this._id}}">Unblock </a></td>
+                {{else}}
 
-        </tbody>
-      </table>
+                <td><a class="btn btn-danger" href="/admin/blockUser?id={{this._id}}">Block </a></td>
+                {{/if}}
+              </ul>
+
+            </tr>
+            {{/each}}
+
+          </tbody>
+        </table>
+
+        <nav aria-label="...">
+          <ul class="pagination pagination-sm justify-content-center">
+            {{#for 1 totalPages 1}}
+            <li class="page-item {{#ifeq this ../currentPage}}active{{/ifeq}}">
+              <a class="page-link" href="/admin/users?page={{this}}">
+                {{this}}
+              </a>
+            </li>
+            {{/for}}
+          </ul>
+        </nav>
+
+      </div>
     </div>
   </div>
 </div>
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
-   <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-    </div>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/chart/chart.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
-    {{>adminfooter}}
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+{{>adminfooter}}

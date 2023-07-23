@@ -15,7 +15,7 @@ const loadWishlist = async (req, res) => {
     // const user = await User.findById(userId).populate('wishlist');
     const userData = await User.findById({ _id: user1._id })
 
-    const user = await User.findById({ _id: userId }).populate('wishlist');
+    const user = await User.findById({ _id: user1._id }).populate('wishlist');
     const wishItem = user.wishlist;
     res.render('wishlist', { userData, wishItem });
 
@@ -23,6 +23,10 @@ const loadWishlist = async (req, res) => {
     console.log(error.message);
   }
 }
+
+
+
+
 
 const addToWishlist = async (req, res) => {
   try {

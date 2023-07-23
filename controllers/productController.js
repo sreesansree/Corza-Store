@@ -7,13 +7,25 @@ const { log, error } = require("console");
 
 const loadProduct = async (req, res) => {
     try {
-        console.log('product');
-        const productdata = await Product.find().populate("category")
+
+        const PAGE_SIZE = 10; // Number of items per page
+        const page = parseInt(req.query.page, 10) || 1; // Ensure to specify radix 10
+        const totalProducts = await User.countDocuments();
+
+        const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
+        const skip = (page - 1) * PAGE_SIZE;
+        const productdata = await Product.find().populate("category").sort({ name: 1 }).skip(skip).limit(PAGE_SIZE);
+
+
         const categorydata = await category.find();
 
-
         // console.log(productdata);
-        res.render('product', { Product: productdata, categorydata });
+        res.render('product', {
+            Product: productdata, categorydata,
+            currentPage: page,
+            totalPages: totalPages,
+            itemsPerPage: PAGE_SIZE,
+        });
     } catch (error) {
         console.log(error.message);
     }
@@ -51,7 +63,7 @@ const addProduct = async (req, res) => {
             errors.brand = 'Please provide a brand name'
             errors.price = 'please provide price'
             errors.quantity = 'Please provide Quantity'
-            res.render('addproduct', { message: "", errors,categorydata  })
+            res.render('addproduct', { message: "", errors, categorydata })
         } else {
 
             if (productdata) {
@@ -136,7 +148,7 @@ const updateProduct = async (req, res) => {
                 price: price,
                 brand: brand,
                 quantity: quantity,
-                is_blocked:false
+                is_blocked: false
             }
         }, { new: true });
         res.redirect('/admin/product')

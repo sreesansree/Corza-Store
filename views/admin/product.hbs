@@ -82,7 +82,9 @@
       <div class="d-flex align-items-center justify-content-between mb-4">
         <h6 class="mb-0  text-primary shadow p-3 mb-5 bg-body rounded ">Products</h6>
         {{!-- <a href="">Show All</a> --}}
+        <a class='btn btn-success ml-auto mt-5' href="addproduct" type="submit">Add Product</a>
       </div>
+      
       <div class="table-responsive">
         <table class="table text-start align-middle table-bordered table-hover mb-0">
           <thead>
@@ -101,9 +103,9 @@
             </tr>
           </thead>
           {{#each Product}}
-          <tbody> 
+          <tbody>
             <tr>
-            <td>{{addOne @index}}</td>
+              <td>{{addOne @index}}</td>
               <td>{{this.name}}</td>
               <td>{{this.description}}</td>
               <td><img style="width: 80px;" src="/images/{{this.image.[0]}}" alt="Hi"></td>
@@ -131,8 +133,21 @@
         </table>
 
       </div>
-      <a class='btn btn-success ml-auto mt-5' href="addproduct" type="submit">Add Product</a>
+      
+       <nav aria-label="...">
+      <ul class="pagination pagination-sm justify-content-center">
+        {{#for 1 totalPages 1}}
+        <li class="page-item {{#ifeq this ../currentPage}}active{{/ifeq}}">
+          <a class="page-link" href="/admin/product?page={{this}}">
+            {{this}}
+          </a>
+        </li>
+        {{/for}}
+      </ul>
+    </nav>
     </div>
+
+   
   </div>
 
 

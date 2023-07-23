@@ -105,17 +105,19 @@
               <div class="ml-auto">
                 {{!-- --}}
                 {{!-- onclick="deliveredOrders()" --}}
-                <a onclick="orderFilter('Delivered')" type="button" class="btn btn-outline-success"><span class="spinner-grow spinner-grow-sm"></span>Delivered</a>
+                <a onclick="orderFilter('Delivered')" type="button" class="btn btn-outline-success"><span
+                    class="spinner-grow spinner-grow-sm"></span>Delivered</a>
                 <a onclick="orderFilter('Cancelled')" type="button" class="btn btn-outline-secondary">Canceled</a>
               </div>
             </div>
 
           </div>
-          <div class="card-body" >
-        
+          <div class="card-body">
+
             <table class="table table-hover" id="my-table2">
               <thead>
                 <tr>
+                  <th scope="col">No</th>
                   <th scope="col">Date</th>
                   <th scope="col">Order id</th>
                   <th scope="col">Payment method</th>
@@ -124,12 +126,13 @@
                   <th scope="col"></th>
                 </tr>
               </thead>
-              <tbody id="order_table" >
+              <tbody id="order_table">
 
-    
+
                 {{#each myOrders}}
 
-                <tr >
+                <tr>
+                  <td>{{calculateSerialNumber @index ../currentPage ../itemsPerPage}}</td>
                   <td scope="row">{{this.date}}</td>
                   <td>{{this.orderId}}</td>
                   <td>{{this.paymentMethod}}</td>
@@ -142,9 +145,22 @@
                 </tr>
 
                 {{/each}}
-               
-          </tbody>
-          </table>
+
+              </tbody>
+            </table>
+
+            <nav aria-label="...">
+              <ul class="pagination pagination-sm justify-content-center">
+                {{#for 1 totalPages 1}}
+                <li class="page-item {{#ifeq this ../currentPage}}active{{/ifeq}}">
+                  <a class="page-link" href="/my_orders?page={{this}}">
+                    {{this}}
+                  </a>
+                </li>
+                {{/for}}
+              </ul>
+            </nav>
+
           </div>
         </div>
       </div>
@@ -208,7 +224,7 @@
   }
 
   const orderFilter = async (ordertype) => {
-    const response = await fetch(`/filter_orders?orderType=${ordertype}` , {
+    const response = await fetch(`/filter_orders?orderType=${ordertype}`, {
       headers: { 'Content-Type': "application/json" }
     })
 
@@ -218,10 +234,10 @@
       console.log(data)
 
       document.getElementById('order_table').innerHTML = ''
-      data.forEach((elment)=>{
-        document.getElementById('order_table').innerHTML += 
+      data.forEach((elment) => {
+        document.getElementById('order_table').innerHTML +=
 
-        `<tr >
+          `<tr >
                   <td scope="row">${elment.date}</td>
                   <td>${elment.orderId}</td>
                   <td>${elment.paymentMethod}</td>
@@ -233,7 +249,7 @@
                   </td>
                 </tr>`
       })
-      
+
     }
   }
 

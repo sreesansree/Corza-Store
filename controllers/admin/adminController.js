@@ -60,8 +60,21 @@ const adminHome = async (req, res) => {
 //users list
 const userList = async (req, res) => {
     try {
-        const userData = await User.find();
-        res.render("userslist", { userData })
+        const PAGE_SIZE = 10; // Number of items per page
+        const page = parseInt(req.query.page, 10) || 1; // Ensure to specify radix 10
+        const totalUsers = await User.countDocuments();
+
+        const totalPages = Math.ceil(totalUsers / PAGE_SIZE);
+        const skip = (page - 1) * PAGE_SIZE;
+        const userData = await User.find().sort({ name: 1 }).skip(skip).limit(PAGE_SIZE);
+
+
+        res.render("userslist", {
+            userData,
+            currentPage: page,
+            totalPages: totalPages,
+            itemsPerPage: PAGE_SIZE,
+        })
     } catch (error) {
         console.log(error.message);
     }
