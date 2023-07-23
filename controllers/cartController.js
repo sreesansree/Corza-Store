@@ -21,7 +21,6 @@ const loadCart = async (req, res) => {
   try {
     const userId = req.query.id
     console.log(userId);
-
     const user1 = req.session.userdata
     const userData = await User.findById({ _id: user1._id })
 
@@ -54,9 +53,9 @@ async function addToCart(req, res) {
 
     const user = req.session.userdata
     const userData = await User.findById({ _id: user._id })
-    const proId = req.query.id;
     const userId = userData._id;
 
+    const proId = req.query.id;
     const product = await Product.findById(proId);
     const existed = await User.findOne({ _id: userId, 'cart.product': proId });
 

@@ -3,11 +3,19 @@ const Product = require('../../model/productModel');
 // const wishlist = require('../../model/wishlistModel');
 
 
+
+
+
 const loadWishlist = async (req, res) => {
   try {
-    const userData = req.session.userdata;
-    const userId = userData._id;
-    const user = await User.findById(userId).populate('wishlist');
+    const userId = req.query.id
+    const user1 = req.session.userdata
+    // const userData = req.session.userdata;
+    // const userId = userData._id;
+    // const user = await User.findById(userId).populate('wishlist');
+    const userData = await User.findById({ _id: user1._id })
+
+    const user = await User.findById({ _id: userId }).populate('wishlist');
     const wishItem = user.wishlist;
     res.render('wishlist', { userData, wishItem });
 
@@ -37,6 +45,9 @@ const addToWishlist = async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 };
+
+
+
 
 const removeFromWishList = async (req, res) => {
   try {

@@ -29,48 +29,45 @@
   </nav>
 
 
-  <div class="col py-3" style="text-align: center;">
 
-    <table class="table table-hover" style="border-top: 1px solid black;">
-      <thead>
+
+
+
+
+<div class="container">
+  <div class="col py-3">
+    <table class="table table-hover table-bordered">
+      <thead class="table-info">
         <tr>
           <th scope="col">No</th>
           <th scope="col">Date</th>
-          <th scope="col">Order id</th>
-          <th scope="col">payment method</th>
+          <th scope="col">Order ID</th>
+          <th scope="col">Payment Method</th>
           <th scope="col">Status</th>
-          <th scope="col"></th>
-          <th scope="col"></th>
+          <th scope="col">View Details</th>
+          <th scope="col">Change Status</th>
         </tr>
       </thead>
       <tbody>
         {{#each ordersData}}
-
         <tr>
-          <th scope="row">{{addOne @index}}</th>
+          <td>{{calculateSerialNumber @index ../currentPage ../itemsPerPage}}</td>
           <td>{{this.date}}</td>
           <td>{{this.orderId}}</td>
           <td>{{this.paymentMethod}}</td>
           <td>{{this.status}}</td>
-          {{!-- <td>{{this._doc.status}}</td> --}}
           <td>
-            {{!-- <a href="/admin/edit_category/{{this._doc.id}}" type="button" class="btn btn-warning">Delivered</a>
-            --}}
-            <a href="/admin/order_details?id={{this._id}}" type="button" class="btn btn-info">View details</a>
+            <a href="/admin/order_details?id={{this._id}}" class="btn btn-secondary">View Details</a>
           </td>
           <td>
-            <form action="/admin/change_status?id={{this._id}}" class="bg-info" method="post">
-              <div class="d-flex" style="width: 84%;">
-                <div style="width: 100%;" class="p-l-15 ">
-                  <select name="status" class="form-select" aria-label="Default select example">
-                    <option selected>Change order status</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Delivered">Delivered</option>
-                  </select>
-                </div>
-                <div>
-                  <button type="submit" class="mx-auto btn btn-danger">submit</button>
-                </div>
+            <form action="/admin/change_status?id={{this._id}}" method="post">
+              <div class="input-group">
+                <select name="status" class="form-select">
+                  <option selected>Change order status</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Delivered">Delivered</option>
+                </select>
+                <button type="submit" class="btn btn-danger">Submit</button>
               </div>
             </form>
           </td>
@@ -79,8 +76,20 @@
       </tbody>
     </table>
 
+    <nav aria-label="...">
+      <ul class="pagination pagination-sm justify-content-center">
+        {{#for 1 totalPages 1}}
+        <li class="page-item {{#ifeq this ../currentPage}}active{{/ifeq}}">
+          <a class="page-link" href="/admin/orders?page={{this}}">
+            {{this}}
+          </a>
+        </li>
+        {{/for}}
+      </ul>
+    </nav>
   </div>
 </div>
+
 </div>
 
 
@@ -105,5 +114,5 @@
 <script src="/admin/js/main.js"></script>
 <script>
 
- 
+
 </script>

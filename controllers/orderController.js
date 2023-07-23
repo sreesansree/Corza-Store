@@ -202,6 +202,7 @@ const getInvoice = async (req, res) => {
             description: product.name,
             tax: product.tax,
             price: product.price,
+          
         }));
 
         const date = moment(order.date).format('MMMM D, YYYY');
@@ -243,7 +244,7 @@ const getInvoice = async (req, res) => {
                 // Invoice data
                 date: date,
                 // Invoice due date
-                duedate: "31-12-2024"
+                // duedate: "31-12-2024"
             },
             // invoiceNumber: '2023001',
             // invoiceDate: date,

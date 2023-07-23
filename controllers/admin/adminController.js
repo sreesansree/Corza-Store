@@ -26,7 +26,7 @@ const verifyadmin = async (req, res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
-        
+
 
         const adminData = await Admin.findOne({ email: email })
         console.log(adminData);
@@ -36,7 +36,7 @@ const verifyadmin = async (req, res) => {
             if (password == adminData.password) {
                 req.session.adminLogin = true;
                 req.session.admin = adminData;
-                res.redirect('/admin/adminhome')
+                res.redirect('/admin/dashboard')
             } else {
                 res.render('login', ({ messageErr: 'Please check your password' }))
             }
@@ -116,7 +116,18 @@ const adminLogout = async (req, res) => {
 
 const getOrder = async (req, res) => {
     try {
-        const orders = await Order.find().sort({ date: -1 })
+        const PAGE_SIZE = 10; // Number of items per page
+        const page = parseInt(req.query.page, 10) || 1; // Ensure to specify radix 10
+
+        // Fetch the total number of orders from the database to calculate total pages
+        const totalOrders = await Order.countDocuments();
+
+        const totalPages = Math.ceil(totalOrders / PAGE_SIZE);
+
+        const skip = (page - 1) * PAGE_SIZE;
+        const orders = await Order.find().sort({ date: -1 }).skip(skip).limit(PAGE_SIZE);
+
+
         const now = moment();
 
         const ordersData = orders.map((order) => {
@@ -126,8 +137,14 @@ const getOrder = async (req, res) => {
                 date: formattedDate,
             };
         })
-        console.log(ordersData, 1234);
-        res.render("orders", { ordersData, now })
+        // console.log(ordersData, 1234);
+        res.render("orders", {
+            ordersData: orders,
+            currentPage: page,
+            totalPages: totalPages,
+            itemsPerPage: PAGE_SIZE,
+
+        })
     } catch (error) {
         console.log(error.message);
     }

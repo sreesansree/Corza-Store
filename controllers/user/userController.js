@@ -91,9 +91,7 @@ const insertUser = async (req, res) => {
         console.log(existUser, 911);
         if (existUser == null) {
             sendmail(name, email)
-
             res.redirect('/otpverification')
-
         } else {
             if (existUser.email == email) {
                 res.render('registration', { message1: "User already Exits" })
