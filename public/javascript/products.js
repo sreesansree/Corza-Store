@@ -17,7 +17,6 @@
 		if (data && data.message === 'Added') {
 			alertify.set('notifier', 'position', 'top-center');
 			alertify.success(`${proName} Added to wishlist`);
-			window.location.reload()
 		}
 		
 	};
