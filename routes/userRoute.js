@@ -52,13 +52,24 @@ userRoute.post('/restpassword', userController.resetpassword);
 
 
 // session home
-userRoute.get('/home', auth.isLogin, userController.loadHome);
+userRoute.get('/home', userController.loadHome);
 userRoute.get('/logout', auth.isLogin, userController.logout);
 
 // product
 userRoute.get('/products', userController.getProduct);
 userRoute.get('/productDetail', userController.ProductView);
 userRoute.get('/women', catFilterController.loadWomCat);
+
+
+
+userRoute.get('/category_fil', categoryController.catFilter);
+userRoute.get('/category', categoryController.categoryFilter);
+userRoute.post('/products_filter', userController.productSearch);
+userRoute.post('/sort_product_az', userController.sortProduct_az);
+userRoute.post('/sort_product_price', userController.sortProductByPrice);
+
+
+
 
 // cart
 userRoute.get('/cart', auth.logedin, auth.checkBlocked, cartController.loadCart)
@@ -98,14 +109,8 @@ userRoute.post('/place_order', auth.isLogin, auth.checkBlocked, checkoutControll
 userRoute.get('/order_sucess', auth.isLogin, orderController.orderSuccess);
 userRoute.get('/my_orders', auth.isLogin, orderController.myOrders);
 userRoute.get('/order_details', auth.isLogin, orderController.orderDetails);
-
 userRoute.post('/ordercancel',auth.isLogin,orderController.orderCancel);
 userRoute.post('/orderreturn',auth.isLogin,orderController.orderReturn);
-
-
-
-userRoute.get('/category_fil', categoryController.catFilter);
-userRoute.get('/category', categoryController.categoryFilter);
 
 userRoute.post('/validate_coupon', auth.isLogin, auth.checkBlocked, checkoutController.validateCoupon);
 

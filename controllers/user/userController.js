@@ -346,6 +346,85 @@ const resetpassword = async (req, res) => {
 }
 
 
+
+const productSearch = async(req, res)=>{
+    const { search, catId } = req.body
+
+    console.log(search, catId);
+
+    if(catId){
+
+        console.log('cat id indddddd');
+        
+
+        try {
+            const products = await Product.find({ category: catId, name: { $regex: search, $options: 'i' } });
+            res.json(products);
+          } catch (error) {
+            console.log(error);
+            return res.status(500).send();
+          }
+          
+          
+     }else{
+        console.log('cat id illaaaa');
+        try {
+            const products = await Product.find({ name: { $regex: search, $options: 'i' } });
+            console.log(products);
+
+            res.json(products);
+          } catch (error) {
+            console.log(error);
+            return res.status(500).send();
+          }
+          
+     }
+    }
+
+
+    const sortProduct_az = async(req, res) => {
+        try {
+            const { sort, catId } = req.body
+          
+            if( catId ){
+                const products = await Product.find({ category : catId }, {is_blocked: false}).sort({ name: sort });
+                console.log(products);
+                res.json(products)   
+               
+            } else{
+                const products = await Product.find( {is_blocked: false}).sort({ name: sort });
+                console.log(products);
+                res.json(products)
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    const sortProductByPrice = async(req, res) => {
+        try {
+            const { sort, catId } = req.body
+
+            console.log(req.body);
+            if(catId){
+                const products = await Product.find({ category : catId }, {is_blocked: false}).sort({ price: sort });
+                console.log(products);
+                res.json(products)
+            }else{               
+            const products = await Product.find({is_blocked: false}).sort({ price: sort });
+            console.log(products);
+            res.json(products)
+             }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
 module.exports = {
     loadRegister,
     insertUser,
@@ -365,5 +444,8 @@ module.exports = {
     verifyforgototp,
     loadresetpassword,
     resetpassword,
-    resendOtp
+    resendOtp,
+    productSearch,
+    sortProductByPrice,
+    sortProduct_az
 }

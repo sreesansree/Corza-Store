@@ -45,7 +45,7 @@ const loadMenCat = async (req, res) => {
     try {
         id = req.query.id
         const menData = await Product.find({ category: id, is_blocked: false })
-        if (req.session.user) {
+        if (req.session.userdata) {
             res.render('men', { menData, userData })
         } else {
             res.render('men', { menData })

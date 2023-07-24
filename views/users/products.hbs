@@ -12,25 +12,16 @@
 		<div class="container">
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-					<a href="/products" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1"
+					<a href="/products" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1 text-decoration-none"
 						data-filter="*">
 						All Products
 					</a>
-					<a href="/women" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-						Women
-					</a>
-					<a href="/men" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-						Men
-					</a>
-					<a href="/products" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1"
-						data-filter="*">
-						Acceories
-					</a>
+					
 					{{#each loadCatData}}
 					<input type="text" hidden value="{{this._id}}" id='cat_id{{this._id}}'>
 					<a onclick="categoryFilter('{{this._id}}')"
 						class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1 pointer">
-						{{this.category}}
+						{{this.name}}
 					</a>
 					{{/each}}
 
@@ -274,7 +265,7 @@
 
 							<div class="block2-txt flex-w flex-t p-t-14">
 								<div class="block2-txt-child1 flex-col-l ">
-									<a href="/productDetail/{{this._id}}"
+									<a href="/productDetail?id={{this._id}}"
 										class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 										{{this.name}}
 									</a>
@@ -323,73 +314,9 @@
 
 
 </body>
-{{!--
-<script src="/javascript/products.js"></script> --}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
-<script>
-
-	const addToWishlistClient = async (id) => {
-		const proName = document.getElementById('name' + id).value;
-		document.getElementById('click' + id).innerHTML =
-			`<img class="dis-block trans-04" src="images/icons/icon-heart-02.png" alt="ICON">`;
-
-		let response = await fetch(`/add_to_wishlist?id=${id}`, {
-			headers: {
-				"Content-Type": "application/json"
-			},
-		});
-
-		let data = await response.json();
-		console.log(data);
-		if (data && data.message === 'Added') {
-			alertify.set('notifier', 'position', 'top-center');
-			alertify.success(`${proName} Added to wishlist`);
-			
-		}
-		{{!-- window.location.reload() --}}
-	};
-
-	// Remove from WishList
-	const removeFromWishlist = async (id) => {
-		const proName = document.getElementById('name' + id).value
-
-		document.getElementById('click' + id).innerHTML =
-			`<img class=" dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">`
-
-		let response = await fetch(`/remove_from_wishlist?id=${id}`, {
-			headers: {
-				"Content-Type": "application/json"
-			},
-		})
-
-		let data = await response.json()
-		console.log(data)
-		if (data) {
-			alertify.set('notifier', 'position', 'top-center');
-			alertify.confirm(
-				`${proName} will be removed from the wishlist. Are you sure?`,
-				function () {
-					// User clicked "OK" button
-					// Perform the removal logic here
-					// For example, you can call your removeWishlist function here
-					// Replace productId with the ID of the item to be removed
-					alertify.success(`${proName} Removed from wishlist`);
-					 window.location.reload();
-				},
-				function () {
-					// User clicked "Cancel" button
-					// Optionally, you can show a cancellation message if needed
-					alertify.error("Removal cancelled");
-					 window.location.reload();
-				}
-			).set('labels', { ok: 'OK', cancel: 'Cancel' });
-
-		}
-
-	}
-
-</script>
+<script src="/javascript/products.js"></script>
