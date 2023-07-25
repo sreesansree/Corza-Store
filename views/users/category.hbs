@@ -1,18 +1,44 @@
 {{>userheader}}
+<style>
+	button {
+		margin: 5px;
+	}
+
+	button>a::after {
+		content: '';
+		display: block;
+		height: 4px;
+		width: 100%;
+		background-color: #2bd576;
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 0.4s ease;
+		/* Fix the typo in transition property */
+	}
+
+	button:hover>a::after {
+		transform: scaleX(1);
+	}
+</style>
 <div class="bg0 m-t-23 p-b-140" style="margin-top: 90px;">
 	<div class="container">
 		<div class="flex-w flex-sb-m p-b-52">
 			<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-				<a href="/products" style="text-decoration:none" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-					All Products
-				</a>
-
+				<button>
+					<a href="/products" style="text-decoration:none"
+						class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+						All Products
+					</a>
+				</button>
 
 				{{#each catData}}
-				<a style="text-decoration:none" href="/Category?id={{this._id}}"
-					class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1 pointer"> 
-					{{this.name}}
-				</a>
+				<button>
+					<a style="text-decoration:none" href="/Category?id={{this._id}}"
+						class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1 pointer">
+						{{this.name}}
+					</a>
+				</button>
+
 				{{/each}}
 
 
