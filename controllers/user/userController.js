@@ -256,12 +256,43 @@ const getProduct = async (req, res) => {
             res.render('products', { proData, userData, loadCatData })
         } else {
             res.render('products', { proData, loadCatData })
-
         }
     } catch (error) {
         console.log(error.message);
     }
 }
+
+// const loadHome = async (req, res) => {
+//     try {
+//       const categories = await Category.find();
+//       const banner = await Banner.find();
+//       const products = await Product.find({ is_blocked: false });
+//       const userData= req.session.user
+//       if (categories) {
+//         if (userData) {
+  
+  
+//           res.render("userViews/home", {
+//             categories: categories,
+//             userData: userData,
+//             banner: banner,
+//             products,
+//           });
+//         } else {
+//           res.render("userViews/home", {
+//             categories: categories,
+//             banner: banner,
+//             products,
+//           });
+//         }
+//       } else {
+//         res.send("category does not exist");
+//       }
+//     } catch (error) {
+//       res.status(500).send({message:`${error}`})
+//     }
+//   };
+  
 
 const ProductView = async (req, res) => {
     try {
@@ -301,6 +332,7 @@ const verifyemail = async (req, res) => {
     const exist = await User.find({ email: email1 })
     try {
         if (exist) {
+            console.log('existtttttttt')
             sendmail(email1)
             res.render('otpforgotpassword')
         } else {
@@ -317,7 +349,7 @@ const verifyforgototp = async (req, res) => {
         if (otp == forgototp) {
             res.render('resetpassword1')
         } else {
-            res.redirect('/otpforgotpassword', { message: 'Entered otp wrong' })
+            res.render('otpforgotpassword', { message: 'Entered otp wrong' })
         }
 
     } catch (error) {

@@ -90,12 +90,12 @@ const loadDashboard = async (req, res) => {
       const num = element.month
       ordermonth.push(num)
     });
-    console.log(ordermonth, 8999999)
+    // console.log(ordermonth, 8999999)
 
     const monthNames = ordermonth.map(monthNumber =>
       new Date(0, monthNumber - 1).toLocaleString('default', { month: 'long' })
     );
-    console.log(monthNames, "monthnamessss")
+    // console.log(monthNames, "monthnamessss")
 
 
     // category sales

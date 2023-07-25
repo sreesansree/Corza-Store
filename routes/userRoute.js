@@ -56,7 +56,7 @@ userRoute.get('/home', userController.loadHome);
 userRoute.get('/logout', auth.isLogin, userController.logout);
 
 // product
-userRoute.get('/products', userController.getProduct);
+userRoute.get('/products' ,userController.getProduct);
 userRoute.get('/productDetail', userController.ProductView);
 userRoute.get('/women', catFilterController.loadWomCat);
 

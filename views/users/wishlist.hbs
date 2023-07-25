@@ -81,6 +81,33 @@
             margin-left: 1rem;
             margin-right: 1rem;
         }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .nav-borders .nav-link {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .card-header {
+                padding: 0.75rem 1.0rem;
+            }
+
+            .img-account-profile {
+                height: 8rem;
+            }
+
+            .col-lg-3 {
+                flex-basis: 50%;
+                max-width: 50%;
+            }
+
+            .form-control,
+            .dataTable-input {
+                font-size: 0.8125rem;
+                padding: 0.625rem 0.8125rem;
+            }
+        }
     </style>
 </head>
 
@@ -95,46 +122,11 @@
         </nav>
         <hr class="mt-0 mb-4">
         <div class="row">
-
             <div class="col-xl-12">
                 <!-- Account details card-->
                 <div class="card mb-4">
                     <div class="card-header">Wishlist</div>
                     <div class="card-body">
-
-                        {{!-- <table class="table table-hover">
-                            <tbody>
-                                {{#if wishItem}}
-                                {{#each wishItem}}
-                                <input type="hidden" name="product_name" value="{{this.name}}">
-                                <tr id="row{{this._id}}">
-                                    <td scope="row">{{this.name}}</td>
-                                    <td>${{this.price}}</td>
-                                    <td><a href="/productview?id={{this._id}}"><img style="width: 50px; height: auto;"
-                                                src="/uploads/{{this.imageUrl.[0]}}" alt="product image"></a></td>
-                                    <td>
-                                        <a class="mr-3 mt-2"> <i onclick="addToCartBtn('{{this._id}}')"
-                                                class="fa-sharp fa-solid fa-cart-plus fa-lg mt-4 mr-4"></i></a>
-
-                                        <a style="" onclick="removeFromWishlist('{{this._id}}','{{this._id}}')"><i
-                                                class="fas fa-trash fa-lg"></i></a>
-                                    </td>
-                                </tr>
-                                {{/each}}
-
-                                {{else}}
-
-                                <div class="text-center">
-                                    <h1 class="mt-5">Your wishlist is empty..!</h1>
-
-                                    <a href="/product" class="btn btn-primary mt-4">Go to products</a>
-                                </div>
-
-                                {{/if}}
-
-                            </tbody>
-                        </table> --}}
-
                         {{!-- <span id="pro_container"> --}}
                             <div class="row isotope-grid" id="productList">
                                 {{#if wishItem}}
@@ -146,46 +138,35 @@
                                         <div class="block2">
                                             <div class="block2-pic hov-img0">
                                                 <img src="/images/{{this.image.[0]}}" alt="IMG-PRODUCT">
-
                                                 <a href="/productDetail?id={{this._id}}"
                                                     class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
                                                     Quick View
                                                 </a>
                                             </div>
-
-
-
                                             <div class="dis-flex" style="justify-content: space-between;">
                                                 <button onclick="addToCartBtn('{{this._id}}')"
                                                     class=" mt-2 btn btn-sm btn-outline-secondary">Add to cart</button>
                                                 <button onclick="removeWishlist('{{this._id}}','{{this._id}}')"
                                                     class=" mt-2 btn btn-sm btn-outline-secondary">Remove</button>
                                                 {{!-- <button onclick="testSweetAlert()">Test SweetAlert</button> --}}
-
                                             </div>
-
                                             <div class="block2-txt flex-w flex-t p-t-14">
                                                 <div class="block2-txt-child1 flex-col-l ">
                                                     <a href="/productDetail?id={{this._id}}"
                                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                                         {{this.name}}
                                                     </a>
-
                                                     <input type="hidden" id="name{{this._id}}" value="{{this.name}}">
                                                     <input type="hidden" id="id" value="{{this._id}}">
-
                                                     <span class="stext-105 cl3">
                                                         ₹ {{this.price}}
                                                     </span>
                                                 </div>
-
-
                                                 <div class="block2-txt-child2 flex-r p-t-3">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </span>
                                 {{/each}}
                                 {{else}}
@@ -261,8 +242,8 @@
 
                 const removedElement = document.getElementById('pro_cont' + idd);
                 removedElement.remove(); // Remove the element from the DOM
-                 // Automatically reload the page after the item is removed
-            window.location.reload();
+                // Automatically reload the page after the item is removed
+                window.location.reload();
             }
         } catch (error) {
             console.error(error);

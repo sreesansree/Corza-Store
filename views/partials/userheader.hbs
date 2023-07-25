@@ -75,7 +75,70 @@
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
+<style>
+	  /* Responsive styles */
+        @media (max-width: 768px) {
+            /* Modify the styles for elements that need to be adjusted on smaller screens */
 
+            .container-menu-desktop {
+                padding: 0;
+            }
+
+            /* Mobile logo */
+            .logo-mobile {
+                text-align: center;
+            }
+
+            .logo-mobile h2 {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+
+            /* Menu Mobile */
+            .menu-mobile {
+                display: block;
+            }
+
+            .main-menu-m {
+                padding-left: 0;
+            }
+
+            .main-menu-m li {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .main-menu-m li a {
+                font-size: 16px;
+            }
+
+            /* Icon header */
+            .wrap-icon-header {
+                justify-content: center;
+            }
+
+            .wrap-icon-header .icon-header-item {
+                margin: 0 5px;
+            }
+
+            /* Header cart */
+            .wrap-header-cart {
+                left: 0;
+                right: 0;
+                top: auto;
+                bottom: 0;
+                transform: translateY(100%);
+            }
+
+            .header-cart {
+                max-height: 80%;
+            }
+
+            .header-cart-content {
+                max-height: 80%;
+            }
+        }
+</style>
 </head>
 
 <body class="animsition">
@@ -170,7 +233,7 @@
 							data-notify="0">
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</a>
-						<a href="/wishlist?id={{userData._id}}"
+						<a href="/wishlist"
 							class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 ">
 							<i class="zmdi zmdi-favorite-outline"></i>
 						</a>
