@@ -4,9 +4,8 @@ const User = require("../../model/userModel");
 const Order = require('../../model/orderModel');
 const multer = require('multer');
 const moment = require("moment");
+const Banner      = require('../../model/bannerModel');
 const Address = require('../../model/addressModel');
-// const upload = multer({ dest: 'upload/' });
-// const argon2 = require("argon2");
 const hbs = require('hbs')
 hbs.registerHelper("eq", function (a, b) {
     return a === b;
@@ -202,6 +201,16 @@ const changeOrderStatus = async (req, res) => {
     }
 };
 
+const loadBanner = async (req, res) => {
+    try {
+      
+      const bannerData = await Banner.find()
+      console.log(bannerData);
+      res.render('banner' , {bannerData})
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 module.exports = {
     adminLogin,
@@ -216,6 +225,7 @@ module.exports = {
     unblockUser,
     getOrder,
     orderdetails,
-    changeOrderStatus
+    changeOrderStatus,
+    loadBanner
 
 }

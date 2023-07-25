@@ -81,4 +81,8 @@ adminRoute.get('/monthlysales/download',dashboardController.monthlyDownload);
 adminRoute.post('/yearly-report',adminauth.isLoginAdmin,dashboardController.yearlysales);
 adminRoute.get('/yearlysales/download',dashboardController.yearlydownload)
 
+
+//banner
+adminRoute.get('/banner',adminController.loadBanner);
+
 module.exports = adminRoute;

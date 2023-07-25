@@ -247,20 +247,21 @@ const logout = async (req, res) => {
 //all product page in user
 const getProduct = async (req, res) => {
     try {
-        const loadCatData = await Category.find()
-        // console.log(loadCatData,261);
+        const loadCatData = await Category.find();
         const proData = await Product.find({ is_blocked: false });
-        const user = req.session.userdata
-        const userData = await User.findById({ _id: user._id })
-        if (userData) {
-            res.render('products', { proData, userData, loadCatData })
+
+        if (req.session.userdata) {
+            const userId = req.session.userdata._id;
+            const userData = await User.findById({ _id: userId });
+            res.render('products', { proData, userData, loadCatData });
         } else {
-            res.render('products', { proData, loadCatData })
+            console.log("products");
+            res.render('products', { proData, userData: null, loadCatData });
         }
     } catch (error) {
         console.log(error.message);
     }
-}
+};
 
 // const loadHome = async (req, res) => {
 //     try {
@@ -298,9 +299,11 @@ const ProductView = async (req, res) => {
     try {
         const proId = req.query.id
         const proData = await Product.findById(proId)
-        const user = req.session.userdata
-        const userData = await User.findById({ _id: user._id })
+        
         if (req.session.userdata) {
+            const user = req.session.userdata
+            const userData = await User.findById({ _id: user._id })
+
             res.render('productDetail', { proData, userData })
         } else {
             res.render('productDetail', { proData })
