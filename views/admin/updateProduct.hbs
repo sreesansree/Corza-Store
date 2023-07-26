@@ -1,6 +1,5 @@
 {{>adminheader}}
 
-
 <div class="content">
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
@@ -88,7 +87,7 @@
 
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
-                        <input type="number" id="quantity" name="quantity" min="1" value="{{Product.quantity}}"
+                        <input type="number" id="quantity" name="quantity" min="0" value="{{Product.quantity}}"
                             class="form-control" required>
                     </div>
                     {{!-- <div class="form-group">
@@ -130,7 +129,7 @@
         </div>
     </div>
 </div>
-
+    
 <script>
     const category = document.querySelector('.categoryName')
     const categorySelect = document.querySelector('.categorySelect')

@@ -192,23 +192,6 @@ const verifylogin = async (req, res) => {
 
 
 
-// const loadHome = async (req, res) => {
-//     try {
-//         const loadProData = await Product.find()
-//         const loadCatData = await Category.find()
-//         const user = req.session.userdata
-//         const userId = user?._id
-//         const userData = await User.findById({_id:userId})
-//         if (userData) {
-//             res.render('home', { userData, loadCatData, loadProData })
-//         } else {
-//             res.render('home', { loadCatData, loadProData })
-//         }
-
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 const loadHome = async (req, res) => {
     try {
         const loadProData = await Product.find();

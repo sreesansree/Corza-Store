@@ -127,6 +127,12 @@
                 <div class="card mb-4">
                     <div class="card-header">Wishlist</div>
                     <div class="card-body">
+                        {{!-- Add a condition to display the response message --}}
+                    {{#if responseMessage}}
+                        <div class="alert alert-info" role="alert">
+                            {{responseMessage}}
+                        </div>
+                    {{/if}}
                         {{!-- <span id="pro_container"> --}}
                             <div class="row isotope-grid" id="productList">
                                 {{#if wishItem}}
@@ -146,6 +152,7 @@
                                             <div class="dis-flex" style="justify-content: space-between;">
                                                 <button onclick="addToCartBtn('{{this._id}}')"
                                                     class=" mt-2 btn btn-sm btn-outline-secondary">Add to cart</button>
+                                                  
                                                 <button onclick="removeWishlist('{{this._id}}','{{this._id}}')"
                                                     class=" mt-2 btn btn-sm btn-outline-secondary">Remove</button>
                                                 {{!-- <button onclick="testSweetAlert()">Test SweetAlert</button> --}}
@@ -200,31 +207,40 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.4/dist/sweetalert2.all.min.js"></script>
 
 <script>
+   const addToCartBtn = async (proId) => {
+    try {
+        const response = await fetch(`/add_to_cart?id=${proId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
 
-    const addToCartBtn = async (proId) => {
-        try {
-            const response = await fetch(`/add_to_cart?id=${proId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+        let data = await response.json();
+
+        // Handle the response based on the message received from the server
+        if (data.message === 'Item alredy in cart') {
+            Swal.fire({
+                icon: 'info',
+                title: '😕',
+                text: `Product already exists in Cart!`,
             });
-
-            let data = await response.json();
-
-            if (data) {
-                // Replace the swal() function with SweetAlert2 Swal.fire()
-                Swal.fire({
-                    icon: 'success',
-                    title: '🥳',
-                    text: ` Added to Cart!`, // Use the product name from the response data
-                });
-            }
-            console.log('added to carttt')
-        } catch (error) {
-            console.error(error);
+        } else if (data.message === 'Item added to cart') {
+            Swal.fire({
+                icon: 'success',
+                title: '🥳',
+                text: `Added to Cart!`,
+            });
         }
-    };
+
+        console.log('added to carttt');
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+
+
 
 
     const removeWishlist = async (id, idd) => {

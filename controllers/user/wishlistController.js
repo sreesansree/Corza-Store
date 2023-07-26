@@ -13,11 +13,14 @@ const loadWishlist = async (req, res) => {
     // const userData = req.session.userdata;
     // const userId = userData._id;
     // const user = await User.findById(userId).populate('wishlist');
+    
     const userData = await User.findById({ _id: user1._id })
 
     const user = await User.findById({ _id: user1._id }).populate('wishlist');
     const wishItem = user.wishlist;
-    res.render('wishlist', { userData, wishItem });
+    // Store the response message in a variable
+    const responseMessage = req.query.message;
+    res.render('wishlist', { userData, wishItem,responseMessage });
 
   } catch (error) {
     console.log(error.message);
