@@ -65,15 +65,7 @@ const sendmail = (name, email) => {
         console.log(error.message)
     }
 }
-/* const securePassword = async (password) => {
-    try {
-      const passwordHash = await bcrypt.hash(password, 10);
-      return passwordHash;
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
- */
+
 
 const insertUser = async (req, res) => {
 

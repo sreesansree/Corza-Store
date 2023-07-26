@@ -28,7 +28,7 @@ const store = multer({ storage: storage, fileFilter: imageFilter });
 
 
 // image crop  
-const sharpImage = (req, res, next) => {
+const  sharpImage = (req, res, next) => {
     req.files.forEach(file => {
         const inputBuffer = fs.readFileSync(file.path);
         sharp(inputBuffer)
