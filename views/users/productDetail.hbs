@@ -207,26 +207,8 @@
 
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-204 flex-w flex-m respon6-next">
-									{{!-- <div class="wrap-num-product flex-w m-r-20 m-tb-10">
-										<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-											<i class="fs-16 zmdi zmdi-minus"></i>
-										</div>
-
-										<input id="count" class="mtext-104 cl3 txt-center num-product" type="number"
-											name="count" value="1">
-
-
-										<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-											<i class="fs-16 zmdi zmdi-plus"></i>
-										</div>
-									</div> --}}
-									{{!-- add to cart --}}
-									{{!-- <a href="/add_to_cart?id={{proData._id}}" id="add_to_cart_btn"
-										class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
-										Add to cart
-									</a> --}}
 									{{#if userData}}
-									
+
 									{{#if proData.quantity}}
 									{{#if proData.isOnCart}}
 									<a href="/cart?id={{userData._id}}"
@@ -241,7 +223,7 @@
 									</span>
 									{{/if}}
 									{{else}}
-									<div onclick="outofStock()">
+									<div onclick="outOfStock()">
 										<button disabled id="add_to_cart_btn"
 											class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
 											Add to cart
@@ -249,20 +231,17 @@
 									</div>
 									{{/if}}
 
-
 									{{else}}
-										
+
 									{{#if proData.quantity}}
-									
 									<span id="cart_btn">
 										<button onclick="addToCartBtn('{{proData._id}}')" id="add_to_cart_btn"
 											class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
 											Add to cart
 										</button>
 									</span>
-									
 									{{else}}
-									<div onclick="outofStock()">
+									<div onclick="outOfStock()">
 										<button disabled id="add_to_cart_btn"
 											class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
 											Add to cart
@@ -270,28 +249,12 @@
 									</div>
 									{{/if}}
 
-									
 									{{/if}}
-
-
-									{{!-- <button id="add_to_cart_btn"
-										class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
-										Add to cart
-									</button> --}}
-
-
-
-									{{!-- <div>
-										<button onclick="('{{proData._id}}')" id="add_to_cart_btn"
-											class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
-											Add to cart
-										</button>
-									</div> --}}
-
-
 								</div>
 								<input type="text" id="count1">
 							</div>
+
+
 						</div>
 
 						<!--  -->
@@ -522,7 +485,7 @@
 		</div>
 	</section>
 
-	{{>userfooter}}
+	
 
 
 
@@ -577,39 +540,41 @@
 
 	<script>
 
+ const addToCartBtn = async (proId) => {
+        const productid = document.getElementById('add_to_cart_btn').value;
+        const productName = document.getElementsByName('product_name')[0].value;
 
-		const addToCartBtn = async (proId) => {
+        const response = await fetch(`/add_to_cart?id=${proId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
 
-			const productid = document.getElementById('add_to_cart_btn').value
-			const productName = document.getElementsByName('product_name')[0].value
+        let data = await response.json();
+        console.log(data, 'from add to cart btn....');
 
-			console.log(productName)
+        document.getElementById('cart_btn').innerHTML =
+            `<a href="/cart?id={{userData._id}}" class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 " style="text-decoration: none;">Go to cart</a>`;
 
-			const response = await fetch(`/add_to_cart?id=${proId}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': "application/json",
-				},
-			})
+        if (data) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Awww 🥳!',
+                text: `${productName} added to Cart!`,
+                confirmButtonText: 'OK',
+            });
+        }
+    };
 
-			let data = await response.json()
-			console.log(data, 'from add to cart btn....')
-
-			document.getElementById('cart_btn').innerHTML =
-				`<a href="/cart?id={{userData._id}}" class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 " style="text-decoration: none;">Go to cart</a>`
-
-
-			if (data) {
-				swal("Awww 🥳!", `${productName} added to Cart! `, "success");
-			}
-
-		}
-
-
-
-		const outofStock = () => {
-			alertify.set('notifier', 'position', 'bottom-center');
-			alertify.success(`Item Out of stock`)
-		}
-
+  const outOfStock = () => {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Out of Stock',
+            text: 'This item is currently out of stock.',
+            confirmButtonText: 'OK',
+        });
+    };
 	</script>
+
+	{{>userfooter}}

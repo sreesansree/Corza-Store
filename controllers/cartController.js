@@ -47,17 +47,20 @@ const loadCart = async (req, res) => {
 }
 
 
-
 async function addToCart(req, res) {
   try {
-
-    const user = req.session.userdata
-    const userData = await User.findById({ _id: user._id })
+    const user = req.session.userdata;
+    const userData = await User.findById({ _id: user._id });
     const userId = userData._id;
 
     const proId = req.query.id;
     const product = await Product.findById(proId);
     const existed = await User.findOne({ _id: userId, 'cart.product': proId });
+
+    if (product.quantity < 1) {
+      res.json({ message: 'Out of stock. Cannot add to cart.' });
+      return; // Stop the function execution here if the product is out of stock
+    }
 
     if (existed) {
       await User.findOneAndUpdate(
@@ -65,22 +68,21 @@ async function addToCart(req, res) {
         { $inc: { 'cart.$.quantity': 1 } },
         { new: true }
       );
-      res.json({ message: 'Item alredy in cart' });
-
+      res.json({ message: 'Item already in cart' });
     } else {
       await Product.findByIdAndUpdate(proId, { isOnCart: true });
-      await User.findByIdAndUpdate(userId,
-        { $push: { cart: { product: product._id, } } },
+      await User.findByIdAndUpdate(
+        userId,
+        { $push: { cart: { product: product._id } } },
         { new: true }
       );
       res.json({ message: 'Item added to cart' });
     }
-
   } catch (error) {
     console.log(error.message);
   }
-
 }
+
 
 
 

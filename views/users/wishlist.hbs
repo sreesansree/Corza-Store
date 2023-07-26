@@ -207,37 +207,44 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.4/dist/sweetalert2.all.min.js"></script>
 
 <script>
-   const addToCartBtn = async (proId) => {
-    try {
-        const response = await fetch(`/add_to_cart?id=${proId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+  const addToCartBtn = async (proId) => {
+  try {
+    const response = await fetch(`/add_to_cart?id=${proId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-        let data = await response.json();
+    let data = await response.json();
 
-        // Handle the response based on the message received from the server
-        if (data.message === 'Item alredy in cart') {
-            Swal.fire({
-                icon: 'info',
-                title: '😕',
-                text: `Product already exists in Cart!`,
-            });
-        } else if (data.message === 'Item added to cart') {
-            Swal.fire({
-                icon: 'success',
-                title: '🥳',
-                text: `Added to Cart!`,
-            });
-        }
-
-        console.log('added to carttt');
-    } catch (error) {
-        console.error(error);
+    // Handle the response based on the message received from the server
+    if (data.message === 'Out of stock. Cannot add to cart.') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Out of Stock',
+        text: 'This product is currently out of stock.',
+      });
+    } else if (data.message === 'Item already in cart') {
+      Swal.fire({
+        icon: 'info',
+        title: 'Already in Cart',
+        text: 'Product already exists in Cart!',
+      });
+    } else if (data.message === 'Item added to cart') {
+      Swal.fire({
+        icon: 'success',
+        title: 'Added to Cart',
+        text: 'Product added to Cart!',
+      });
     }
+
+    console.log('added to carttt');
+  } catch (error) {
+    console.error(error);
+  }
 };
+
 
 
 
