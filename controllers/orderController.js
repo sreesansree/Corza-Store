@@ -27,7 +27,7 @@ const myOrders = async (req, res) => {
         const userData = req.session.userdata;
         const userId = userData._id
 
-        console.log(userData, "From orderDetails")
+        // console.log(userData, "From orderDetails")
         const orders = await Order.find({ userId }).sort({ date: -1 }).skip(skip).limit(PAGE_SIZE);
 
 
@@ -36,7 +36,7 @@ const myOrders = async (req, res) => {
             return { ...order.toObject(), date: formattedDate }
         })
 
-        console.log("orders" + orders)
+        // console.log("orders" + orders)
 
         res.render('my_orders', {
             userData,

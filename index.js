@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/project")
 
@@ -15,15 +14,15 @@ const logger = require('morgan');
 //setting routes
 const adminRouter = require("./routes/adminRoute");
 const userRouter = require("./routes/userRoute");
-// const { dbConnect } = require("./config/db");
+const { dbConnect } = require("./config/db");
 
 // main Routes
-app.use('/', userRouter);       //for user Routes
-app.use('/admin', adminRouter); //for admin Routes
+app.use('/', userRouter);          //- for user Routes
+app.use('/admin', adminRouter);    //- for admin Routes
 
+ 
 
-
-app.use(session({ secret: config.sessionSecret, resave: false, saveUninitialized: true }));
+app.use(session({ secret: config.sessionSecret, resave: false, saveUninitialized: true }));  
 app.use(express.static('public'));
 
 

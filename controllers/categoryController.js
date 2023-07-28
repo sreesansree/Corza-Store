@@ -68,33 +68,7 @@ const loadEditCategory = async (req, res) => {
     }
 }
 
-// const updatecategory = async (req, res) => {
-//     try {
-//         const firstlettercap=(str)=>{
-//             return str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()
-//         }
-//         const name = firstlettercap(req.body.name)
-        // const categ=await Category.findOne({name:name})
 
-//         if(!categ){
-//         const categorydata = await Category.findByIdAndUpdate(
-//             req.body.id, {
-//                 $set:
-//                 {
-//                     name:name,
-//                     image: req.file.filename,
-//                 }
-//         }, { new: true }
-//         )
-//         res.render('editCategory',{message:'Edited successfully'})
-//         console.log(categorydata,message);
-//     }else{
-//         res.redirect(`/admin/editCategory?id=${req.body.id}`)
-//     }
-//     } catch (error) {
-//         console.log(error.message)
-//     }
-// }
 
 const updatecategory = async (req, res) => {
     try {

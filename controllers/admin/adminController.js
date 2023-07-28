@@ -4,7 +4,7 @@ const User = require("../../model/userModel");
 const Order = require('../../model/orderModel');
 const multer = require('multer');
 const moment = require("moment");
-const Banner      = require('../../model/bannerModel');
+const Banner = require('../../model/bannerModel');
 const Address = require('../../model/addressModel');
 const hbs = require('hbs')
 hbs.registerHelper("eq", function (a, b) {
@@ -203,14 +203,56 @@ const changeOrderStatus = async (req, res) => {
 
 const loadBanner = async (req, res) => {
     try {
-      
-      const bannerData = await Banner.find()
-      console.log(bannerData);
-      res.render('banner' , {bannerData})
+
+        const bannerData = await Banner.find()
+        console.log(bannerData);
+        res.render('banner', { bannerData })
     } catch (error) {
-      console.log(error)
+        console.log(error)
     }
-  }
+}
+
+const loadAddBanner = async (req, res) => {
+    try {
+        res.render('add_banner')
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+const addBanner = async (req, res) => {
+    try {
+        console.log(req.body, 'bannerrrrrrrrrrrrrrrrrr')
+        console.log(req.file,'filessssss');
+        const { title, link } = req.body;
+        const image = req.file.filename
+        console.log(image);
+
+        const banner = new Banner({
+            title: title,
+            image: image,
+            link: link,
+        }
+       )
+       await banner.save()
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+const deleteBanner = async (req, res) => {
+    try {
+        const id = req.query.id;
+
+        await Banner.findByIdAndDelete(id);
+
+        res.redirect("/banner");
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
 
 module.exports = {
     adminLogin,
@@ -226,6 +268,9 @@ module.exports = {
     getOrder,
     orderdetails,
     changeOrderStatus,
-    loadBanner
+    loadBanner,
+    loadAddBanner,
+    addBanner,
+    deleteBanner
 
 }

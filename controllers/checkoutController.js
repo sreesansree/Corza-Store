@@ -119,8 +119,9 @@ const placeOrder = async (req, res) => {
     const ordeId = result + id;
 
     /// order saving function
-console.log(req.session.couponData,"PlaceOrder CouponDataaaa")
+    console.log(req.session.couponData, "PlaceOrder CouponDataaaa")
     let saveOrder = async () => {
+      console.log(req.body, "bodyyyyyy")
       if (req.body.couponData) {
         const order = new Order({
           userId: userId,
@@ -128,12 +129,13 @@ console.log(req.session.couponData,"PlaceOrder CouponDataaaa")
           address: addressId,
           orderId: ordeId,
           total: subTotal,
-          paymentMethod: payMethod,
-          discountAmt: req.body.couponData.discountAmt,
-          amountAfterDscnt: req.body.couponData.newTotal,
-          coupon: req.body.couponName,
+          paymentMethod     : payMethod,
+          discountAmt       : req.body.couponData.discountAmt,
+          amountAfterDscnt  : req.body.couponData.newTotal,
+          coupon            : req.body.couponName
         })
-
+        console.log(req.body.couponName, "couponnn name",)
+        console.log(order, 'order with coupon data')
         const ordered = await order.save()
 
       } else {
@@ -145,8 +147,8 @@ console.log(req.session.couponData,"PlaceOrder CouponDataaaa")
           total: subTotal,
           paymentMethod: payMethod,
         })
-
-        const ordered = await order.save()
+        console.log(order, "order without coupon")
+        await order.save()
 
       }
 
@@ -169,7 +171,7 @@ console.log(req.session.couponData,"PlaceOrder CouponDataaaa")
       })
       userDetails.cart = []
       await userDetails.save()
-      console.log(userDetails.cart);
+      console.log(userDetails.cart, "userDetails in cart");
     }
 
 
@@ -234,42 +236,42 @@ console.log(req.session.couponData,"PlaceOrder CouponDataaaa")
 
 const validateCoupon = async (req, res) => {
   try {
-      console.log(req.body, 'bodyyyyyyyyyyyyyyyyyyyyyy');
-      const { couponVal, subTotal } = req.body;
-      const coupon = await Coupon.findOne({ code: couponVal });
+    console.log(req.body, 'bodyyyyyyyyyyyyyyyyyyyyyy');
+    const { couponVal, subTotal } = req.body;
+    const coupon = await Coupon.findOne({ code: couponVal });
 
-      if (!coupon) {
-          res.json('invalid');
-      } else if (coupon.expiryDate < new Date()) {
-          res.json('expired');
+    if (!coupon) {
+      res.json('invalid');
+    } else if (coupon.expiryDate < new Date()) {
+      res.json('expired');
+    } else {
+      const couponId = coupon._id;
+      const discount = coupon.discount;
+      const userId = req.session.userdata._id;
+
+      const isCpnAlredyUsed = await Coupon.findOne({ _id: couponId, usedBy: { $in: [userId] } });
+
+      if (isCpnAlredyUsed) {
+        res.json('already used');
       } else {
-          const couponId = coupon._id;
-          const discount = coupon.discount;
-          const userId = req.session.userdata._id;
+        await Coupon.updateOne({ _id: couponId }, { $push: { usedBy: userId } });
 
-          const isCpnAlredyUsed = await Coupon.findOne({ _id: couponId, usedBy: { $in: [userId] } });
+        const discnt = Number(discount);
+        const discountAmt = (subTotal * discnt) / 100;
+        const newTotal = subTotal - discountAmt;
 
-          if (isCpnAlredyUsed) {
-              res.json('already used');
-          } else {
-              await Coupon.updateOne({ _id: couponId }, { $push: { usedBy: userId } });
+        const user = User.findById(userId);
 
-              const discnt = Number(discount);
-              const discountAmt = (subTotal * discnt) / 100;
-              const newTotal = subTotal - discountAmt;
-
-              const user = User.findById(userId);
-
-              res.json({
-                  discountAmt,
-                  newTotal,
-                  discount,
-                  succes: 'succes'
-              });
-          }
+        res.json({
+          discountAmt,
+          newTotal,
+          discount,
+          succes: 'succes'
+        });
       }
+    }
   } catch (error) {
-      console.log(error);
+    console.log(error);
   }
 };
 

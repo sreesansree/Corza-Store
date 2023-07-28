@@ -83,6 +83,9 @@ adminRoute.get('/yearlysales/download',dashboardController.yearlydownload)
 
 
 //banner
-adminRoute.get('/banner',adminController.loadBanner);
+adminRoute.get('/banner',adminauth.isLoginAdmin,adminController.loadBanner);
+adminRoute.get('/add_banner',adminauth.isLoginAdmin,adminController.loadAddBanner);
+adminRoute.post('/add_banner',store.store.single('image'),adminController.addBanner);
+adminRoute.get('/delete_banner',adminController.deleteBanner);
 
 module.exports = adminRoute;

@@ -1,10 +1,10 @@
 const Product = require('../../model/productModel');
 const Category = require('../../model/categoryModel');
-
+const User = require('../../model/userModel');
 
 const catFilter = async (req, res) => {
     try {
-        const id = req.query.id;
+        const id = req.query.id
         const productdata = await Product.find({ category: id, is_blocked: false });
         res.json(productdata);
     } catch (error) {
@@ -16,11 +16,21 @@ const categoryFilter = async (req, res) => {
     try {
         const id = req.query.id
         console.log(id, 1888)
-        const catData = await Category.find()
-        const productData = await Product.find({ category: id, is_blocked: false })
-        res.render('category', { productData, catData })
+
+        if (req.session.userdata) {
+            const user = req.session.userdata
+            const userId = user._id
+            const userData = await User.findById(userId)
+            const catData = await Category.find()
+            const productData = await Product.find({ category: id, is_blocked: false })
+            res.render('category', { productData, catData,userData })
+        } else {
+            const catData = await Category.find()
+            const productData = await Product.find({ category: id, is_blocked: false })
+            res.render('category', { productData, catData })
+        }
     } catch (error) {
-        console.log (error.message);
+        console.log(error.message);
     }
 }
 

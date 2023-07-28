@@ -64,10 +64,11 @@ userRoute.get('/women', catFilterController.loadWomCat);
 
 userRoute.get('/category_fil', categoryController.catFilter);
 userRoute.get('/category', categoryController.categoryFilter);
-userRoute.post('/products_filter', userController.productSearch);
-userRoute.post('/sort_product_az', userController.sortProduct_az);
-userRoute.post('/sort_product_price', userController.sortProductByPrice);
-
+// userRoute.post('/products_filter', userController.productSearch);
+// userRoute.post('/sort_product_az', userController.sortProduct_az);
+// userRoute.post('/sort_product_price', userController.sortProductByPrice);
+userRoute.get('/searchProducts',userController.searchProducts);
+userRoute.get('/sortProducts',userController.sortProducts);
 
 
 

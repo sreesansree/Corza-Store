@@ -3,6 +3,7 @@ const User = require("../../model/userModel");
 const Category = require('../../model/categoryModel');
 const Product = require('../../model/productModel');
 const nodeMailer = require("nodemailer");
+const Banner = require('../../model/bannerModel');
 const session = require('express-session');
 const argon2 = require('argon2');
 // const bcrypt = require('bcrypt')
@@ -134,7 +135,7 @@ const verifyOtp = async (req, res) => {
 
 //To resend otp
 
-const resendOtp =  async (req, res)=>{
+const resendOtp = async (req, res) => {
     try {
         res.redirect('/get_otp')
         otp = await userHelper.verifyEmail(userEmail)
@@ -196,14 +197,15 @@ const loadHome = async (req, res) => {
     try {
         const loadProData = await Product.find();
         const loadCatData = await Category.find();
+        const banners = await Banner.find();
         const user = req.session.userdata;
         const userId = user?._id;
 
         if (userId) {
             const userData = await User.findById(userId);
-            res.render('home', { userData, loadCatData, loadProData });
+            res.render('home', { userData, loadCatData, loadProData, banners });
         } else {
-            res.render('home', { loadCatData, loadProData });
+            res.render('home', { loadCatData, loadProData, banners });
         }
     } catch (error) {
         console.log(error);
@@ -246,8 +248,8 @@ const getProduct = async (req, res) => {
 //       const userData= req.session.user
 //       if (categories) {
 //         if (userData) {
-  
-  
+
+
 //           res.render("userViews/home", {
 //             categories: categories,
 //             userData: userData,
@@ -268,13 +270,13 @@ const getProduct = async (req, res) => {
 //       res.status(500).send({message:`${error}`})
 //     }
 //   };
-  
+
 
 const ProductView = async (req, res) => {
     try {
         const proId = req.query.id
         const proData = await Product.findById(proId)
-        
+
         if (req.session.userdata) {
             const user = req.session.userdata
             const userData = await User.findById({ _id: user._id })
@@ -357,81 +359,127 @@ const resetpassword = async (req, res) => {
 
 
 
-const productSearch = async(req, res)=>{
-    const { search, catId } = req.body
+// const productSearch = async(req, res)=>{
+//     const { search, catId } = req.body
 
-    console.log(search, catId);
+//     console.log(search, catId);
 
-    if(catId){
+//     if(catId){
+//         console.log('cat id indddddd');
+//         try {
+//             const products = await Product.find({ category: catId, name: { $regex: search, $options: 'i' } });
+//             res.json(products);
+//           } catch (error) {
+//             console.log(error);
+//             return res.status(500).send();
+//           }  
+//      }else{
+//         console.log('cat id illaaaa');
+//         try {
+//             const products = await Product.find({ name: { $regex: search, $options: 'i' } });
+//             console.log(products);
 
-        console.log('cat id indddddd');
-        
+//             res.json(products);
+//           } catch (error) {
+//             console.log(error);
+//             return res.status(500).send();
+//           }
 
-        try {
-            const products = await Product.find({ category: catId, name: { $regex: search, $options: 'i' } });
-            res.json(products);
-          } catch (error) {
-            console.log(error);
-            return res.status(500).send();
-          }
-          
-          
-     }else{
-        console.log('cat id illaaaa');
-        try {
-            const products = await Product.find({ name: { $regex: search, $options: 'i' } });
-            console.log(products);
+//      }
+//     }
 
-            res.json(products);
-          } catch (error) {
-            console.log(error);
-            return res.status(500).send();
-          }
-          
-     }
+
+//     const sortProduct_az = async(req, res) => {
+//         try {
+//             const { sort, catId } = req.body
+
+//             if( catId ){
+//                 const products = await Product.find({ category : catId }, {is_blocked: false}).sort({ name: sort });
+//                 console.log(products);
+//                 res.json(products)   
+
+//             } else{
+//                 const products = await Product.find( {is_blocked: false}).sort({ name: sort });
+//                 console.log(products);
+//                 res.json(products)
+//             }
+
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     }
+
+
+//     const sortProductByPrice = async(req, res) => {
+//         try {
+//             const { sort, catId } = req.body
+
+//             console.log(req.body);
+//             if(catId){
+//                 const products = await Product.find({ category : catId }, {is_blocked: false}).sort({ price: sort });
+//                 console.log(products);
+//                 res.json(products)
+//             }else{               
+//             const products = await Product.find({is_blocked: false}).sort({ price: sort });
+//             console.log(products);
+//             res.json(products)
+//              }
+
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     }
+const searchProducts = async (req, res) => {
+    try {
+        const { query } = req.query;
+        const proData = await Product.find({ is_blocked: false });
+
+        // Assuming proData is your array of products
+        const filteredProducts = proData.filter((product) =>
+            product.name.toLowerCase().includes(query.toLowerCase())
+        );
+
+        res.json(filteredProducts);
+    } catch (error) {
+        console.log(error.message)
     }
+}
 
+const sortProducts = async (req, res) => {
+    try {
+        const { field, order } = req.query;
+        console.log(req.query,"queryyyyy sort");
+        const proData = await Product.find({ is_blocked: false });
 
-    const sortProduct_az = async(req, res) => {
-        try {
-            const { sort, catId } = req.body
-          
-            if( catId ){
-                const products = await Product.find({ category : catId }, {is_blocked: false}).sort({ name: sort });
-                console.log(products);
-                res.json(products)   
-               
-            } else{
-                const products = await Product.find( {is_blocked: false}).sort({ name: sort });
-                console.log(products);
-                res.json(products)
-            }
+        // Assuming proData is your array of products
+        let sortedProducts = [];
 
-        } catch (error) {
-            console.log(error);
+        if (field === 'name') {
+            sortedProducts = proData.sort((a, b) => {
+                const nameA = a.name.toLowerCase();
+                const nameB = b.name.toLowerCase();
+
+                if (order === 'asc') {
+                    return nameA.localeCompare(nameB);
+                } else {
+                    return nameB.localeCompare(nameA);
+                }
+            });
+        } else if (field === 'price') {
+            sortedProducts = proData.sort((a, b) => {
+                if (order === 'asc') {
+                    return a.price - b.price;
+                } else {
+                    return b.price - a.price;
+                }
+            });
         }
+
+        res.json(sortedProducts);
+    } catch (error) {
+        console.log(error.message)
     }
-
-
-    const sortProductByPrice = async(req, res) => {
-        try {
-            const { sort, catId } = req.body
-
-            console.log(req.body);
-            if(catId){
-                const products = await Product.find({ category : catId }, {is_blocked: false}).sort({ price: sort });
-                console.log(products);
-                res.json(products)
-            }else{               
-            const products = await Product.find({is_blocked: false}).sort({ price: sort });
-            console.log(products);
-            res.json(products)
-             }
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
+}
 
 
 
@@ -455,7 +503,9 @@ module.exports = {
     loadresetpassword,
     resetpassword,
     resendOtp,
-    productSearch,
-    sortProductByPrice,
-    sortProduct_az
+    searchProducts,
+    sortProducts
+    // productSearch,
+    // sortProductByPrice,
+    // sortProduct_az
 }

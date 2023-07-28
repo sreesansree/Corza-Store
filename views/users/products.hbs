@@ -79,7 +79,7 @@
 
 
 						<input onchange="searchProducts()" id="searchField" class="mtext-107 cl2 size-114 plh2 p-r-15"
-							type="text" name="search-product" placeholder="Search">
+							type="text" name="search-product" placeholder="Search product name here...">
 
 					</div>
 				</div>
@@ -97,26 +97,26 @@
 
 							<ul>
 								<li class="p-b-6">
-									<button onclick="sortProduct_az( 'asc' )" class="filter-link stext-106 trans-04">
+									<button id="sortAZ" onclick="sortProduct_az( 'asc' )" class="filter-link stext-106 trans-04">
 										a-z
 									</button>
 								</li>
 
 								<li class="p-b-6">
-									<a onclick="sortProduct_az( 'desc' )" class="filter-link stext-106 trans-04">
+									<a id="sortZA" onclick="sortProduct_az( 'desc' )" class="filter-link stext-106 trans-04">
 										z-a
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<button onclick="sortProductByPrice( 'asc' )"
+									<button id="sortLowToHigh" onclick="sortProductByPrice( 'asc' )"
 										class="filter-link stext-106 trans-04">
 										Price: Low to High
 									</button>
 								</li>
 
 								<li class="p-b-6">
-									<button onclick="sortProductByPrice( 'desc' )"
+									<button id="sortHighToLow" onclick="sortProductByPrice( 'desc' )"
 										class="filter-link stext-106 trans-04">
 										Price: High to Low
 									</button>
@@ -333,8 +333,7 @@
 			</span>
 		</div>
 
-		{{>userfooter}}
-
+		
 
 
 </body>
@@ -344,3 +343,6 @@
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
 <script src="/javascript/products.js"></script>
+
+
+{{>userfooter}}

@@ -30,7 +30,7 @@
 				</div>
 			</div>
 
-			<div onclick="window.location.href='/product'" class="item-slick1"
+			<div onclick="window.location.href='/products'" class="item-slick1"
 				style="background-image: url(images/slide-02.jpg);">
 				<div class="container h-full">
 					<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
@@ -95,20 +95,22 @@
 	</ol>
 
 	<div class="carousel-inner">
+{{!-- 		
 		{{#each banners}}
+		
 		<div class="carousel-item {{#if this.active}} active {{/if}}">
-			<img onclick="window.location.href='{{this.link}}'" class="d-block w-100" src="/uploads/{{this.image}}"
+			<img onclick="window.location.href='{{this.link}}'" class="d-block w-100" src="/images/{{this.image}}"
 				alt="First slide">
 		</div>
 
-		{{/each}}
+		{{/each}} --}}
 	</div>
 
 	<div class="carousel-item">
-		<img class="d-block w-100" src="/upload/{{this.image}}" alt="Second slide">
+		<img class="d-block w-100" src="/images/{{this.image}}" alt="Second slide">
 	</div>
 	<div class="carousel-item">
-		<img class="d-block w-100" src="/upload/{{this.image}}" alt="Third slide">
+		<img class="d-block w-100" src="/images/{{this.image}}" alt="Third slide">
 	</div>
 
 	<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

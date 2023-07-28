@@ -472,7 +472,7 @@
               <li class="list-group-item d-flex justify-content-between bg-light">
                 <div class="text-success">
                   <h6 class="my-0">Coupon code</h6>
-                  <span id="coupon_code">
+                  <span id="coupuon_code">
                     <small></small>
                   </span>
                 </div>
@@ -482,9 +482,10 @@
               </li>
               <li class="list-group-item d-flex justify-content-between">
                 <span>Total (INR)</span>
-                <span id="new_sub_total">
+                {{!-- <span id="new_sub_total">
                   <span id="total">₹ {{subTotal}}</span>
-                </span>
+                </span> --}}
+                <span id="new_total">₹ {{subTotal}}</span>
                 <input type="hidden" name="subTotal" value="{{subTotal}}" id="subTotal">
               </li>
 
@@ -574,7 +575,7 @@
 
     const useWallet = () => {
       const wallet = document.getElementsByName('wallet')[0].value
-       subTotal = Number(document.getElementsByName('subTotal')[0].value)
+      subTotal = Number(document.getElementsByName('subTotal')[0].value)
       console.log(wallet, 'walletttttttttttt', subTotal)
 
       if (wallet > subTotal) {
@@ -654,9 +655,9 @@
 
     const validateCoupon = async () => {
       try {
-        const couponE1 = document.getElementById('coupon').value;
-         subTotal = Number(document.getElementsByName('subTotal')[0].value);
-        console.log(couponE1, "couponValue", subTotal, "subtotal")
+        couponEl = document.getElementById('coupon').value;
+        subTotal = Number(document.getElementsByName('subTotal')[0].value);
+        console.log(couponEl, "couponValue", subTotal, "subtotal")
 
         const response = await fetch('/validate_coupon', {
           method: 'POST',
@@ -664,12 +665,12 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            couponVal: couponE1,
+            couponVal: couponEl,
             subTotal: subTotal
           })
         });
-
-        const couponData = await response.json();
+        console.log("hii from coupon status")
+        couponData = await response.json();
         console.log("12222233", couponData, "CouponData12333")
 
         if (couponData === 'invalid') {
@@ -693,11 +694,17 @@
           console.log("Coupom Code addedSuccefullyyyyyy")
 
 
-          // Update the new subtotal
-          subTotal = Number(document.getElementById('new_sub_total').innerHTML = `<strong >₹${couponData.newTotal}</strong>`)
+          
+          // Update the new total
+          document.getElementById('new_total').innerHTML = `<strong>₹${couponData.newTotal}</strong>`;
+          subTotal = Number(couponData.newTotal);
+          console.log(subTotal, "subtotal from newtotal");
+
+
 
           // Update the content of the coupon code and discount amount spans
-          document.getElementById('coupon_code').querySelector('small').innerHTML = `<small>${couponEl}</small>`;
+          document.getElementById('coupuon_code').querySelector('small').innerHTML = `<small>${couponEl}</small>`;
+
           document.querySelector('#discount_amt').innerHTML = `<span class="text-success">-₹${couponData.discountAmt}</span>`;
 
 

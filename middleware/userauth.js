@@ -39,7 +39,7 @@ const logedin = async(req, res, next)=>{
 }
 
 const checkBlocked = async (req, res, next) => {
-  const userid = req.session.userdata_id
+  const userid = req.session.userdata._id
   const userdata = await User.findOne({ _id: userid })
   if (userdata && userdata.is_blocked == true) {
     res.session.destroy()
