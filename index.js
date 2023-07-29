@@ -101,5 +101,5 @@ app.use(function (err, req, res, next) {
 // PORT SETTING
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log("Server Runnig in http://localhost:4000");
+  console.log("Server Runnig in http://localhost:3000");
 })  
