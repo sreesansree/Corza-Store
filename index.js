@@ -99,7 +99,7 @@ app.use(function (err, req, res, next) {
   res.render('error', { error: err });
 });
 // PORT SETTING
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server Runnig in http://localhost:4000");
 })  
