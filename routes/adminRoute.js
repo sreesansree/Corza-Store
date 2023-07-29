@@ -25,7 +25,7 @@ app.post('/updateproduct',store.store .array('image'), function (req, res) {
   res.status(200).json({ message: 'Image uploaded successfully' });
 });
 
-adminRoute.use(session({ secret: process.env.sessionsecret, resave: true, saveUninitialized: false }));
+adminRoute.use(session({ secret: 'mysitesessionsecret', resave: true, saveUninitialized: false }));
 
 
 adminRoute.get('/', adminController.adminLogin)
