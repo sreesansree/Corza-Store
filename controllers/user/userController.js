@@ -240,43 +240,13 @@ const getProduct = async (req, res) => {
     }
 };
 
-// const loadHome = async (req, res) => {
-//     try {
-//       const categories = await Category.find();
-//       const banner = await Banner.find();
-//       const products = await Product.find({ is_blocked: false });
-//       const userData= req.session.user
-//       if (categories) {
-//         if (userData) {
-
-
-//           res.render("userViews/home", {
-//             categories: categories,
-//             userData: userData,
-//             banner: banner,
-//             products,
-//           });
-//         } else {
-//           res.render("userViews/home", {
-//             categories: categories,
-//             banner: banner,
-//             products,
-//           });
-//         }
-//       } else {
-//         res.send("category does not exist");
-//       }
-//     } catch (error) {
-//       res.status(500).send({message:`${error}`})
-//     }
-//   };
-
 
 const ProductView = async (req, res) => {
     try {
         const proId = req.query.id
+        console.log(proId,'pro queryyyyy')
         const proData = await Product.findById(proId)
-
+console.log(proData,'prodataaa')
         if (req.session.userdata) {
             const user = req.session.userdata
             const userData = await User.findById({ _id: user._id })
