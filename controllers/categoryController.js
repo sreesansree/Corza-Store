@@ -1,5 +1,3 @@
-
-const mongoose = require('mongoose');
 const Category = require("../model/categoryModel");
 
 const loadCategory = async (req, res) => {

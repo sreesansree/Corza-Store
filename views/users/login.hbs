@@ -423,17 +423,32 @@
     crossorigin="anonymous"></script>
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  {{#if successMessage}}
-  <script>
+ {{#if successMessage}}
+<script>
+  // Show SweetAlert popup when the page is loaded
+  document.addEventListener("DOMContentLoaded", function () {
     swal({
       title: "Success",
       text: "{{successMessage}}",
       icon: "success",
-      timer: 3000, // Display the popup for 3 seconds
-      buttons: false
+      buttons: {
+        // Add "OK" button
+        ok: {
+          text: "OK",
+          value: "redirect", // Set the value to "redirect" to identify the button
+        },
+      },
+    }).then((value) => {
+      // Handle user interaction with the SweetAlert popup
+      if (value === "redirect") {
+        // Redirect to the login page
+        window.location.href = "/login"; // Replace "/login" with your actual login page URL
+      }
     });
-  </script>
-  {{/if}}
+  });
+</script>
+{{/if}}
+
 </body>
 
 </html>

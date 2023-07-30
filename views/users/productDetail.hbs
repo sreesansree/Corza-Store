@@ -234,10 +234,11 @@
 									{{else}}
 
 									{{#if proData.quantity}}
-									<span id="cart_btn">
+									<span   id="cart_btn">
 										<button onclick="addToCartBtn('{{proData._id}}')" id="add_to_cart_btn"
 											class="mt-5 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
-											Add to cart
+											<a style="text-decoration: none;" href="/login">Add to cart</a>
+											
 										</button>
 									</span>
 									{{else}}

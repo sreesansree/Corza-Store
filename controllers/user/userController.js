@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+
 const User = require("../../model/userModel");
 const Category = require('../../model/categoryModel');
 const Product = require('../../model/productModel');
@@ -123,6 +123,7 @@ const verifyOtp = async (req, res) => {
             });
             const userData = await user.save();
             console.log(userData);
+            
             res.render('login', { successMessage: "Registration successful" });
         } else {
             res.render('otpverification', { message: "Invalid OTP" });

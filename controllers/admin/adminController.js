@@ -1,4 +1,3 @@
-let mongoose = require('mongoose');
 const Admin = require("../../model/adminModel");
 const User = require("../../model/userModel");
 const Order = require('../../model/orderModel');

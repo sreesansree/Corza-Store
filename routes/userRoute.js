@@ -1,6 +1,7 @@
+
 const express = require("express");
 const userRoute = express();
-const config = require('../config/config')
+// const config = require('../config/config')
 const auth = require('../middleware/userauth')
 const session = require('express-session')
 const userController = require("../controllers/user/userController")
