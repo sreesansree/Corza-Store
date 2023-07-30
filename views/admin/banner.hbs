@@ -83,8 +83,10 @@
             <td>
               {{!-- <a href="/admin/edit_category/{{this.id}}" onclick="return confirm ('Are you sure want to edit?')"
                 type="button" class="btn btn-warning">Edit</a> --}}
-              <a href="/admin/delete_banner?id={{this.id}}" onclick="return confirm ('Are you sure want to delete?')"
-                type="button" class="btn btn-danger">Delete</a>
+              {{!-- <a href="/admin/delete_banner?id={{this.id}}" onclick="return confirm ('Are you sure want to delete?')"
+                type="button" class="btn btn-danger">Delete</a> --}}
+                <a href="#" onclick="confirmAndDelete('{{this.id}}')" type="button" class="btn btn-danger">Delete</a>
+
             </td>
           </tr>
           {{/each}}
@@ -114,7 +116,14 @@
 <script src="/admin/js/main.js"></script>
 
 
-
+<script>
+  function confirmAndDelete(id) {
+    if (confirm('Are you sure you want to delete?')) {
+      // If the user confirms, proceed with the deletion by navigating to the delete_banner route
+      window.location.href = `/admin/delete_banner?id=${id}`;
+    }
+  }
+</script>
 
 
 

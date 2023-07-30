@@ -42,6 +42,7 @@ const addProduct = async (req, res) => {
 
         const productdescription = req.body.description;
         // const arrayimg = productdescription.image;
+      
         console.log(req.body.description);
         const images = [];
         const file = req.files;
@@ -82,7 +83,7 @@ const addProduct = async (req, res) => {
                 });
 
                 const productdata = await product.save();
-                res.render('addproduct', { message: 'Product added successfully', product: productdata });
+                res.render('addproduct', { message: 'Product added successfully', product: productdata ,categorydata });
             }
         }
     } catch (error) {
