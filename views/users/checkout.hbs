@@ -486,7 +486,7 @@
                   <span id="total">₹ {{subTotal}}</span>
                 </span> --}}
                 <span id="new_total">₹ {{subTotal}}</span>
-                <input type="hidden" name="subTotal" value="{{subTotal}}" id="subTotal">
+                <input hidden="" name="subTotal" value="{{subTotal}}" id="subTotal">
               </li>
 
             </ul>
@@ -694,7 +694,7 @@
           console.log("Coupom Code addedSuccefullyyyyyy")
 
 
-          
+
           // Update the new total
           document.getElementById('new_total').innerHTML = `<strong>₹${couponData.newTotal}</strong>`;
           subTotal = Number(couponData.newTotal);
@@ -704,9 +704,8 @@
 
           // Update the content of the coupon code and discount amount spans
           document.getElementById('coupuon_code').querySelector('small').innerHTML = `<small>${couponEl}</small>`;
-
           document.querySelector('#discount_amt').innerHTML = `<span class="text-success">-₹${couponData.discountAmt}</span>`;
-
+          document.getElementById('subTotal').value = couponData.newTotal
 
         }
 
