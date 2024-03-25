@@ -74,6 +74,7 @@ adminRoute.post('/change_status',adminauth.isLoginAdmin,adminController.changeOr
 
 //salesDashboard
 adminRoute.get('/dashboard', adminauth.isLoginAdmin, dashboardController.loadDashboard); 
+// adminRoute.get('/reports',adminauth.isLoginAdmin,dashboardController.salesreportpage);
 adminRoute.post('/daily-report',adminauth.isLoginAdmin,dashboardController.dailySales);
 adminRoute.get('/dailysales/download',adminauth.isLoginAdmin,dashboardController.dailyDownload);
 adminRoute.post('/monthly-report',adminauth.isLoginAdmin,dashboardController.monthlysales)

@@ -204,6 +204,7 @@ const loadDashboard = async (req, res) => {
 };
 
 
+
 const dailySales = async (req, res) => {
   try {
     const orderDate = req.body.daily;
@@ -431,6 +432,6 @@ module.exports = {
   monthlysales,
   monthlyDownload,
   yearlysales,
-  yearlydownload
+  yearlydownload,
 
 }
