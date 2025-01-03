@@ -123,7 +123,7 @@ const verifyOtp = async (req, res) => {
             });
             const userData = await user.save();
             console.log(userData);
-            
+
             res.render('login', { successMessage: "Registration successful" });
         } else {
             res.render('otpverification', { message: "Invalid OTP" });
@@ -245,9 +245,9 @@ const getProduct = async (req, res) => {
 const ProductView = async (req, res) => {
     try {
         const proId = req.query.id
-        console.log(proId,'pro queryyyyy')
+        console.log(proId, 'pro queryyyyy')
         const proData = await Product.findById(proId)
-console.log(proData,'prodataaa')
+        console.log(proData, 'prodataaa')
         if (req.session.userdata) {
             const user = req.session.userdata
             const userData = await User.findById({ _id: user._id })
@@ -419,7 +419,7 @@ const searchProducts = async (req, res) => {
 const sortProducts = async (req, res) => {
     try {
         const { field, order } = req.query;
-        console.log(req.query,"queryyyyy sort");
+        console.log(req.query, "queryyyyy sort");
         const proData = await Product.find({ is_blocked: false });
 
         // Assuming proData is your array of products

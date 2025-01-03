@@ -23,17 +23,17 @@ const isLogout = async (req, res, next) => {
   }
 }
 
-const logedin = async(req, res, next)=>{
+const logedin = async (req, res, next) => {
   try {
 
-      if(!req.session.userdata){
-          res.redirect('/login')
-      }else{
-          next()
-      }
-      
+    if (!req.session.userdata) {
+      res.redirect('/login')
+    } else {
+      next()
+    }
+
   } catch (error) {
-      console.log(error.message);
+    console.log(error.message);
   }
 
 }
