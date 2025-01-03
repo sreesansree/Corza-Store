@@ -1,10 +1,11 @@
 {
   'variables': {
-    'NAPI_VERSION%': "<!(node -p \"process.versions.napi\")",
+    'NAPI_VERSION%': "<!(node -p \"process.env.NAPI_VERSION || process.versions.napi\")",
     'disable_deprecated': "<!(node -p \"process.env['npm_config_disable_deprecated']\")"
   },
   'conditions': [
     ['NAPI_VERSION!=""', { 'defines': ['NAPI_VERSION=<@(NAPI_VERSION)'] } ],
+    ['NAPI_VERSION==2147483647', { 'defines': ['NAPI_EXPERIMENTAL'] } ],
     ['disable_deprecated=="true"', {
       'defines': ['NODE_ADDON_API_DISABLE_DEPRECATED']
     }],
@@ -15,7 +16,6 @@
       }
     }]
   ],
-  'include_dirs': ["<!(node -p \"require('../').include_dir\")"],
   'cflags': [ '-Werror', '-Wall', '-Wextra', '-Wpedantic', '-Wunused-parameter' ],
   'cflags_cc': [ '-Werror', '-Wall', '-Wextra', '-Wpedantic', '-Wunused-parameter' ]
 }
