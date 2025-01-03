@@ -9,6 +9,7 @@ test('stopIterationIterator', function (t) {
 
 	t.test('no StopIteration support', { skip: typeof StopIteration === 'object' }, function (st) {
 		st['throws'](
+			// @ts-expect-error
 			function () { stopIterationIterator(); },
 			SyntaxError,
 			'throws a SyntaxError when StopIteration is not supported'
@@ -18,7 +19,8 @@ test('stopIterationIterator', function (t) {
 	});
 
 	t.test('StopIteration support', { skip: typeof StopIteration !== 'object' }, function (st) {
-		var s = new Set([1, 2]);
+		// eslint-disable-next-line no-extra-parens
+		var s = /** @type {Set<number> & { iterator(): SetIterator<number>}} */ (new Set([1, 2]));
 
 		var i = s.iterator();
 		st.equal(i.next(), 1, 'first item is 1');
@@ -30,7 +32,8 @@ test('stopIterationIterator', function (t) {
 			st.equal(e, StopIteration, 'StopIteration thrown');
 		}
 
-		var m = new Map([[1, 'a'], [2, 'b']]);
+		// eslint-disable-next-line no-extra-parens
+		var m = /** @type {Map<number, string> & { iterator(): MapIterator<[string, number]>}} */ (new Map([[1, 'a'], [2, 'b']]));
 		var mi = m.iterator();
 		st.deepEqual(mi.next(), [1, 'a'], 'first item is 1 and a');
 		st.deepEqual(mi.next(), [2, 'b'], 'second item is 2 and b');

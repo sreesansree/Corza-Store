@@ -1,8 +1,13 @@
-import * as dom from '../utils/dom/index.js'
-import { swalClasses } from '../utils/classes.js'
 import privateProps from '../privateProps.js'
+import { swalClasses } from '../utils/classes.js'
+import * as dom from '../utils/dom/index.js'
 
-// Show block with validation message
+/**
+ * Show block with validation message
+ *
+ * @param {string} error
+ * @this {SweetAlert}
+ */
 export function showValidationMessage(error) {
   const domCache = privateProps.domCache.get(this)
   const params = privateProps.innerParams.get(this)
@@ -15,14 +20,18 @@ export function showValidationMessage(error) {
 
   const input = this.getInput()
   if (input) {
-    input.setAttribute('aria-invalid', true)
+    input.setAttribute('aria-invalid', 'true')
     input.setAttribute('aria-describedby', swalClasses['validation-message'])
     dom.focusInput(input)
     dom.addClass(input, swalClasses.inputerror)
   }
 }
 
-// Hide block with validation message
+/**
+ * Hide block with validation message
+ *
+ * @this {SweetAlert}
+ */
 export function resetValidationMessage() {
   const domCache = privateProps.domCache.get(this)
   if (domCache.validationMessage) {
